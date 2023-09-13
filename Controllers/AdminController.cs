@@ -141,7 +141,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
         [HttpGet]
-        [Route("GetAllBrands")]
+        [Route("GetAllProducts")]
         public async Task<List<Product>> GetAllProducts()
         {
             try
@@ -154,7 +154,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
         [HttpGet]
-        [Route("GetBrandById")]
+        [Route("GetProductById")]
         public async Task<List<Product>> GetProductById(List<int> product_ids)
         {
             try

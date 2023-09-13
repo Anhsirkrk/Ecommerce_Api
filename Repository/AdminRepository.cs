@@ -70,6 +70,7 @@ namespace Ecommerce_Api.Repository
 
                         _context.Brands.Update(item);
                         await _context.SaveChangesAsync();
+                        return item;
                     }
                         
                     
@@ -250,5 +251,6 @@ namespace Ecommerce_Api.Repository
                 throw ex;
             }
         }
+
     }
 }
