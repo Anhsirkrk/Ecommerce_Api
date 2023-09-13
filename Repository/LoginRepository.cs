@@ -1,6 +1,7 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Repository
 {
@@ -14,7 +15,7 @@ namespace Ecommerce_Api.Repository
 
         public async Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel)
         {
-            var item = _context.Users.FirstOrDefault(x => x.Mobile == loginViewModel.Mobile);
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
             if (item == null)
             {
                 loginViewModel.UserFound = false;

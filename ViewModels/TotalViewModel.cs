@@ -6,23 +6,23 @@
 
         public int VendorId { get; set; }
 
-        public string? NameofVendor { get; set; }
+        public string NameofVendor { get; set; }
 
-        public string? Address { get; set; }
+        public string Address { get; set; }
 
-        public string? ContactEmail { get; set; }
+        public string ContactEmail { get; set; }
 
-        public string? ContactPhone { get; set; }
+        public string ContactPhone { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
-        public string? LogoUrl { get; set; }
+        public string LogoUrl { get; set; }
 
         //usertype
 
         public int TypeId { get; set; }
 
-        public string? UserType1 { get; set; }
+        public string UserType1 { get; set; }
 
         //usersubscription
         public int UserSubscriptionId { get; set; }
@@ -39,15 +39,15 @@
 
         public decimal SubscriptionPrice { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         //usercoupon
 
         public int UserCouponId { get; set; }
 
-        public int? CouponId { get; set; }
+        public int CouponId { get; set; }
 
-        public DateTime? UsageDate { get; set; }
+        public DateTime UsageDate { get; set; }
 
         //user
 
@@ -78,13 +78,13 @@
         //ShoppingCartitem
         public int ItemId { get; set; }
 
-        public int? CartId { get; set; }
+        public int CartId { get; set; }
 
-        public int? ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public int Quantity { get; set; }
 
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         //shoppingcart
         
@@ -103,19 +103,19 @@
 
        
 
-        public decimal? Weight { get; set; }
+        public decimal Weight { get; set; }
 
-        public string? Unit { get; set; }
+        public string Unit { get; set; }
 
         public string ImageUrl { get; set; } = null!;
 
-        public bool? IsAvailable { get; set; }
+        public bool IsAvailable { get; set; }
 
         public DateTime ExpiryDate { get; set; }
 
-        public DateTime? ManufactureDate { get; set; }
+        public DateTime ManufactureDate { get; set; }
 
-        public int? DiscountId { get; set; }
+        public int DiscountId { get; set; }
 
        
 
@@ -125,18 +125,18 @@
 
         
 
-        public int? Rating { get; set; }
+        public int Rating { get; set; }
 
-        public string? Comment { get; set; }
+        public string Comment { get; set; }
 
-        public DateTime? ReviewDate { get; set; }
+        public DateTime ReviewDate { get; set; }
 
         //payment
         public int PaymentId { get; set; }
 
         
 
-        public DateTime? PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         public string PaymentMethod { get; set; } = null!;
 
@@ -160,7 +160,7 @@
 
         public decimal TotalAmount { get; set; }
 
-        public DateTime? OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
        
 
@@ -168,9 +168,9 @@
 
         public int LogId { get; set; }
 
-        public DateTime? LogDate { get; set; }
+        public DateTime LogDate { get; set; }
 
-        public string? EventDescription { get; set; }
+        public string EventDescription { get; set; }
 
        
 
@@ -179,7 +179,7 @@
 
        
 
-        public decimal? DiscountPercentage { get; set; }
+        public decimal DiscountPercentage { get; set; }
 
         
 
@@ -187,9 +187,9 @@
         //coupon
         
 
-        public string? Code { get; set; }
+        public string Code { get; set; }
 
-        public decimal? Discount { get; set; }
+        public decimal Discount { get; set; }
 
        
 
