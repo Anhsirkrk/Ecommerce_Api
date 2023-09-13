@@ -17,7 +17,7 @@ public partial class User
 
     public string Lastname { get; set; } = null!;
 
-    public decimal Mobile { get; set; }
+    public string Mobile { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
@@ -36,5 +36,4 @@ public partial class User
     public virtual ICollection<UserSubscription> UserSubscriptions { get; set; } = new List<UserSubscription>();
 
     public virtual UserType UserType { get; set; } = null!;
-
 }

@@ -12,28 +12,28 @@ namespace Ecommerce_Api.Repository
         {
             context = _context;
         }
-        public async Task<LoginViewModel> CreateUser(LoginViewModel loginViewModel)
+        public async Task<UserViewModel> CreateUser(UserViewModel userviewmodel)
         {
             try
             {
                 if (context != null)
                 {
-                    if (loginViewModel != null)
+                    if (userviewmodel != null)
                     {
                         var user = new User
                         {
-                            Username = loginViewModel.Email,
-                            UserTypeId = loginViewModel.UserTypeId,
-                            Password = loginViewModel.Password,
-                            Firstname = loginViewModel.Firstname,
-                            Lastname = loginViewModel.Lastname,
-                            Mobile = loginViewModel.Mobile,
-                            Email = loginViewModel.Email,
+                            Username = userviewmodel.Email,
+                            UserTypeId = userviewmodel.UserTypeId,
+                            Password = userviewmodel.Password,
+                            Firstname = userviewmodel.Firstname,
+                            Lastname = userviewmodel.Lastname,
+                            Mobile = userviewmodel.Mobile,
+                            Email = userviewmodel.Email,
                         };
                         var res = await context.Users.AddAsync(user);
                          await context.SaveChangesAsync();
-                        loginViewModel.ResultMessage = " Created Succesfully ";
-                        return loginViewModel;
+                        userviewmodel.ResultMessage = " Created Succesfully ";
+                        return userviewmodel;
                     }
                 }
                 return null;

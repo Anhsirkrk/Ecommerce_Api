@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_Api.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -18,24 +18,26 @@ namespace Ecommerce_Api.Controllers
             context = _context;
             iur = _iur;
         }
+     
         [HttpPost]
         [Route("CreateUser")]
 
-        public async   Task<IActionResult>  CreateUser(LoginViewModel loginViewModel)
+        public async Task<IActionResult> CreateUser(UserViewModel userviewmodel)
         {
             try
             {
-                var item = await iur.CreateUser(loginViewModel);
+                var item = await iur.CreateUser(userviewmodel);
                 if (item == null)
                 {
-                    return NotFound();
+                    return BadRequest("User Not Created");
                 }
                 return Ok(item);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, $"Internal server error :{ex.Message}");
             }
         }
+      
     }
 }
