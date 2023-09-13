@@ -53,7 +53,7 @@ public partial class EcommercedemoContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=KRISHNA\\SQLEXPRESS;Database=Ecommercedemo;TrustServerCertificate=True;Integrated Security=True");
+        => optionsBuilder.UseSqlServer("Server=KRISHNA\\SQLEXPRESS;Database=Ecommercedemo;Integrated Security=true;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -89,6 +89,11 @@ public partial class EcommercedemoContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("ImageURL");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Categories)
+                .HasForeignKey(d => d.BrandId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Category_Brand");
         });
 
         modelBuilder.Entity<Coupon>(entity =>
@@ -263,6 +268,10 @@ public partial class EcommercedemoContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Category_Id_Category");
+
+            entity.HasOne(d => d.Discount).WithMany(p => p.Products)
+                .HasForeignKey(d => d.DiscountId)
+                .HasConstraintName("FK_Category_Discount_id");
         });
 
         modelBuilder.Entity<Review>(entity =>

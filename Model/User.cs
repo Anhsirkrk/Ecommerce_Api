@@ -36,5 +36,4 @@ public partial class User
     public virtual ICollection<UserSubscription> UserSubscriptions { get; set; } = new List<UserSubscription>();
 
     public virtual UserType UserType { get; set; } = null!;
-
 }

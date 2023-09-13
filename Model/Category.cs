@@ -15,5 +15,7 @@ public partial class Category
 
     public string? ImageUrl { get; set; }
 
+    public virtual Brand Brand { get; set; } = null!;
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
