@@ -7,7 +7,7 @@ namespace Ecommerce_Api.Repository
 {
     public interface IUserRepository
     {
-        public Task<LoginViewModel> CreateUser(LoginViewModel loginViewModel);
+        public Task<UserViewModel> CreateUser(UserViewModel userViewModel);
     }
 
 }
