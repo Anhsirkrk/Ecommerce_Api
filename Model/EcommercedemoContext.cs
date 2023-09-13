@@ -271,6 +271,7 @@ public partial class EcommercedemoContext : DbContext
 
             entity.HasOne(d => d.Discount).WithMany(p => p.Products)
                 .HasForeignKey(d => d.DiscountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Category_Discount_id");
         });
 
