@@ -29,13 +29,15 @@ public partial class Product
 
     public DateTime? ManufactureDate { get; set; }
 
-    public int? DiscountId { get; set; }
+    public int DiscountId { get; set; }
 
     public string? Description { get; set; }
 
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual Category Category { get; set; } = null!;
+
+    public virtual Discount Discount { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
