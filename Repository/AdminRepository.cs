@@ -123,7 +123,7 @@ namespace Ecommerce_Api.Repository
 
 
         //Product
-        public async Task<Product> CreateProduct(TotalViewModel TVM)
+        public async Task<Product> CreateProduct(ProductViewModel APVM)
         {
             try
             {
@@ -131,19 +131,19 @@ namespace Ecommerce_Api.Repository
                 {
                     var product = new Product()
                     {
-                        CategoryId = TVM.CategoryId,
-                        BrandId = TVM.BrandId,
-                        ProductName = TVM.ProductName,
-                        StockQuantity = TVM.StockQuantity,
-                        Price = TVM.Price,
-                        Weight = TVM.Weight,
-                        Unit = TVM.Unit,
-                        ImageUrl = TVM.ImageUrl,
-                        IsAvailable = TVM.IsAvailable,
-                        ExpiryDate = TVM.ExpiryDate,
-                        ManufactureDate = TVM.ManufactureDate,
-                        DiscountId = TVM.DiscountId,
-                        Description = TVM.Description,
+                        CategoryId = APVM.CategoryId,
+                        BrandId = APVM.BrandId,
+                        ProductName = APVM.ProductName,
+                        StockQuantity = APVM.StockQuantity,
+                        Price = APVM.Price,
+                        Weight = APVM.Weight,
+                        Unit = APVM.Unit,
+                        ImageUrl = APVM.ImageUrl,
+                        IsAvailable = APVM.IsAvailable,
+                        ExpiryDate = APVM.ExpiryDate,
+                        ManufactureDate = APVM.ManufactureDate,
+                        DiscountId = APVM.DiscountId,
+                        Description = APVM.Description,
                     };
                     await _context.Products.AddAsync(product);
                     await _context.SaveChangesAsync();
@@ -180,28 +180,28 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(TotalViewModel TVM)
+        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
         {
             try
             {
                 if (_context != null)
                 {
-                    var item = _context.Products.FirstOrDefault(x => x.ProductId == TVM.ProductId);
+                    var item = _context.Products.FirstOrDefault(x => x.ProductId == UPVM.ProductId);
                     if(item!= null)
                     {
-                        item.CategoryId = TVM.CategoryId;
-                        item.BrandId = TVM.BrandId;
-                        item.ProductName = TVM.ProductName;
-                        item.StockQuantity = TVM.StockQuantity;
-                        item.Price = TVM.Price;
-                        item.Weight = TVM.Weight;
-                        item.Unit = TVM.Unit;
-                        item.ImageUrl = TVM.ImageUrl;
-                        item.IsAvailable = TVM.IsAvailable;
-                        item.ExpiryDate = TVM.ExpiryDate;
-                        item.ManufactureDate = TVM.ManufactureDate;
-                        item.DiscountId = TVM.DiscountId;
-                        item.Description = TVM.Description;
+                        item.CategoryId = UPVM.CategoryId;
+                        item.BrandId = UPVM.BrandId;
+                        item.ProductName = UPVM.ProductName;
+                        item.StockQuantity = UPVM.StockQuantity;
+                        item.Price = UPVM.Price;
+                        item.Weight = UPVM.Weight;
+                        item.Unit = UPVM.Unit;
+                        item.ImageUrl = UPVM.ImageUrl;
+                        item.IsAvailable = UPVM.IsAvailable;
+                        item.ExpiryDate = UPVM.ExpiryDate;
+                        item.ManufactureDate = UPVM.ManufactureDate;
+                        item.DiscountId = UPVM.DiscountId;
+                        item.Description = UPVM.Description;
 
                         _context.Products.Update(item);
                        await _context.SaveChangesAsync();
