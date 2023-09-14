@@ -9,6 +9,8 @@ public partial class Vendor
 
     public string? NameofVendor { get; set; }
 
+    public int? BrandId { get; set; }
+
     public string? Address { get; set; }
 
     public string? ContactEmail { get; set; }
@@ -18,4 +20,6 @@ public partial class Vendor
     public string? Description { get; set; }
 
     public string? LogoUrl { get; set; }
+
+    public virtual Brand? Brand { get; set; }
 }

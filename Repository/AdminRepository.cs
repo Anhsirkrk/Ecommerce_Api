@@ -1,7 +1,10 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client.Extensions.Msal;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Ecommerce_Api.Repository
 {
@@ -123,12 +126,13 @@ namespace Ecommerce_Api.Repository
 
 
         //Product
-        public async Task<Product> CreateProduct(ProductViewModel APVM)
+        public async Task<Product> CreateProduct(ProductViewModel APVM, IFormFile imageFile)
         {
             try
             {
                 if (_context != null)
                 {
+                    string imageUrl = await SaveImageAsync(imageFile);
                     var product = new Product()
                     {
                         CategoryId = APVM.CategoryId,
@@ -138,7 +142,7 @@ namespace Ecommerce_Api.Repository
                         Price = APVM.Price,
                         Weight = APVM.Weight,
                         Unit = APVM.Unit,
-                        ImageUrl = APVM.ImageUrl,
+                        ImageUrl = imageUrl,
                         IsAvailable = APVM.IsAvailable,
                         ExpiryDate = APVM.ExpiryDate,
                         ManufactureDate = APVM.ManufactureDate,
@@ -153,6 +157,56 @@ namespace Ecommerce_Api.Repository
             catch(Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private async Task<string> SaveImageAsync(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return null; // No image provided
+            }
+
+            try
+            {
+            // Specify the directory where you want to save the image
+            
+                string uploadDirectory = @"E:\Visual Studio\Ecommerce_Api\Assests\Images\Product_Images"; // Change this to your desired path
+
+                // Ensure the directory exists, or create it if it doesn't
+                if (!Directory.Exists(uploadDirectory))
+                {
+                    Directory.CreateDirectory(uploadDirectory);
+                }
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                string filePath = Path.Combine(uploadDirectory, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                return "/images/" + fileName; // Store the relative URL in the database
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
+        private async Task<string> ConvertImageToString(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return null; // No image provided
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await imageFile.CopyToAsync(memoryStream);
+                byte[] bytes = memoryStream.ToArray();
+                return Convert.ToBase64String(bytes); // Convert image to base64 string
             }
         }
 
@@ -180,7 +234,7 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
+        public async Task<Product> UpdateProduct(ProductViewModel UPVM, IFormFile imageFile)
         {
             try
             {
@@ -189,6 +243,8 @@ namespace Ecommerce_Api.Repository
                     var item = _context.Products.FirstOrDefault(x => x.ProductId == UPVM.ProductId);
                     if(item!= null)
                     {
+                        string imageUrl = await SaveImageAsync(imageFile);
+
                         item.CategoryId = UPVM.CategoryId;
                         item.BrandId = UPVM.BrandId;
                         item.ProductName = UPVM.ProductName;
@@ -196,7 +252,7 @@ namespace Ecommerce_Api.Repository
                         item.Price = UPVM.Price;
                         item.Weight = UPVM.Weight;
                         item.Unit = UPVM.Unit;
-                        item.ImageUrl = UPVM.ImageUrl;
+                        item.ImageUrl = imageUrl;
                         item.IsAvailable = UPVM.IsAvailable;
                         item.ExpiryDate = UPVM.ExpiryDate;
                         item.ManufactureDate = UPVM.ManufactureDate;
