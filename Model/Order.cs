@@ -9,7 +9,7 @@ public partial class Order
 
     public int UserId { get; set; }
 
-    public string SubscriptionType { get; set; } = null!;
+    public int SubscriptionTypeId { get; set; }
 
     public decimal TotalAmount { get; set; }
 
@@ -22,6 +22,8 @@ public partial class Order
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+    public virtual SubscriptionType SubscriptionType { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

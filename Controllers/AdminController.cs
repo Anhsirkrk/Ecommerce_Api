@@ -95,13 +95,13 @@ namespace Ecommerce_Api.Controllers
     //product
         [HttpPost]
         [Route("CreateProduct")]
-        public async Task<Product> CreateProduct(ProductViewModel APVM)
+        public async Task<Product> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
         {
             try
             {
                 if (APVM != null)
                 {
-                    return await _iar.CreateProduct(APVM);
+                    return await _iar.CreateProduct(APVM,imageFile);
                 }
                 return null;  
             }
@@ -125,13 +125,13 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
+        public async Task<Product> UpdateProduct([FromForm] ProductViewModel UPVM, [FromForm] IFormFile imageFile)
         {
             try
             {
                 if (UPVM != null)
                 {
-                    return await _iar.UpdateProduct(UPVM);
+                    return await _iar.UpdateProduct(UPVM,imageFile);
                 }
                 return null;
             }   

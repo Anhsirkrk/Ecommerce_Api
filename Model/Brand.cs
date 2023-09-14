@@ -9,7 +9,7 @@ public partial class Brand
 
     public string BrandName { get; set; } = null!;
 
-    public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
-
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+    public virtual ICollection<Vendor> Vendors { get; set; } = new List<Vendor>();
 }

@@ -60,7 +60,9 @@ public partial class EcommercedemoContext : DbContext
     {
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.BrandId).HasName("PK__Brand__AABC2567DD3C6640");
+
+            entity.HasKey(e => e.BrandId).HasName("PK__Brand__AABC25675F7F7331");
+
 
             entity.ToTable("Brand");
 
@@ -73,12 +75,12 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__6DB38D6EBD7ED1C0");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__6DB38D6E887FB171");
+
 
             entity.ToTable("Category");
 
             entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
-            entity.Property(e => e.BrandId).HasColumnName("Brand_Id");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -90,18 +92,15 @@ public partial class EcommercedemoContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("ImageURL");
-
-            entity.HasOne(d => d.Brand).WithMany(p => p.Categories)
-                .HasForeignKey(d => d.BrandId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Category_Brand");
         });
 
         modelBuilder.Entity<Coupon>(entity =>
         {
-            entity.HasKey(e => e.CouponId).HasName("PK__Coupons__384AF1DACD8C2BFB");
 
-            entity.HasIndex(e => e.Code, "UQ__Coupons__A25C5AA7AE10055A").IsUnique();
+            entity.HasKey(e => e.CouponId).HasName("PK__Coupons__384AF1DA815B89E5");
+
+            entity.HasIndex(e => e.Code, "UQ__Coupons__A25C5AA7BA1CD6C3").IsUnique();
+
 
             entity.Property(e => e.CouponId).HasColumnName("CouponID");
             entity.Property(e => e.Code)
@@ -114,7 +113,9 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<Discount>(entity =>
         {
-            entity.HasKey(e => e.DiscountId).HasName("PK__Discount__6C137204441478F5");
+
+            entity.HasKey(e => e.DiscountId).HasName("PK__Discount__6C1372049015074A");
+
 
             entity.ToTable("Discount");
 
@@ -132,7 +133,9 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.LogId).HasName("PK__Log__5E548648EB1236BA");
+
+            entity.HasKey(e => e.LogId).HasName("PK__Log__5E5486481AFAA093");
+
 
             entity.ToTable("Log");
 
@@ -144,12 +147,16 @@ public partial class EcommercedemoContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Logs)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Log__User_Id__797309D9");
+
+                .HasConstraintName("FK__Log__User_Id__05D8E0BE");
+
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1E4607B05D1138C");
+
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1E4607B940B4F4E");
+
 
             entity.Property(e => e.OrderId).HasColumnName("Order_Id");
             entity.Property(e => e.EndDate)
@@ -161,14 +168,16 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.StartDate)
                 .HasColumnType("date")
                 .HasColumnName("Start_Date");
-            entity.Property(e => e.SubscriptionType)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("Subscription_Type");
+            entity.Property(e => e.SubscriptionTypeId).HasColumnName("Subscription_Type_Id");
             entity.Property(e => e.TotalAmount)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Total_Amount");
             entity.Property(e => e.UserId).HasColumnName("User_id");
+
+            entity.HasOne(d => d.SubscriptionType).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.SubscriptionTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Fk_SubscriptionId_Subscription");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -178,7 +187,8 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.HasKey(e => e.ItemId).HasName("PK__OrderIte__727E838B71810511");
+
+            entity.HasKey(e => e.ItemId).HasName("PK__OrderIte__727E838BD4CE39A5");
 
             entity.Property(e => e.EndDate)
                 .HasColumnType("date")
@@ -191,10 +201,7 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.StartDate)
                 .HasColumnType("date")
                 .HasColumnName("Start_Date");
-            entity.Property(e => e.SubscriptionType)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("Subscription_Type");
+            entity.Property(e => e.SubscriptionTypeId).HasColumnName("Subscription_Type_Id");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
@@ -205,11 +212,18 @@ public partial class EcommercedemoContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_ProductId_Products");
+
+            entity.HasOne(d => d.SubscriptionType).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.SubscriptionTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Fk_SubscriptionId_subscriptions");
         });
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A5894DCFC25");
+
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A58FF4F08F1");
+
 
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
@@ -220,6 +234,10 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.PaymentMethod)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.PaymentStatus)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Payment_Status");
             entity.Property(e => e.TransactionId)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -228,12 +246,16 @@ public partial class EcommercedemoContext : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Payments__OrderI__619B8048");
+
+                .HasConstraintName("FK__Payments__OrderI__76969D2E");
+
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__9834FBBA1130A529");
+
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__9834FBBA5066984B");
+
 
             entity.ToTable("Product");
 
@@ -273,12 +295,14 @@ public partial class EcommercedemoContext : DbContext
             entity.HasOne(d => d.Discount).WithMany(p => p.Products)
                 .HasForeignKey(d => d.DiscountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Category_Discount_id");
+                .HasConstraintName("FK_Discount_Id");
         });
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79AEBACE2BC0");
+
+            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79AEE5FC7E27");
+
 
             entity.Property(e => e.ReviewId).HasColumnName("ReviewID");
             entity.Property(e => e.Comment).HasColumnType("text");
@@ -290,51 +314,63 @@ public partial class EcommercedemoContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__Reviews__Product__74AE54BC");
+
+                .HasConstraintName("FK__Reviews__Product__00200768");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Reviews__UserID__73BA3083");
+                .HasConstraintName("FK__Reviews__UserID__7F2BE32F");
+
         });
 
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.CartId).HasName("PK__Shopping__51BCD7975F13BB37");
+
+            entity.HasKey(e => e.CartId).HasName("PK__Shopping__51BCD79753A95F37");
+
 
             entity.Property(e => e.CartId)
                 .ValueGeneratedNever()
                 .HasColumnName("CartID");
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__ShoppingC__UserI__47DBAE45");
+
+                .HasConstraintName("FK__ShoppingC__UserI__5DCAEF64");
+
         });
 
         modelBuilder.Entity<ShoppingCartItem>(entity =>
         {
-            entity.HasKey(e => e.ItemId).HasName("PK__Shopping__727E83EB983DE2E6");
+
+            entity.HasKey(e => e.ItemId).HasName("PK__Shopping__727E83EBF5E912CE");
 
             entity.Property(e => e.ItemId)
                 .ValueGeneratedNever()
                 .HasColumnName("ItemID");
             entity.Property(e => e.CartId).HasColumnName("CartID");
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
             entity.HasOne(d => d.Cart).WithMany(p => p.ShoppingCartItems)
                 .HasForeignKey(d => d.CartId)
-                .HasConstraintName("FK__ShoppingC__CartI__4AB81AF0");
+
+                .HasConstraintName("FK__ShoppingC__CartI__60A75C0F");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCartItems)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__ShoppingC__Produ__4BAC3F29");
+                .HasConstraintName("FK__ShoppingC__Produ__619B8048");
+
         });
 
         modelBuilder.Entity<SubscriptionType>(entity =>
         {
-            entity.HasKey(e => e.SubscriptionId).HasName("PK__subscrip__51805A51304CF399");
+
+            entity.HasKey(e => e.SubscriptionId).HasName("PK__subscrip__51805A5110CD04AA");
+
 
             entity.ToTable("subscription_type");
 
@@ -347,11 +383,13 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__206D9170C508C1AF");
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E47A096ED5").IsUnique();
+            entity.HasKey(e => e.UserId).HasName("PK__Users__206D917049C8403F");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534E5DDC877").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4FF815A07").IsUnique();
+
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534792C6D9C").IsUnique();
+
 
             entity.Property(e => e.UserId).HasColumnName("User_Id");
             entity.Property(e => e.Email)
@@ -382,7 +420,8 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<UserCoupon>(entity =>
         {
-            entity.HasKey(e => e.UserCouponId).HasName("PK__UserCoup__22994B7389B3CF91");
+
+            entity.HasKey(e => e.UserCouponId).HasName("PK__UserCoup__22994B734843CC75");
 
             entity.Property(e => e.UserCouponId).HasColumnName("UserCouponID");
             entity.Property(e => e.CouponId).HasColumnName("CouponID");
@@ -393,16 +432,20 @@ public partial class EcommercedemoContext : DbContext
 
             entity.HasOne(d => d.Coupon).WithMany(p => p.UserCoupons)
                 .HasForeignKey(d => d.CouponId)
-                .HasConstraintName("FK__UserCoupo__Coupo__534D60F1");
+
+                .HasConstraintName("FK__UserCoupo__Coupo__693CA210");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserCoupons)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__UserCoupo__UserI__52593CB8");
+                .HasConstraintName("FK__UserCoupo__UserI__68487DD7");
+
         });
 
         modelBuilder.Entity<UserSubscription>(entity =>
         {
-            entity.HasKey(e => e.UserSubscriptionId).HasName("PK__UserSubs__D1FD775CD04FCC55");
+
+            entity.HasKey(e => e.UserSubscriptionId).HasName("PK__UserSubs__D1FD775C41E3F219");
+
 
             entity.Property(e => e.UserSubscriptionId)
                 .ValueGeneratedNever()
@@ -422,17 +465,23 @@ public partial class EcommercedemoContext : DbContext
             entity.HasOne(d => d.SubscriptionType).WithMany(p => p.UserSubscriptions)
                 .HasForeignKey(d => d.SubscriptionTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserSubsc__Subsc__6B24EA82");
+
+                .HasConstraintName("FK__UserSubsc__Subsc__7B5B524B");
+
 
             entity.HasOne(d => d.User).WithMany(p => p.UserSubscriptions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserSubsc__User___6A30C649");
+
+                .HasConstraintName("FK__UserSubsc__User___7A672E12");
+
         });
 
         modelBuilder.Entity<UserType>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__User_typ__FE91E1E64A9D6AA7");
+
+            entity.HasKey(e => e.TypeId).HasName("PK__User_typ__FE91E1E69C225DC6");
+
 
             entity.ToTable("User_types");
 
@@ -445,12 +494,15 @@ public partial class EcommercedemoContext : DbContext
 
         modelBuilder.Entity<Vendor>(entity =>
         {
-            entity.HasKey(e => e.VendorId).HasName("PK__Vendors__FC8618D3921CB1DB");
+
+            entity.HasKey(e => e.VendorId).HasName("PK__Vendors__FC8618D3973404CC");
+
 
             entity.Property(e => e.VendorId).HasColumnName("VendorID");
             entity.Property(e => e.Address)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.BrandId).HasColumnName("Brand_ID");
             entity.Property(e => e.ContactEmail)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -465,6 +517,10 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.NameofVendor)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Vendors)
+                .HasForeignKey(d => d.BrandId)
+                .HasConstraintName("FK__Vendors__LogoURL__02FC7413");
         });
 
         OnModelCreatingPartial(modelBuilder);
