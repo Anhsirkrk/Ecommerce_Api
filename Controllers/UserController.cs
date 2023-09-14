@@ -12,8 +12,8 @@ namespace Ecommerce_Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly EcommercedemoContext context;
-        private readonly IUserRepository iur;
-        public UserController(IUserRepository _iur, EcommercedemoContext _context)
+        private readonly IUserInterface iur;
+        public UserController(IUserInterface _iur, EcommercedemoContext _context)
         {
             context = _context;
             iur = _iur;

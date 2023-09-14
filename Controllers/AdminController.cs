@@ -10,9 +10,9 @@ namespace Ecommerce_Api.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private readonly IAdminRepository _iar;
+        private readonly IAdminInterface _iar;
 
-        public AdminController(IAdminRepository iar)
+        public AdminController(IAdminInterface iar)
         {
             _iar = iar;
         }

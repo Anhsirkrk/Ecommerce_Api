@@ -3,7 +3,7 @@ using Ecommerce_Api.ViewModels;
 
 namespace Ecommerce_Api.Repository
 {
-    public interface IAdminRepository
+    public interface IAdminInterface
     {
 
     //Brand

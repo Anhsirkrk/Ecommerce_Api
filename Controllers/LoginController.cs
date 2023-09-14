@@ -15,8 +15,8 @@ namespace Ecommerce_Api.Controllers
     public class LoginController : ControllerBase
     {
         private readonly EcommercedemoContext context;
-        private readonly ILoginRepository _ipr;
-        public LoginController(ILoginRepository ipr,EcommercedemoContext _context )
+        private readonly ILoginInterface _ipr;
+        public LoginController(ILoginInterface ipr,EcommercedemoContext _context )
         {
             _ipr = ipr;
             context = _context;

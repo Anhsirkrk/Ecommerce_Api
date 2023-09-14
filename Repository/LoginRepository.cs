@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Repository
 {
-    public class LoginRepository:ILoginRepository
+    public class LoginRepository:ILoginInterface
     {
         private readonly EcommercedemoContext _context;
         public LoginRepository(EcommercedemoContext context)
@@ -37,7 +37,7 @@ namespace Ecommerce_Api.Repository
                     Email = item.Email,
                     Firstname = item.Firstname,
                     Lastname = item.Lastname,
-                    Mobile = item.Mobile,
+                    //Mobile = item.Mobile,
                     UserTypeId = item.UserTypeId,
 
                 };

@@ -11,17 +11,19 @@ public partial class OrderItem
 
     public int ProductId { get; set; }
 
+    public decimal ProductPrice { get; set; }
+
     public int? Quantity { get; set; }
 
-    public string SubscriptionType { get; set; } = null!;
+    public int SubscriptionTypeId { get; set; }
 
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
 
-    public decimal ProductPrice { get; set; }
-
     public virtual Order Order { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
+
+    public virtual SubscriptionType SubscriptionType { get; set; } = null!;
 }

@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Repository
 {
-    public class AdminRepository:IAdminRepository
+    public class AdminRepository:IAdminInterface
     {
-        private readonly EcommercedemoContext _context;
-        public AdminRepository(EcommercedemoContext context)
+        private readonly EcommercedemoContext context;
+        public AdminRepository(EcommercedemoContext _context)
         {
-            _context = context;   
+            context = _context;   
         }
 
         //brand
@@ -18,10 +18,10 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
-                    await _context.Brands.AddAsync(brand);
-                    await _context.SaveChangesAsync();
+                    await context.Brands.AddAsync(brand);
+                    await context.SaveChangesAsync();
                        
                 }
                 return null;
@@ -36,13 +36,13 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
-                    var brand = await _context.Brands.FindAsync(brand_id);
+                    var brand = await context.Brands.FindAsync(brand_id);
                     if (brand != null)
                     {
-                        _context.Brands.Remove(brand);
-                        _context.SaveChanges();
+                        context.Brands.Remove(brand);
+                        context.SaveChanges();
                         return "Brand deleted successfully";
                     }
                     return "Brand not found";
@@ -60,16 +60,16 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if(_context != null)
+                if(context != null)
                 {
-                    var item = _context.Brands.FirstOrDefault(x => x.BrandId == TVM.BrandId);
+                    var item = context.Brands.FirstOrDefault(x => x.BrandId == TVM.BrandId);
 
                     if (item != null)
                     {
                         item.BrandName= TVM.BrandName;
 
-                        _context.Brands.Update(item);
-                        await _context.SaveChangesAsync();
+                        context.Brands.Update(item);
+                        await context.SaveChangesAsync();
                         return item;
                     }
                         
@@ -88,11 +88,11 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if( _context != null)
+                if( context != null)
                 {
                     List<Brand> brands=new List<Brand>();
 
-                    brands = _context.Brands.ToList();
+                    brands = context.Brands.ToList();
                     return brands;
                 }
                 return null;
@@ -107,9 +107,9 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if(_context != null)
+                if(context != null)
                 {
-                    var brand = await _context.Brands.FirstOrDefaultAsync(x => x.BrandId == brand_id);
+                    var brand = await context.Brands.FirstOrDefaultAsync(x => x.BrandId == brand_id);
                     return brand;
                 }
                 return null;
@@ -119,15 +119,12 @@ namespace Ecommerce_Api.Repository
                 throw ex;
             }
         }
-
-
-
         //Product
         public async Task<Product> CreateProduct(TotalViewModel TVM)
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
                     var product = new Product()
                     {
@@ -145,8 +142,8 @@ namespace Ecommerce_Api.Repository
                         DiscountId = TVM.DiscountId,
                         Description = TVM.Description,
                     };
-                    await _context.Products.AddAsync(product);
-                    await _context.SaveChangesAsync();
+                    await context.Products.AddAsync(product);
+                    await context.SaveChangesAsync();
                 }
                 return null;
             }
@@ -160,13 +157,13 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
-                    var product = await _context.Products.FindAsync(product_id);
+                    var product = await context.Products.FindAsync(product_id);
                     if (product != null)
                     {
-                        _context.Products.Remove(product);
-                        _context.SaveChanges();
+                        context.Products.Remove(product);
+                        context.SaveChanges();
                         return "Product deleted successfully";
                     }
                     return "Product not found";
@@ -184,9 +181,9 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
-                    var item = _context.Products.FirstOrDefault(x => x.ProductId == TVM.ProductId);
+                    var item = context.Products.FirstOrDefault(x => x.ProductId == TVM.ProductId);
                     if(item!= null)
                     {
                         item.CategoryId = TVM.CategoryId;
@@ -203,8 +200,8 @@ namespace Ecommerce_Api.Repository
                         item.DiscountId = TVM.DiscountId;
                         item.Description = TVM.Description;
 
-                        _context.Products.Update(item);
-                       await _context.SaveChangesAsync();
+                        context.Products.Update(item);
+                       await context.SaveChangesAsync();
                         return item;
                     }
                 }
@@ -220,11 +217,11 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null)
+                if (context != null)
                 {
                     List<Product> products = new List<Product>();
 
-                    products =await _context.Products.ToListAsync();
+                    products =await context.Products.ToListAsync();
                     return products;
                 }
                 return null;
@@ -239,9 +236,9 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if (_context != null && product_id!=null && product_id.Any())
+                if (context != null && product_id!=null && product_id.Any())
                 {
-                    var product = await _context.Products.Where(x => product_id.Contains(x.ProductId)).ToListAsync();
+                    var product = await context.Products.Where(x => product_id.Contains(x.ProductId)).ToListAsync();
                     return product;
                 }
                 return null;

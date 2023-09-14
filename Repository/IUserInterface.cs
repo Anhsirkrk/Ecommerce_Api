@@ -5,7 +5,7 @@ using Ecommerce_Api.Repository;
 
 namespace Ecommerce_Api.Repository
 {
-    public interface IUserRepository
+    public interface IUserInterface
     {
         public Task<UserViewModel> CreateUser(UserViewModel userViewModel);
     }

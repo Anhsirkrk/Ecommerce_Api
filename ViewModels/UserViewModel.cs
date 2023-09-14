@@ -14,5 +14,6 @@
         public bool UserFound { get; set; }
         public string ResultMessage { get; set; }
 
+
     }
 }

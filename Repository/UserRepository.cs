@@ -5,7 +5,7 @@ using Ecommerce_Api.ViewModels;
 
 namespace Ecommerce_Api.Repository
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository:IUserInterface
     {
         private readonly EcommercedemoContext context;
         public UserRepository(EcommercedemoContext _context)
