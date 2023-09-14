@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Ecommerce_Api.Model;
+using System.Reflection;
+
 
 namespace Ecommerce_Api.Controllers
 {
@@ -22,9 +24,10 @@ namespace Ecommerce_Api.Controllers
 
         //[HttpGet("{mobileNumber}")]
         //[Route("GetUserByMobileNumber")]
-        [HttpGet]
+        [HttpPost]
         [Route("GetUserByMobileNumber")]
         public async Task<IActionResult> GetUserByMobileNumber(LoginViewModel loginViewModel)
+        
         {
             try
             {
@@ -33,22 +36,24 @@ namespace Ecommerce_Api.Controllers
                     if (loginViewModel != null)
                     {
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
-                        if (user != null && user.UserFound == true)
+                        if (user != null )
                         {
                             return Ok(user);
+
                         }
                         else
                         {
-                            return BadRequest("User Not Found");
+                            return BadRequest(user);
                         }
                     }
                 }
+                return null;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return (IActionResult)loginViewModel;
+          
         }
           
       
