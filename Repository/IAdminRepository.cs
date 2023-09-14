@@ -14,9 +14,9 @@ namespace Ecommerce_Api.Repository
         Task<Brand> GetBrandById(int brand_id);
 
     //product
-        Task<Product> CreateProduct(TotalViewModel TVM);
+        Task<Product> CreateProduct(ProductViewModel APVM);
         Task<string> DeleteProduct(int product_id);
-        Task<Product> UpdateProduct(TotalViewModel TVM);
+        Task<Product> UpdateProduct(ProductViewModel UPVM);
         Task<List<Product>> GetAllProducts();
         Task<List<Product>> GetProductById(List<int> product_id); 
     }
