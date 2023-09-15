@@ -27,7 +27,7 @@ namespace Ecommerce_Api.Repository
                             Password = userviewmodel.Password,
                             Firstname = userviewmodel.Firstname,
                             Lastname = userviewmodel.Lastname,
-                            Mobile = userviewmodel.Mobile,
+                            Mobile = decimal.Parse(userviewmodel.Mobile),
                             Email = userviewmodel.Email,
                         };
                         var res = await context.Users.AddAsync(user);
@@ -41,7 +41,5 @@ namespace Ecommerce_Api.Repository
             catch (Exception ex)
             {throw ex;}
         }
-
-
     }
 }

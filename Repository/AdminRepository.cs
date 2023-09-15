@@ -2,6 +2,7 @@
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.Extensions.Msal;
 using static System.Net.Mime.MediaTypeNames;
@@ -126,7 +127,7 @@ namespace Ecommerce_Api.Repository
 
 
         //Product
-        public async Task<Product> CreateProduct(ProductViewModel APVM, IFormFile imageFile)
+        public async Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
         {
             try
             {
@@ -151,6 +152,7 @@ namespace Ecommerce_Api.Repository
                     };
                     await _context.Products.AddAsync(product);
                     await _context.SaveChangesAsync();
+                    return APVM;
                 }
                 return null;
             }

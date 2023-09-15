@@ -95,7 +95,7 @@ namespace Ecommerce_Api.Controllers
     //product
         [HttpPost]
         [Route("CreateProduct")]
-        public async Task<Product> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
+        public async Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
         {
             try
             {

@@ -18,8 +18,6 @@
 
         public string Unit { get; set; }
 
-        public string ImageUrl { get; set; } = null!;
-
         public IFormFile ImageFile { get; set; }
             
         public bool IsAvailable { get; set; }
@@ -31,7 +29,6 @@
         public int DiscountId { get; set; }
 
         public string Description { get; set; }
-
 
     }
 }

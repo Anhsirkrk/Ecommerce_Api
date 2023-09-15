@@ -1,5 +1,6 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_Api.Repository
 {
@@ -14,7 +15,7 @@ namespace Ecommerce_Api.Repository
         Task<Brand> GetBrandById(int brand_id);
 
     //product
-        Task<Product> CreateProduct(ProductViewModel APVM, IFormFile imageFile);
+        Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile);
         Task<string> DeleteProduct(int product_id);
         Task<Product> UpdateProduct(ProductViewModel UPVM, IFormFile imageFile);
         Task<List<Product>> GetAllProducts();
