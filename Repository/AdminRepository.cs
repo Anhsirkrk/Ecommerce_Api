@@ -47,7 +47,7 @@ namespace Ecommerce_Api.Repository
                     {
                         _context.Brands.Remove(brand);
                         _context.SaveChanges();
-                        return "Brand deleted successfully";
+                        return "Brand deleted success";
                     }
                     return "Brand not found";
                 }
