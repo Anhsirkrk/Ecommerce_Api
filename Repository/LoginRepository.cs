@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Repository
 {
-    public class LoginRepository:ILoginRepository
+    public class LoginRepository : IloginRepository
     {
         private readonly EcommercedemoContext _context;
         public LoginRepository(EcommercedemoContext context)
@@ -15,8 +15,8 @@ namespace Ecommerce_Api.Repository
 
         public async Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel)
         {
-            var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == decimal.Parse(loginViewModel.Mobile));
-            if(item == null)
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
+            if (item == null)
             {
                 var user = new LoginViewModel
                 {
@@ -25,8 +25,8 @@ namespace Ecommerce_Api.Repository
                 };
                 return user;
 
-             }
-           else
+            }
+            else
             {
                 var user = new LoginViewModel
                 {
@@ -37,17 +37,17 @@ namespace Ecommerce_Api.Repository
                     Email = item.Email,
                     Firstname = item.Firstname,
                     Lastname = item.Lastname,
-                    Mobile = item.Mobile.ToString(),
+                    //Mobile = item.Mobile,
                     UserTypeId = item.UserTypeId,
 
                 };
                 return user;
 
             }
-           
 
 
-        }
+
+            }
         public User CreateUser(User newuser)
         {
             _context.Users.Add(newuser);

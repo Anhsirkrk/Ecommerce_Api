@@ -18,7 +18,7 @@ namespace Ecommerce_Api.Controllers
             context = _context;
             iur = _iur;
         }
-     
+
         [HttpPost]
         [Route("CreateUser")]
 
@@ -38,6 +38,6 @@ namespace Ecommerce_Api.Controllers
                 return StatusCode(500, $"Internal server error :{ex.Message}");
             }
         }
-      
+
     }
 }
