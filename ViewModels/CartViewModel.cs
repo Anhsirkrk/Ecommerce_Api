@@ -21,6 +21,12 @@
 
         public string Resultmessage { get;set; }
 
-        public bool IsAdded { get; set; }
+        public bool IsItemAdded { get; set; }
+        public bool IsCartCreated{ get; set; }
+        public bool IsItemDeleted { get; set; }
+
+        public bool IsQuantityUpdated { get; set; } 
+        public int CreatedCartID { get; set; } 
+       
     }
 }

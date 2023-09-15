@@ -4,6 +4,10 @@ namespace Ecommerce_Api.Repository
 {
     public interface ICartInterface
     {
-        Task<CartViewModel> CreateCartForUser(CartViewModel cartviewmodel);
+        Task<CartViewModel> AddItemToCart(CartViewModel cvm);
+        Task<CartViewModel> DeletecartItem(CartViewModel cvm);
+        Task<CartViewModel> ChangingQuantityOfItem(CartViewModel cvm);
+        Task<CartViewModel> CreateCartForUserMultipleProductsAtOnce(CartViewModel cartviewmodel);
+ 
     }
 }
