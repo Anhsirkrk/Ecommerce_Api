@@ -24,7 +24,8 @@ builder.Services.AddDbContext<EcommercedemoContext>(options =>
 builder.Services.AddCors();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IloginRepository, LoginRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

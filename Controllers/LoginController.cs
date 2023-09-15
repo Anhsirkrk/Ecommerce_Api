@@ -5,18 +5,18 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Ecommerce_Api.Model;
 using System.Reflection;
-
+using Ecommerce_Api.Repository;
 
 namespace Ecommerce_Api.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly EcommercedemoContext context;
-        private readonly ILoginRepository _ipr;
-        public LoginController(ILoginRepository ipr,EcommercedemoContext _context )
+        private readonly IloginRepository _ipr;
+        public LoginController(IloginRepository ipr, EcommercedemoContext _context)
         {
             _ipr = ipr;
             context = _context;
@@ -27,7 +27,7 @@ namespace Ecommerce_Api.Controllers
         [HttpPost]
         [Route("GetUserByMobileNumber")]
         public async Task<IActionResult> GetUserByMobileNumber(LoginViewModel loginViewModel)
-        
+
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Ecommerce_Api.Controllers
                     if (loginViewModel != null)
                     {
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
-                        if (user != null )
+                        if (user != null)
                         {
                             return Ok(user);
 
@@ -53,11 +53,11 @@ namespace Ecommerce_Api.Controllers
             {
                 throw ex;
             }
-          
-        }
-          
-      
 
-       
+        }
+
+
+
+
     }
 }
