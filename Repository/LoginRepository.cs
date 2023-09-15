@@ -15,7 +15,7 @@ namespace Ecommerce_Api.Repository
 
         public async Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel)
         {
-            var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == decimal.Parse(loginViewModel.Mobile));
             if(item == null)
             {
                 var user = new LoginViewModel
@@ -37,7 +37,7 @@ namespace Ecommerce_Api.Repository
                     Email = item.Email,
                     Firstname = item.Firstname,
                     Lastname = item.Lastname,
-                    Mobile = item.Mobile,
+                    Mobile = item.Mobile.ToString(),
                     UserTypeId = item.UserTypeId,
 
                 };
