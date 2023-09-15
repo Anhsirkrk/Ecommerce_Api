@@ -20,13 +20,13 @@ namespace Ecommerce_Api.Controllers
     //brand
         [HttpPost]
         [Route("CreateBrand")]
-        public async Task<Brand> CreateBrand(TotalViewModel TVM)
+        public async Task<Brand> CreateBrand(string brandName)
         {
             try
             {
                 var brand = new Brand()
                 {
-                    BrandName = TVM.BrandName,
+                    BrandName =brandName,
                 };
                 return await _iar.CreateBrand(brand);
             }
@@ -95,13 +95,13 @@ namespace Ecommerce_Api.Controllers
     //product
         [HttpPost]
         [Route("CreateProduct")]
-        public async Task<Product> CreateProduct(TotalViewModel TVM)
+        public async Task<Product> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
         {
             try
             {
-                if (TVM!=null)
+                if (APVM != null)
                 {
-                    return await _iar.CreateProduct(TVM);
+                    return await _iar.CreateProduct(APVM,imageFile);
                 }
                 return null;  
             }
@@ -125,13 +125,13 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<Product> UpdateProduct(TotalViewModel TVM)
+        public async Task<Product> UpdateProduct([FromForm] ProductViewModel UPVM, [FromForm] IFormFile imageFile)
         {
             try
             {
-                if (TVM!= null)
+                if (UPVM != null)
                 {
-                    return await _iar.UpdateProduct(TVM);
+                    return await _iar.UpdateProduct(UPVM,imageFile);
                 }
                 return null;
             }   
