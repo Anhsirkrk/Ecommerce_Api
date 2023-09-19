@@ -2,6 +2,7 @@
 using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -50,13 +51,13 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateBrand")]
-        public async Task<Brand> UpdateBrand(TotalViewModel TVM)
+        public async Task<Brand> UpdateBrand(int brand_id, string brandName)
         {
             try
             {
-                if (TVM != null)
+                if (brand_id != null)
                 {
-                    return await _iar.UpdateBrand(TVM);
+                    return await _iar.UpdateBrand(brand_id,brandName);
                 }
                 return null;
             }
@@ -111,7 +112,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("UploadProductImage")]
         public async Task<Product> UploadProductImage( int product_id,  IFormFile imagefile)
         {
@@ -139,13 +140,13 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<Product> UpdateProduct([FromForm] ProductViewModel UPVM, [FromForm] IFormFile imageFile)
+        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
         {
             try
             {
                 if (UPVM != null)
                 {
-                    return await _iar.UpdateProduct(UPVM,imageFile);
+                    return await _iar.UpdateProduct(UPVM);
                 }
                 return null;
             }   
@@ -180,6 +181,100 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+    //Category
+        [HttpPost]
+        [Route("CreateCategory")]
+        public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
+        {
+            try
+            {
+                return await _iar.CreateCategory(ACVM);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllCategories")]
+        public async Task<List<Category>> GetAllCategories()
+        {
+            try
+            {
+                return await _iar.GetAllCategories();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateCategory")]
+        public async Task<CategoryViewModel> UpdateCategory(CategoryViewModel UCVM)
+        {
+            try
+            {
+                if (UCVM != null)
+                {
+                    return await _iar.UpdateCategory(UCVM);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCategoryById")]
+        public async Task<Category> GetCategoryById(int category_id)
+        {
+            try
+            {
+                return await _iar.GetCategoryById(category_id);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategory")]
+        public async Task<string> DeleteCategory(int category_id)
+        {
+            try
+            {
+                return await _iar.DeleteCategory(category_id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPut]
+        [Route("UploadCategoryImage")]
+        public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
+        {
+            try
+            {
+                if(category_id!=null)
+                {
+                    return await _iar.UploadCategoryImage(category_id, imagefile);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
 
     }
 }
