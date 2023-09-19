@@ -60,17 +60,17 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<Brand> UpdateBrand(TotalViewModel TVM)
+        public async Task<Brand> UpdateBrand(int brand_id, string brandName)
         {
             try
             {
                 if(_context != null)
                 {
-                    var item = _context.Brands.FirstOrDefault(x => x.BrandId == TVM.BrandId);
+                    var item = _context.Brands.FirstOrDefault(x => x.BrandId == brand_id);
 
                     if (item != null)
                     {
-                        item.BrandName= TVM.BrandName;
+                        item.BrandName= brandName;
 
                         _context.Brands.Update(item);
                         await _context.SaveChangesAsync();
@@ -169,7 +169,8 @@ namespace Ecommerce_Api.Repository
                 if (_context != null)
                 {
                     var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == product_id);
-                    product.ImageUrl = await SaveImageAsync(imagefile);
+                    product.ImageUrl = await SaveProductImageAsync(imagefile);
+                    _context.SaveChanges();
                     return product;
                 }
                 return null;
@@ -179,7 +180,9 @@ namespace Ecommerce_Api.Repository
                 throw ex;
             }
         }
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
+
+        //image upload static code
+        private async Task<string> SaveProductImageAsync(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)
             {
@@ -188,32 +191,32 @@ namespace Ecommerce_Api.Repository
 
             try
             {
-            // Specify the directory where you want to save the image
-            
-                string uploadDirectory = @"E:\Visual Studio\Ecommerce_Api\Assests\Images\Product_Images"; // Change this to your desired path
+                // Specify the directory where you want to save the image
+                string ProductUploadDirectory = @"E:\Visual Studio\Ecommerce_Api\Assests\Images\Product_Images"; // Change this to your desired path
+
 
                 // Ensure the directory exists, or create it if it doesn't
-                if (!Directory.Exists(uploadDirectory))
+                if (!Directory.Exists(ProductUploadDirectory))
                 {
-                    Directory.CreateDirectory(uploadDirectory);
+                    Directory.CreateDirectory(ProductUploadDirectory);
                 }
 
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-                string filePath = Path.Combine(uploadDirectory, fileName);
+                string filePath = Path.Combine(ProductUploadDirectory, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
 
-                return "/images/" + fileName; // Store the relative URL in the database
+                return "E:/Visual Studio/Ecommerce_Api/Assests/Images/Product_Images/" + fileName; // Store the relative URL in the database
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-       
+        //image upload static code
         private async Task<string> ConvertImageToString(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)
@@ -253,7 +256,7 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(ProductViewModel UPVM, IFormFile imageFile)
+        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
         {
             try
             {
@@ -262,7 +265,7 @@ namespace Ecommerce_Api.Repository
                     var item = _context.Products.FirstOrDefault(x => x.ProductId == UPVM.ProductId);
                     if(item!= null)
                     {
-                        string imageUrl = await SaveImageAsync(imageFile);
+                        //string imageUrl = await SaveProductImageAsync(imageFile);
 
                         item.CategoryId = UPVM.CategoryId;
                         item.BrandId = UPVM.BrandId;
@@ -271,7 +274,7 @@ namespace Ecommerce_Api.Repository
                         item.Price = UPVM.Price;
                         item.Weight = UPVM.Weight;
                         item.Unit = UPVM.Unit;
-                        item.ImageUrl = imageUrl;
+                        //item.ImageUrl = imageUrl;
                         item.IsAvailable = UPVM.IsAvailable;
                         item.ExpiryDate = UPVM.ExpiryDate;
                         item.ManufactureDate = UPVM.ManufactureDate;
@@ -326,6 +329,168 @@ namespace Ecommerce_Api.Repository
                 throw ex;
             }
         }
+
+
+        //Category
+        public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
+        {
+            try
+            {
+                if(_context != null)
+                {
+                    var category = new Category()
+                    {
+                        CategoryName = ACVM.CategoryName,
+                        Description = ACVM.Description,
+                    };
+                     _context.Categories.Add(category);
+                     _context.SaveChanges();
+                    return ACVM;
+
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<Category>> GetAllCategories()
+        {
+            try
+            {
+                if(_context != null)
+                {
+                    return await _context.Categories.ToListAsync();
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<CategoryViewModel> UpdateCategory(CategoryViewModel UCVM)
+        {
+            try
+            {
+                if (_context != null)
+                {
+                    var item = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId ==UCVM.CategoryId);
+                    item.CategoryName = UCVM.CategoryName;
+                    item.Description = UCVM.Description;
+
+                    _context.Categories.Update(item);
+                    _context.SaveChanges();
+
+                    return UCVM;
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Category> GetCategoryById(int category_id)
+        {
+            try
+            {
+                if (category_id != null)
+                {
+                    var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == category_id);
+                    return category;
+                }
+                return null; 
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> DeleteCategory(int category_id)
+        {
+            try
+            {
+                if (_context != null)
+                {
+                    var category = await _context.Categories.FindAsync(category_id);
+                    if (category != null)
+                    {
+                        _context.Categories.Remove(category);
+                        _context.SaveChanges();
+
+                        return "Product deleted successfully";
+                    }
+                    return "Product not found";
+                }
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
+        {
+            try
+            {
+                var item = _context.Categories.FirstOrDefault(x=>x.CategoryId == category_id);
+                item.ImageUrl=await SaveCategoryuImageAsync(imagefile);
+                _context.Categories.Update(item);
+                _context.SaveChanges();
+
+                return item;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //image upload static code
+        private async Task<string> SaveCategoryuImageAsync(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return null; // No image provided
+            }
+
+            try
+            {
+                // Specify the directory where you want to save the image
+                string CategoryuploadDirectory = @"E:\Visual Studio\Ecommerce_Api\Assests\Images\Category_images"; // Change this to your desired path
+
+
+                // Ensure the directory exists, or create it if it doesn't
+                if (!Directory.Exists(CategoryuploadDirectory))
+                {
+                    Directory.CreateDirectory(CategoryuploadDirectory);
+                }
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                string filePath = Path.Combine(CategoryuploadDirectory, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                return "E:/Visual Studio/Ecommerce_Api/Assests/Images/Category_images/" + fileName; // Store the relative URL in the database
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
 
     }
 }
