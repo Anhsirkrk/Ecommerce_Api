@@ -127,13 +127,13 @@ namespace Ecommerce_Api.Repository
 
 
         //Product
-        public async Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile)
+        public async Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM)
         {
             try
             {
                 if (_context != null)
                 {
-                    string imageUrl = await SaveImageAsync(imageFile);
+                    //string imageUrl = await SaveImageAsync(imageFile);
                     var product = new Product()
                     {
                         CategoryId = APVM.CategoryId,
@@ -143,7 +143,7 @@ namespace Ecommerce_Api.Repository
                         Price = APVM.Price,
                         Weight = APVM.Weight,
                         Unit = APVM.Unit,
-                        ImageUrl = imageUrl,
+                        //ImageUrl = imageUrl,
                         IsAvailable = APVM.IsAvailable,
                         ExpiryDate = APVM.ExpiryDate,
                         ManufactureDate = APVM.ManufactureDate,
@@ -162,6 +162,23 @@ namespace Ecommerce_Api.Repository
             }
         }
 
+        public async Task<Product> UploadProductImage(int product_id, IFormFile imagefile)
+        {
+            try
+            {
+                if (_context != null)
+                {
+                    var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == product_id);
+                    product.ImageUrl = await SaveImageAsync(imagefile);
+                    return product;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private async Task<string> SaveImageAsync(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)

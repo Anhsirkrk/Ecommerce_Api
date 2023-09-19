@@ -15,7 +15,8 @@ namespace Ecommerce_Api.Repository
         Task<Brand> GetBrandById(int brand_id);
 
     //product
-        Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM, [FromForm] IFormFile imageFile);
+        Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM);
+        Task<Product> UploadProductImage(int product_id, IFormFile imagefile);
         Task<string> DeleteProduct(int product_id);
         Task<Product> UpdateProduct(ProductViewModel UPVM, IFormFile imageFile);
         Task<List<Product>> GetAllProducts();
