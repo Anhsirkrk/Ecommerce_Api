@@ -18,7 +18,101 @@ namespace Ecommerce_Api.Controllers
             _iar = iar;
         }
 
-    //brand
+        //Category
+        [HttpPost]
+        [Route("CreateCategory")]
+        public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
+        {
+            try
+            {
+                return await _iar.CreateCategory(ACVM);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllCategories")]
+        public async Task<List<Category>> GetAllCategories()
+        {
+            try
+            {
+                return await _iar.GetAllCategories();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateCategory")]
+        public async Task<CategoryViewModel> UpdateCategory(CategoryViewModel UCVM)
+        {
+            try
+            {
+                if (UCVM != null)
+                {
+                    return await _iar.UpdateCategory(UCVM);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCategoryById")]
+        public async Task<Category> GetCategoryById(int category_id)
+        {
+            try
+            {
+                return await _iar.GetCategoryById(category_id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategory")]
+        public async Task<string> DeleteCategory(int category_id)
+        {
+            try
+            {
+                return await _iar.DeleteCategory(category_id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPut]
+        [Route("UploadCategoryImage")]
+        public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
+        {
+            try
+            {
+                if (category_id != null)
+                {
+                    return await _iar.UploadCategoryImage(category_id, imagefile);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        //brand
         [HttpPost]
         [Route("CreateBrand")]
         public async Task<Brand> CreateBrand(string brandName)
@@ -140,7 +234,7 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
+        public async Task<Product> UpdateProduct(UpdateProductViewModel UPVM)
         {
             try
             {
@@ -168,7 +262,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [Route("GetProductById")]
         public async Task<List<Product>> GetProductById(List<int> product_ids)
         {
@@ -182,99 +276,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-    //Category
-        [HttpPost]
-        [Route("CreateCategory")]
-        public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
-        {
-            try
-            {
-                return await _iar.CreateCategory(ACVM);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpGet]
-        [Route("GetAllCategories")]
-        public async Task<List<Category>> GetAllCategories()
-        {
-            try
-            {
-                return await _iar.GetAllCategories();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpPut]
-        [Route("UpdateCategory")]
-        public async Task<CategoryViewModel> UpdateCategory(CategoryViewModel UCVM)
-        {
-            try
-            {
-                if (UCVM != null)
-                {
-                    return await _iar.UpdateCategory(UCVM);
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpGet]
-        [Route("GetCategoryById")]
-        public async Task<Category> GetCategoryById(int category_id)
-        {
-            try
-            {
-                return await _iar.GetCategoryById(category_id);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpDelete]
-        [Route("DeleteCategory")]
-        public async Task<string> DeleteCategory(int category_id)
-        {
-            try
-            {
-                return await _iar.DeleteCategory(category_id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpPut]
-        [Route("UploadCategoryImage")]
-        public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
-        {
-            try
-            {
-                if(category_id!=null)
-                {
-                    return await _iar.UploadCategoryImage(category_id, imagefile);
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
+    
 
     }
 }

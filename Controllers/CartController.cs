@@ -19,8 +19,8 @@ namespace Ecommerce_Api.Controllers
         }
 
         [HttpPost]
-        [Route("CreateCart")]
-        public async Task<IActionResult> AddItemToCart(CartViewModel cvm)
+        [Route("AddItemToCart")]
+        public async Task<CartViewModel> AddItemToCart(CartViewModel cvm)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Ecommerce_Api.Controllers
                     var newcart = await icr.AddItemToCart(cvm);
                     if (newcart.IsItemAdded==true)
                     {
-                        return (IActionResult)newcart;
+                        return newcart;
                     }
                     else
                     {
@@ -41,12 +41,13 @@ namespace Ecommerce_Api.Controllers
             {
                 throw ex;
             }
-            return BadRequest("Item Not Added");
+            cvm.Resultmessage = "ITEM NOT ADDED";
+            return cvm;
         }
 
         [HttpPost]
         [Route("ChangingQuantityOfItem")]
-        public async Task<IActionResult> ChangingQuantityOfItem(CartViewModel cvm)
+        public async Task<CartViewModel> ChangingQuantityOfItem(CartViewModel cvm)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace Ecommerce_Api.Controllers
                     var updateproduct = await icr.ChangingQuantityOfItem(cvm);
                     if (updateproduct.IsQuantityUpdated == true)
                     {
-                        return (IActionResult)updateproduct;
+                        return updateproduct;
                     }
                     else
                     {
@@ -67,13 +68,14 @@ namespace Ecommerce_Api.Controllers
             {
                 throw ex;
             }
-            return BadRequest("Item Not Updated");
+            cvm.Resultmessage = "Item Not Updated";
+            return cvm;
 
         }
 
         [HttpPost]
         [Route("DeletecartItem")]
-        public async Task<IActionResult> DeletecartItem(CartViewModel cvm)
+        public async Task<CartViewModel> DeletecartItem(CartViewModel cvm)
         {
             try
             {
@@ -82,7 +84,7 @@ namespace Ecommerce_Api.Controllers
                     var deleteproduct = await icr.DeletecartItem(cvm);
                     if (deleteproduct.IsItemDeleted == true)
                     {
-                        return (IActionResult)deleteproduct;
+                        return deleteproduct;
                     }
                     else
                     {
@@ -94,7 +96,8 @@ namespace Ecommerce_Api.Controllers
             {
                 throw ex;
             }
-            return BadRequest("Item Not Updated");
+            cvm.Resultmessage = "Item Not Updated";
+            return cvm;
 
         }
 

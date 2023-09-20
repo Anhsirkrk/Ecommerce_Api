@@ -1,7 +1,9 @@
 ﻿namespace Ecommerce_Api.ViewModels
 {
-    public class ProductViewModel
+    public class UpdateProductViewModel
     {
+
+
         public int ProductId { get; set; }
 
         public int CategoryId { get; set; }
@@ -18,8 +20,6 @@
 
         public string Unit { get; set; }
 
-        public IFormFile ImageFile { get; set; } = null;
-            
         public bool IsAvailable { get; set; }
 
         public DateTime ExpiryDate { get; set; }
@@ -29,6 +29,5 @@
         public int DiscountId { get; set; }
 
         public string Description { get; set; }
-
     }
 }

@@ -94,6 +94,7 @@ namespace Ecommerce_Api.Repository
                     {
                         CartId = cvm.CartId,
                         ProductId = cvm.ProductId,
+                        ItemId = cvm.ItemId,
                     };
                     var deleteitem = context.ShoppingCartItems.Remove(item);
                     await context.SaveChangesAsync();

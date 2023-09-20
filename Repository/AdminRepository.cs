@@ -143,7 +143,7 @@ namespace Ecommerce_Api.Repository
                         Price = APVM.Price,
                         Weight = APVM.Weight,
                         Unit = APVM.Unit,
-                        //ImageUrl = imageUrl,
+                        ImageUrl = "IMGURL",
                         IsAvailable = APVM.IsAvailable,
                         ExpiryDate = APVM.ExpiryDate,
                         ManufactureDate = APVM.ManufactureDate,
@@ -256,7 +256,7 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<Product> UpdateProduct(ProductViewModel UPVM)
+        public async Task<Product> UpdateProduct(UpdateProductViewModel UPVM)
         {
             try
             {
@@ -462,9 +462,9 @@ namespace Ecommerce_Api.Repository
             }
 
             try
-            {
+            { 
                 // Specify the directory where you want to save the image
-                string CategoryuploadDirectory = @"E:\Visual Studio\Ecommerce_Api\Assests\Images\Category_images"; // Change this to your desired path
+                string CategoryuploadDirectory = @"C:\Users\HP\Source\Repos\Ecommerce_Api\Assests\Images\Category_images"; // Change this to your desired path
 
 
                 // Ensure the directory exists, or create it if it doesn't
@@ -481,7 +481,7 @@ namespace Ecommerce_Api.Repository
                     await imageFile.CopyToAsync(stream);
                 }
 
-                return "E:/Visual Studio/Ecommerce_Api/Assests/Images/Category_images/" + fileName; // Store the relative URL in the database
+                return "C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images" + fileName; // Store the relative URL in the database
             }
             catch (Exception ex)
             {

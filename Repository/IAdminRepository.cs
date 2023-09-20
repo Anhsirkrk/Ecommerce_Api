@@ -18,7 +18,7 @@ namespace Ecommerce_Api.Repository
         Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM);
         Task<Product> UploadProductImage(int product_id, IFormFile imagefile);
         Task<string> DeleteProduct(int product_id);
-        Task<Product> UpdateProduct(ProductViewModel UPVM);
+        Task<Product> UpdateProduct(UpdateProductViewModel UPVM);
         Task<List<Product>> GetAllProducts();
         Task<List<Product>> GetProductById(List<int> product_id); 
 
