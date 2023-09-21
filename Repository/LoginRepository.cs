@@ -44,9 +44,6 @@ namespace Ecommerce_Api.Repository
                 return user;
 
             }
-
-
-
             }
         public User CreateUser(User newuser)
         {

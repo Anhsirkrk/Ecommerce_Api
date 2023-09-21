@@ -130,22 +130,37 @@ namespace Ecommerce_Api.Repository
                         };
                         var createcart = await context.ShoppingCarts.AddAsync(newCart);
                         await context.SaveChangesAsync();
-                        foreach(int productid in cartviewmodel.ProductsList)
-                        {
-                            foreach(int quantityofProItem in cartviewmodel.Quantitiesofeachproduct)
+
+                        for (int i = 0 ,  j = 0; i < cartviewmodel.ProductsList.Count && j< cartviewmodel.Quantitiesofeachproduct.Count; i++,j++)
                             {
-                                     var newacartitems = new ShoppingCartItem
-                                     {
-                                         CartId = newCart.CartId,
-                                         ProductId = productid,
-                                         Quantity = quantityofProItem
-                                     };
-                                var insertitems = await context.ShoppingCartItems.AddAsync(newacartitems);
-                                await context.SaveChangesAsync();
-                                cartviewmodel.Resultmessage = " Added to Cart";
-                                return cartviewmodel;
-                            }
+                            var newacartitems = new ShoppingCartItem
+                            {
+                                CartId = newCart.CartId,
+                                ProductId = cartviewmodel.ProductsList[i],
+                                Quantity = cartviewmodel.Quantitiesofeachproduct[j]
+                            };
+                            var insertitems = await context.ShoppingCartItems.AddAsync(newacartitems);
+                            await context.SaveChangesAsync();
+                            cartviewmodel.Resultmessage = " Added to Cart";
+
                         }
+                        //foreach (int productid in cartviewmodel.ProductsList)
+                        //{
+                        //    foreach(int quantityofProItem in cartviewmodel.Quantitiesofeachproduct)
+                        //    {
+                        //             var newacartitems = new ShoppingCartItem
+                        //             {
+                        //                 CartId = newCart.CartId,
+                        //                 ProductId = productid,
+                        //                 Quantity = quantityofProItem
+                        //             };
+                        //        var insertitems = await context.ShoppingCartItems.AddAsync(newacartitems);
+                        //        await context.SaveChangesAsync();
+                        //        cartviewmodel.Resultmessage = " Added to Cart";
+                                
+                        //    }
+                        //}
+                        return cartviewmodel;
                         // Assuming both lists have the same length
                         //for (int i = 0; i < cartviewmodel.ProductsList.Count; i++)
                         //{

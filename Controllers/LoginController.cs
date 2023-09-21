@@ -26,8 +26,7 @@ namespace Ecommerce_Api.Controllers
         //[Route("GetUserByMobileNumber")]
         [HttpPost]
         [Route("GetUserByMobileNumber")]
-        public async Task<IActionResult> GetUserByMobileNumber(LoginViewModel loginViewModel)
-
+        public async Task<IActionResult> GetUserByMobileNumber([FromBody] LoginViewModel loginViewModel)
         {
             try
             {
@@ -36,14 +35,14 @@ namespace Ecommerce_Api.Controllers
                     if (loginViewModel != null)
                     {
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
-                        if (user != null)
+                        if (user != null && user.UserFound==true)
                         {
                             return Ok(user);
 
                         }
                         else
                         {
-                            return BadRequest(user);
+                            return Ok(user);
                         }
                     }
                 }

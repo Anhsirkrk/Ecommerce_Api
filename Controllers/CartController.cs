@@ -104,7 +104,7 @@ namespace Ecommerce_Api.Controllers
 
         [HttpPost]
         [Route("CreateCartForUserMultipleProductsAtOnce")]
-        public async Task<IActionResult> CreateCartForUserMultipleProductsAtOnce(CartViewModel cvm)
+        public async Task<CartViewModel> CreateCartForUserMultipleProductsAtOnce(CartViewModel cvm)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace Ecommerce_Api.Controllers
                     var newcart = await icr.CreateCartForUserMultipleProductsAtOnce(cvm);
                     if (newcart != null)
                     {
-                        return (IActionResult)newcart;
+                        return newcart;
                     }
 
 
@@ -123,7 +123,8 @@ namespace Ecommerce_Api.Controllers
             {
                 throw ex;
             }
-            return BadRequest();
+            cvm.Resultmessage = "not inserted to cart";
+            return cvm;
         }
 
     }
