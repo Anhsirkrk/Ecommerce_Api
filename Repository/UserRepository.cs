@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Repository
 {
@@ -86,6 +87,29 @@ namespace Ecommerce_Api.Repository
 
         }
 
+    //Get Products by brand
+        public async Task<List<TotalViewModel>> GetProductsByBrand(int brand_Id)
+        {
+            try
+            {
+                var product = await (from b in context.Brands
+                                     join p in context.Products on b.BrandId equals p.BrandId
+                                     where p.BrandId == brand_Id select new TotalViewModel
+                                     {
+                                         ProductName = p.ProductName,
+                                         Price = p.Price,
+                                         StockQuantity = p.StockQuantity,
+                                         Weight= (decimal)p.Weight,
+                                         Unit=p.Unit,
+                                         ImageUrl=p.ImageUrl,
+                                     }).ToListAsync();
+                return product;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
