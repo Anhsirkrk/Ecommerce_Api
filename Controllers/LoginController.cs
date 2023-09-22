@@ -29,6 +29,10 @@ namespace Ecommerce_Api.Controllers
         public async Task<IActionResult> GetUserByMobileNumber([FromBody] LoginViewModel loginViewModel)
         {
             try
+            
+            
+            
+            
             {
                 if (context != null)
                 {
@@ -44,9 +48,42 @@ namespace Ecommerce_Api.Controllers
                         {
                             return Ok(user);
                         }
+                        
                     }
                 }
-                return null;
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("GetUserByEmail")]
+        public async Task<IActionResult> GetUserByEmail([FromBody] LoginViewModel loginViewModel)
+        {
+            try
+            {
+                if (context != null)
+                {
+                    if (loginViewModel != null)
+                    {
+                        var user = await _ipr.GetUserByEmail(loginViewModel);
+                        if (user != null && user.UserFound == true)
+                        {
+                            return Ok(user);
+
+                        }
+                        else
+                        {
+                            return Ok(user);
+                        }
+
+                    }
+                }
+                return BadRequest();
             }
             catch (Exception ex)
             {

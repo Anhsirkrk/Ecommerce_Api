@@ -7,6 +7,8 @@ namespace Ecommerce_Api.Repository
     {
 
         Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel);
+
+        Task<LoginViewModel> GetUserByEmail(LoginViewModel loginViewModel);
         //public Users GetUserByMobileNumber(decimal mobileNumber);
         public User CreateUser(User newuser);
     }

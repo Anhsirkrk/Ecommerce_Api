@@ -31,9 +31,11 @@ namespace Ecommerce_Api.Repository
                             Lastname = userviewmodel.Lastname,
                             Mobile = userviewmodel.Mobile,
                             Email = userviewmodel.Email,
+                            IsActive = userviewmodel.IsActive,
                         };
                         var res = await context.Users.AddAsync(user);
                         await context.SaveChangesAsync();
+                        userviewmodel.isusercreated = true;
                         CartViewModel cvm = new CartViewModel();
                         cvm.UserId = user.UserId;
                         var creatinngcart = await CreateCart(cvm);

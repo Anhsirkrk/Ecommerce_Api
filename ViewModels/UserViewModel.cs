@@ -13,6 +13,7 @@
         public bool IsActive { get; set; }
         public bool UserFound { get; set; }
         public string ResultMessage { get; set; }
+        public bool isusercreated { get; set; }
 
     }
 }

@@ -37,7 +37,7 @@ namespace Ecommerce_Api.Repository
                     Email = item.Email,
                     Firstname = item.Firstname,
                     Lastname = item.Lastname,
-                    //Mobile = item.Mobile,
+                    Mobile = item.Mobile,
                     UserTypeId = item.UserTypeId,
 
                 };
@@ -45,6 +45,41 @@ namespace Ecommerce_Api.Repository
 
             }
             }
+
+        public async Task<LoginViewModel> GetUserByEmail(LoginViewModel loginViewModel)
+        {
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email);
+            if (item == null)
+            {
+                var user = new LoginViewModel
+                {
+                    UserFound = false,
+                    ResultMessage = "User not found"
+                };
+                return user;
+
+            }
+            else
+            {
+                var user = new LoginViewModel
+                {
+                    UserFound = true,
+                    UserId = item.UserId,
+                    Username = item.Username,
+                    Password = item.Password,
+                    Email = item.Email,
+                    Firstname = item.Firstname,
+                    Lastname = item.Lastname,
+                    Mobile = item.Mobile,
+                    UserTypeId = item.UserTypeId,
+
+                };
+                return user;
+
+            }
+        }
+
+
         public User CreateUser(User newuser)
         {
             _context.Users.Add(newuser);
