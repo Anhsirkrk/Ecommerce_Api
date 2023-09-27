@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Assests/Images/Category_images/curd.png
+/Assests/Images/Category_images/Curd.png
