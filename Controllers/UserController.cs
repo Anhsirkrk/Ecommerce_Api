@@ -21,7 +21,6 @@ namespace Ecommerce_Api.Controllers
 
         [HttpPost]
         [Route("CreateUser")]
-
         public async Task<IActionResult> CreateUser(UserViewModel userviewmodel)
         {
             try
@@ -38,6 +37,27 @@ namespace Ecommerce_Api.Controllers
                 return StatusCode(500, $"Internal server error :{ex.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("GetProductsByBrand")]
+        public async Task<List<TotalViewModel>> GetProductsByBrand(int brand_Id)
+        {
+            try
+            {
+                if (brand_Id != 0)
+                {
+                    return await iur.GetProductsByBrand(brand_Id);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
 
     }
 }

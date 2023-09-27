@@ -8,6 +8,9 @@ namespace Ecommerce_Api.Repository
     public interface IUserRepository
     {
         public Task<UserViewModel> CreateUser(UserViewModel userViewModel);
+
+        //Get by Brand
+        Task<List<TotalViewModel>> GetProductsByBrand(int brand_Id);
     }
 
 }
