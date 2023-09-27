@@ -28,11 +28,7 @@ namespace Ecommerce_Api.Controllers
         [Route("GetUserByMobileNumber")]
         public async Task<IActionResult> GetUserByMobileNumber([FromBody] LoginViewModel loginViewModel)
         {
-            try
-            
-            
-            
-            
+            try            
             {
                 if (context != null)
                 {
