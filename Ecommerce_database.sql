@@ -1,3 +1,8 @@
+*** ADDED A COLUMN IN PORODUCTS TABLE *****
+
+
+
+
 create database Ecommercedemo
 use Ecommercedemo
 
@@ -5,7 +10,6 @@ use Ecommercedemo
 --subscription related to order
 ----product based subscription , multiple products subscription 
 -----Discount id in product table
-
 
 
 
@@ -35,12 +39,15 @@ create table Users (
 	   CONSTRAINT FK_usertypeid_User_types FOREIGN KEY (user_type_id) REFERENCES User_types(Type_id)
 	   )
 
+	   ALTER TABLE Users
+	   alter column Mobile varchar(20)
+
 -- Insert data for users
 	   INSERT INTO Users (user_type_id, Username, Password, Firstname, Lastname, Mobile, Email, IsActive)
 VALUES
-(1, 'Krishna', 'pass@123', 'Krishna', 'Admin', 1234567890, 'admin@example.com', 1),
-(2, 'Shiva', 'pass@123', 'Shiva', 'User', 9876543210, 'user@example.com', 1),
-(3, 'Bhaskar', 'pass@123', 'Bhaskar', 'Vendor', 5555555555, 'vendor@example.com', 1);
+(1, 'KrishnaU', 'pass@123', 'KrishnaU', 'Admin', 1234567890, 'amin@example.com', 1),
+(2, 'ShivaU', 'pass@123', 'Shiva', 'User', 9876543210, 'user1@example.com', 1),
+(3, 'BhaskaUr', 'pass@123', 'Bhaskar', 'Vendor', 5555555555, 'vendo1r@example.com', 1);
 
 
 
@@ -108,15 +115,17 @@ Description varchar(1000),
 CONSTRAINT FK_Category_Id_Category FOREIGN KEY (Category_Id) REFERENCES Category(Category_Id),
 CONSTRAINT FK_Brand_Id_Brand FOREIGN KEY (Brand_Id) REFERENCES Brand(Brand_id),
 CONSTRAINT FK_Discount_Id FOREIGN KEY (Discount_id) REFERENCES Discount(Discount_id)
-
 )
+
+ALTER TABLE Product
+ADD Quantities_Available decimal ;
 
 -- insert data into products
 INSERT INTO Product (Category_Id, Brand_Id, Product_Name, StockQuantity, Price, Weight, Unit, ImageURL, IsAvailable, ExpiryDate, ManufactureDate, Discount_id, Description)
 VALUES
-(1, 1, 'Product1', 100, 20.00, 0.5, 'kg', '/images/product1.jpg', 1, '2023-12-31', '2023-01-01', 1, 'Description for Product 1'),
-(2, 2, 'Product2', 75, 25.00, 1.0, 'piece', '/images/product2.jpg', 1, '2023-12-31', '2023-01-01', 2, 'Description for Product 2'),
-(3, 3, 'Product3', 50, 15.00, 0.25, 'liter', '/images/product3.jpg', 1, '2023-12-31', '2023-01-01', 3, 'Description for Product 3');
+(1, 2, 'Product1', 100, 20.00, 0.5, 'kg', '/images/product1.jpg', 1, '2023-12-31', '2023-01-01', 1, 'Description for Product 1'),
+(3, 3, 'Product2', 75, 25.00, 1.0, 'piece', '/images/product2.jpg', 1, '2023-12-31', '2023-01-01', 2, 'Description for Product 2'),
+(4, 5, 'Product3', 50, 15.00, 0.25, 'liter', '/images/product3.jpg', 1, '2023-12-31', '2023-01-01', 3, 'Description for Product 3');
 
 
 
@@ -135,7 +144,7 @@ INSERT INTO subscription_type (Subscription_Type) VALUES
 
 
 CREATE TABLE ShoppingCarts (
-    CartID INT IDENTITY(1,1) PRIMARY KEY,
+    CartID INT PRIMARY KEY  IDENTITY(1,1),
     UserID INT,
     CreatedAt DATETIME default current_timestamp,
     FOREIGN KEY (UserID) REFERENCES Users(User_Id)
@@ -239,9 +248,9 @@ constraint Fk_SubscriptionId_subscriptions foreign key (Subscription_Type_Id) re
 )
 
 INSERT INTO OrderItems (Order_Id, Product_Id, Product_Price, Quantity, Subscription_Type_Id, Start_Date, End_Date) VALUES
-(1, 3, 25.00, 2, 2, '2023-09-15', '2023-10-15'), -- Order 1 includes Product 3
-(2, 1, 20.00, 3, 1, '2023-09-15', '2024-09-15'), -- Order 2 includes Product 1
-(3, 2, 15.00, 4, 3, '2023-09-15', '2024-09-15'); -- Order 3 includes Product 2
+(1, 4, 25.00, 2, 2, '2023-09-15', '2023-10-15'), -- Order 1 includes Product 3
+(2, 6, 20.00, 3, 1, '2023-09-15', '2024-09-15'), -- Order 2 includes Product 1
+(3, 10, 15.00, 4, 3, '2023-09-15', '2024-09-15'); -- Order 3 includes Product 2
 
 
 -- Payments table to store payment information
@@ -309,8 +318,7 @@ CREATE TABLE Vendors (
     NameofVendor VARCHAR(100),
 	Brand_ID int ,
     Address VARCHAR(255),
-    ContactEmail VARCHAR(100),
-    ContactPhone VARCHAR(15),
+    ContactEmail VARCHAR(100),    ContactPhone VARCHAR(15),
     Description TEXT,
     LogoURL VARCHAR(255) -- URL to vendor logo,
 	    FOREIGN KEY (Brand_ID) REFERENCES Brand(Brand_id)
@@ -357,5 +365,4 @@ select * from ShoppingCarts;
 select * from User_types;
 select * from subscription_type;
 select * from Vendors;
-
 
