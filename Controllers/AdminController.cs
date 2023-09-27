@@ -2,7 +2,11 @@
 using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.IO;
+using System.Drawing.Imaging;
+
 
 namespace Ecommerce_Api.Controllers
 {
@@ -12,9 +16,11 @@ namespace Ecommerce_Api.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminRepository _iar;
+        private readonly EcommercedemoContext _context;
 
-        public AdminController(IAdminRepository iar)
+        public AdminController(IAdminRepository iar, EcommercedemoContext context )
         {
+            _context = context;
             _iar = iar;
         }
 
@@ -22,6 +28,7 @@ namespace Ecommerce_Api.Controllers
         [HttpPost]
         [Route("CreateCategory")]
         public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
+        
         {
             try
             {
@@ -275,8 +282,52 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+        [HttpPost]
+        [Route("GetDetailsAndImagesOfCategories")]
+        public async Task<IActionResult> GetDetailsAndImagesOfCategories(List<int> ids)
+        {
+            if (_context != null)
+            {
+                List<CategoryDetailsWithImage_> CategoryDetailsWithImage_s = new List<CategoryDetailsWithImage_>();
 
-    
+                foreach (int id in ids)
+                {
+                    var user = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
+                    if (user != null)
+                    {
+                        var imageurl = user.ImageUrl;
+                        using (var image = System.Drawing.Image.FromFile(imageurl))
+                        {
+                            ImageFormat format = image.RawFormat;
+                            var memorystream = new MemoryStream();
+                            image.Save(memorystream, format);
 
+                            // Convert the image to base64 string
+                            string base64Image = Convert.ToBase64String(memorystream.ToArray());
+
+                            // Create a CategoryDetailsWithImage_ object
+                            CategoryDetailsWithImage_ CategoryDetailsWithImage_ = new CategoryDetailsWithImage_
+                            {
+                                UserId = user.CategoryId,
+                                UserName = user.CategoryName,
+                                Base64Image = base64Image
+                            };
+
+                            CategoryDetailsWithImage_s.Add(CategoryDetailsWithImage_);
+                        }
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+
+                return Ok(CategoryDetailsWithImage_s);
+            }
+
+            return BadRequest();
+        }
     }
+
 }
+
