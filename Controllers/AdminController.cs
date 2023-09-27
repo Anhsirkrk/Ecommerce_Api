@@ -112,7 +112,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
-        //brand
+    //brand
         [HttpPost]
         [Route("CreateBrand")]
         public async Task<Brand> CreateBrand(string brandName)
