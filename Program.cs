@@ -1,3 +1,4 @@
+using Ecommerce_Api;
 using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,11 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IloginRepository, LoginRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>(); // Example, replace CartRepository with your actual implementation
+builder.Services.AddSwaggerGen(c =>
+{
+    // ... (other configurations)
+    c.OperationFilter<AddFileParamTypesOperationFilter>();
+});
 
 
 var app = builder.Build();

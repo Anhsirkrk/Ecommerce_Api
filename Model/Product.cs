@@ -13,33 +13,15 @@ public partial class Product
 
     public string ProductName { get; set; } = null!;
 
-    public int StockQuantity { get; set; }
-
-    public decimal Price { get; set; }
-
-    public decimal? Weight { get; set; }
-
-    public string? Unit { get; set; }
-
     public string ImageUrl { get; set; } = null!;
-
-    public bool? IsAvailable { get; set; }
-
-    public DateTime ExpiryDate { get; set; }
-
-    public DateTime? ManufactureDate { get; set; }
-
-    public int DiscountId { get; set; }
-
-    public string? Description { get; set; }
 
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual Discount Discount { get; set; } = null!;
-
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+    public virtual ICollection<ProductItemDetail> ProductItemDetails { get; set; } = new List<ProductItemDetail>();
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
