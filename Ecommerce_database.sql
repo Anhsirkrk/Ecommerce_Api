@@ -1,368 +1,623 @@
-*** ADDED A COLUMN IN PORODUCTS TABLE *****
-
-
-
-
-create database Ecommercedemo
-use Ecommercedemo
-
---*********************Doubts**********************---- 
---subscription related to order
-----product based subscription , multiple products subscription 
------Discount id in product table
-
-
-
-
-create table User_types (
-Type_id int  primary key identity(1,1),
-User_Type varchar(20)
-)
-
-insert into User_types(User_Type)
-values('Admin'),
-	('User'),
-	('Vendor'),
-	('Deliveryboy');
-
--- Users table to store customer information
-create table Users (
- User_Id INT PRIMARY KEY IDENTITY(1, 1),
- user_type_id int not null,
-    Username VARCHAR(50) UNIQUE not null,
-	Password VARCHAR(100) not null, -- Store hashed and salted passwords,
-    Firstname VARCHAR(50) not null,
-    Lastname VARCHAR(50)not null,
-    Mobile DECIMAL(10) not null,
-    Email VARCHAR(50) UNIQUE not null,
-	IsActive bit,
-	   CONSTRAINT FK_usertypeid_User_types FOREIGN KEY (user_type_id) REFERENCES User_types(Type_id)
-	   )
-
-	   ALTER TABLE Users
-	   alter column Mobile varchar(20)
-
--- Insert data for users
-	   INSERT INTO Users (user_type_id, Username, Password, Firstname, Lastname, Mobile, Email, IsActive)
-VALUES
-(1, 'KrishnaU', 'pass@123', 'KrishnaU', 'Admin', 1234567890, 'amin@example.com', 1),
-(2, 'ShivaU', 'pass@123', 'Shiva', 'User', 9876543210, 'user1@example.com', 1),
-(3, 'BhaskaUr', 'pass@123', 'Bhaskar', 'Vendor', 5555555555, 'vendo1r@example.com', 1);
-
-
-
-
-create table Brand (
-Brand_id int primary key identity(1,1),
-Brand_Name varchar(150) not null
-)
--- insert data into brand
-
-INSERT INTO Brand (Brand_Name) VALUES
-('Heritage'),
-('Hutsun'),
-('Amul');
-
-
--- Categories table to classify grocery items
-create table Category (
-Category_Id int primary key identity(1,1),
-Category_Name varchar(50) not null,
-Description varchar(500),
-ImageURL VARCHAR(255) -- URL to category image
-)
-
--- insert data into category
-INSERT INTO Category (Category_Name, Description, ImageURL) VALUES
-('Category1', 'Description for Category 1', '/images/category1.jpg'),
-('Category2', 'Description for Category 2', '/images/category2.jpg'),
-('Category3', 'Description for Category 3', '/images/category3.jpg');
-
-
-create table Discount
+USE [Ecommercedemo]
+GO
+/****** Object:  Table [dbo].[Brand]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Brand](
+	[Brand_id] [int] IDENTITY(1,1) NOT NULL,
+	[Brand_Name] [varchar](150) NOT NULL,
+	[Imageurl] [varchar](300) NULL,
+	[BrandDescription] [text] NULL,
+	[Category_id] [int] NULL,
+PRIMARY KEY CLUSTERED 
 (
-Discount_Id int primary key identity(1,1),
-Discount_percentage decimal(10,2),
-start_date date,
-end_date date
-)
-
---insert data into discount
-INSERT INTO Discount (Discount_percentage, start_date, end_date) VALUES
-(0.00, '2023-09-01', '2023-09-30'),
-(10.00, '2023-09-01', '2023-09-30'),
-(15.00, '2023-09-01', '2023-09-30'),
-(20.00, '2023-09-01', '2023-09-30');
-
-
--- Products table to store  items
-create table Product
+	[Brand_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[Category_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Category_Name] [varchar](50) NOT NULL,
+	[Description] [varchar](500) NULL,
+	[ImageURL] [varchar](255) NULL,
+PRIMARY KEY CLUSTERED 
 (
-Product_Id int primary key identity(1,1),
-Category_Id  int not null,
-Brand_Id int not null,
-Product_Name varchar(50) not null,
-StockQuantity INT not null,
-Price decimal(10,2) not null,
-Weight DECIMAL(8, 2),
-Unit VARCHAR(20),
-ImageURL VARCHAR(255) not null, 
-IsAvailable bit,
-ExpiryDate DATE not null,
-ManufactureDate DATE,
-Discount_id int not null,
-Description varchar(1000),
-CONSTRAINT FK_Category_Id_Category FOREIGN KEY (Category_Id) REFERENCES Category(Category_Id),
-CONSTRAINT FK_Brand_Id_Brand FOREIGN KEY (Brand_Id) REFERENCES Brand(Brand_id),
-CONSTRAINT FK_Discount_Id FOREIGN KEY (Discount_id) REFERENCES Discount(Discount_id)
-)
-
-ALTER TABLE Product
-ADD Quantities_Available decimal ;
-
--- insert data into products
-INSERT INTO Product (Category_Id, Brand_Id, Product_Name, StockQuantity, Price, Weight, Unit, ImageURL, IsAvailable, ExpiryDate, ManufactureDate, Discount_id, Description)
-VALUES
-(1, 2, 'Product1', 100, 20.00, 0.5, 'kg', '/images/product1.jpg', 1, '2023-12-31', '2023-01-01', 1, 'Description for Product 1'),
-(3, 3, 'Product2', 75, 25.00, 1.0, 'piece', '/images/product2.jpg', 1, '2023-12-31', '2023-01-01', 2, 'Description for Product 2'),
-(4, 5, 'Product3', 50, 15.00, 0.25, 'liter', '/images/product3.jpg', 1, '2023-12-31', '2023-01-01', 3, 'Description for Product 3');
-
-
-
-
-create table subscription_type
+	[Category_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Coupons]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Coupons](
+	[CouponID] [int] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](20) NULL,
+	[Discount] [decimal](5, 2) NULL,
+	[ExpiryDate] [date] NULL,
+	[Description] [text] NULL,
+PRIMARY KEY CLUSTERED 
 (
-Subscription_Id int primary key identity(1,1),
-Subscription_Type varchar(20) not null
-)
-
-INSERT INTO subscription_type (Subscription_Type) VALUES
-('Monthly'),
-('Annual'),
-('Lifetime');
-
-
-
-CREATE TABLE ShoppingCarts (
-    CartID INT PRIMARY KEY  IDENTITY(1,1),
-    UserID INT,
-    CreatedAt DATETIME default current_timestamp,
-    FOREIGN KEY (UserID) REFERENCES Users(User_Id)
-)
-
-
-
-
-INSERT INTO ShoppingCarts ( UserID) VALUES
-( 2), -- User with ID 2 has a shopping cart
-( 3), -- User with ID 3 has a shopping cart
-( 1); -- User with ID 1 has a shopping cart
-
-
-
--- ShoppingCartItems table to store items in user shopping carts
-CREATE TABLE ShoppingCartItems (
-    ItemID INT IDENTITY(1,1) PRIMARY KEY,
-    CartID INT,
-    ProductID INT,
-    Quantity INT NOT NULL,
-    FOREIGN KEY (CartID) REFERENCES ShoppingCarts(CartID),
-    FOREIGN KEY (ProductID) REFERENCES Product(Product_ID)
-);
-
-
-
-INSERT INTO ShoppingCartItems ( CartID, ProductID, Quantity) VALUES
-( 1, 4, 3), -- User 2's cart has 3 units of Product with ID 4
-( 2, 2, 2), -- User 3's cart has 2 units of Product with ID 2
-( 3, 5, 1); -- User 1's cart has 1 unit of Product with ID 5
-
-
-
-
--- Coupons table to manage discount coupons
-CREATE TABLE Coupons (
-    CouponID INT PRIMARY KEY identity(1,1),
-    Code VARCHAR(20) UNIQUE,
-    Discount DECIMAL(5, 2), -- Discount percentage
-    ExpiryDate DATE,
-    Description TEXT
-);
-
-INSERT INTO Coupons (Code, Discount, ExpiryDate, Description) VALUES
-('COUPON10', 10.00, '2023-09-30', '10% off coupon'),
-('COUPON15', 15.00, '2023-09-30', '15% off coupon'),
-('COUPON20', 20.00, '2023-09-30', '20% off coupon');
-
-
--- UserCoupons table to link users to coupons they've used
-CREATE TABLE UserCoupons (
-    UserCouponID INT PRIMARY KEy identity(1,1),
-    UserID INT,
-    CouponID INT,
-    UsageDate date DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(User_Id),
-    FOREIGN KEY (CouponID) REFERENCES Coupons(CouponID)
-);
-
-INSERT INTO UserCoupons (UserID, CouponID) VALUES
-(1, 1), -- User 1 used Coupon 1
-(2, 2), -- User 2 used Coupon 2
-(3, 3); -- User 3 used Coupon 3
-
-
--- Orders table to store customer orders
-
-create table Orders (
-Order_Id int primary key identity(1,1),
-User_id int not null,
-Subscription_Type_Id int not null,
-Total_Amount decimal(10,2) not null,
-Order_Date date, 
-Start_Date date not null,
-End_Date date not null,
-constraint Fk_UserId_User foreign key (User_id) references Users(User_Id),
-constraint Fk_SubscriptionId_Subscription foreign key (Subscription_Type_Id) references subscription_type(Subscription_Id)
-)
-
-INSERT INTO Orders (User_id, Subscription_Type_Id, Total_Amount, Order_Date, Start_Date, End_Date) VALUES
-(1, 2, 100.00, '2023-09-14', '2023-09-15', '2024-09-14'),
-(2, 1, 50.00, '2023-09-14', '2023-09-15', '2023-10-14'),
-(3, 3, 75.00, '2023-09-14', '2023-09-15', '2024-09-14');
-
-
-
--- OrderItems table to link products to orders
-create table OrderItems(
-ItemId int primary key identity(1,1),
-Order_Id int not null ,
-Product_Id int not null,
-Product_Price decimal not null,
-Quantity int ,
-Subscription_Type_Id int not null,
-Start_Date date not null,
-End_Date date not null,
-constraint Fk_OrderId_Orders foreign key (Order_Id) references Orders(Order_Id),
-constraint Fk_ProductId_Products foreign key (Product_Id) references Product(Product_Id),
-constraint Fk_SubscriptionId_subscriptions foreign key (Subscription_Type_Id) references subscription_type(Subscription_Id)
-)
-
-INSERT INTO OrderItems (Order_Id, Product_Id, Product_Price, Quantity, Subscription_Type_Id, Start_Date, End_Date) VALUES
-(1, 4, 25.00, 2, 2, '2023-09-15', '2023-10-15'), -- Order 1 includes Product 3
-(2, 6, 20.00, 3, 1, '2023-09-15', '2024-09-15'), -- Order 2 includes Product 1
-(3, 10, 15.00, 4, 3, '2023-09-15', '2024-09-15'); -- Order 3 includes Product 2
-
-
--- Payments table to store payment information
-CREATE TABLE Payments (
-    PaymentID INT PRIMARY KEY identity(1,1),
-    OrderID INT not null,
-    PaymentDate date DEFAULT CURRENT_TIMESTAMP,
-    PaymentMethod VARCHAR(50) not null,
-    Amount DECIMAL(10, 2) not null,
-    TransactionID VARCHAR(100) not null,
-	Payment_Status varchar(20)  CHECK (Payment_Status IN ('pending', 'completed', 'failed')),
-    FOREIGN KEY (OrderID) REFERENCES Orders(Order_Id)
-);
-
-
-INSERT INTO Payments (OrderID, PaymentMethod, Amount, TransactionID, Payment_Status) VALUES
-(1, 'Credit Card', 100.00, '1234567890', 'completed'),
-(2, 'PayPal', 50.00, '9876543210', 'completed'),
-(3, 'Credit Card', 75.00, '5555555555', 'completed');
-
-
-
-
-CREATE TABLE UserSubscriptions (
-    UserSubscriptionID INT identity(1,1) PRIMARY KEY,
-    User_ID INT not null,
-    Subscription_TypeId int not null,
-	Order_id int not null,
-    StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL ,
-	Subscription_Price decimal(10,2) not null,
-    IsActive bit NOT NULL DEFAULT 1, -- Indicates if the subscription is active
-    FOREIGN KEY (User_ID) REFERENCES Users(User_ID),
-    FOREIGN KEY (Subscription_TypeId) REFERENCES subscription_type(Subscription_Id)
-);
-
-
-INSERT INTO UserSubscriptions (User_ID, Subscription_TypeId, Order_id, StartDate, EndDate, Subscription_Price,IsActive) VALUES
-(1, 3, 1, '2023-09-15', '2024-09-15', 75.00,1), -- User 1 has a lifetime subscription
-(2, 2, 2, '2023-09-15', '2024-09-15', 100.00,1), -- User 2 has an annual subscription
-(3, 1, 3, '2023-09-15', '2023-10-15', 50.00,1); -- User 3 has a monthly subscription
-
-
-CREATE TABLE Reviews (
-    ReviewID INT PRIMARY KEY Identity(1,1),
-    UserID INT,
-    ProductID INT,
-    Rating INT, -- 1 to 5 rating
-    Comment TEXT,
-    ReviewDate date DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(User_Id),
-    FOREIGN KEY (ProductID) REFERENCES Product(Product_Id)
-);
-
-
-INSERT INTO Reviews (UserID, ProductID, Rating, Comment) VALUES
-(1, 1, 5, 'Great product!'),
-(2, 2, 4, 'Good value for money.'),
-(3, 3, 5, 'Excellent quality.');
-
-
--- Vendors table to manage product suppliers
-CREATE TABLE Vendors (
-    VendorID INT PRIMARY KEY identity(1,1),
-    NameofVendor VARCHAR(100),
-	Brand_ID int ,
-    Address VARCHAR(255),
-    ContactEmail VARCHAR(100),    ContactPhone VARCHAR(15),
-    Description TEXT,
-    LogoURL VARCHAR(255) -- URL to vendor logo,
-	    FOREIGN KEY (Brand_ID) REFERENCES Brand(Brand_id)
-
-);
-
-INSERT INTO Vendors (NameofVendor, Brand_ID, Address, ContactEmail, ContactPhone, Description, LogoURL) VALUES
-('Vendor1', 1, '123 Vendor St', 'vendor1@example.com', '123-456-7890', 'Vendor 1 description.', '/images/vendor1.jpg'),
-('Vendor2', 2, '456 Vendor Rd', 'vendor2@example.com', '987-654-3210', 'Vendor 2 description.', '/images/vendor2.jpg'),
-('Vendor3', 3, '789 Vendor Ave', 'vendor3@example.com', '555-555-5555', 'Vendor 3 description.', '/images/vendor3.jpg');
-
-
-create table Log
+	[CouponID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Discount]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Discount](
+	[Discount_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Discount_percentage] [decimal](10, 2) NULL,
+	[start_date] [date] NULL,
+	[end_date] [date] NULL,
+PRIMARY KEY CLUSTERED 
 (
-LogId int primary key identity(1,1),
-LogDate Datetime,
-EventDescription varchar(300),
-User_Id int,
-foreign key (User_Id) references Users(User_Id),
-CONSTRAINT CK_ValidEventDescription CHECK (EventDescription IN ('Login', 'Logoff', 'Passwordchanged','Product_added','Product_Removed','Product_Discount_Changed'))
-);
+	[Discount_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Log]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Log](
+	[LogId] [int] IDENTITY(1,1) NOT NULL,
+	[LogDate] [datetime] NULL,
+	[EventDescription] [varchar](300) NULL,
+	[User_Id] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LogId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderItems]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderItems](
+	[ItemId] [int] IDENTITY(1,1) NOT NULL,
+	[Order_Id] [int] NOT NULL,
+	[Product_Id] [int] NOT NULL,
+	[Product_Price] [decimal](18, 0) NOT NULL,
+	[Quantity] [int] NULL,
+	[Subscription_Type_Id] [int] NOT NULL,
+	[Start_Date] [date] NOT NULL,
+	[End_Date] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ItemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Orders]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Orders](
+	[Order_Id] [int] IDENTITY(1,1) NOT NULL,
+	[User_id] [int] NOT NULL,
+	[Subscription_Type_Id] [int] NOT NULL,
+	[Total_Amount] [decimal](10, 2) NOT NULL,
+	[Order_Date] [date] NULL,
+	[Start_Date] [date] NOT NULL,
+	[End_Date] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Order_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Payments]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payments](
+	[PaymentID] [int] IDENTITY(1,1) NOT NULL,
+	[OrderID] [int] NOT NULL,
+	[PaymentDate] [date] NULL,
+	[PaymentMethod] [varchar](50) NOT NULL,
+	[Amount] [decimal](10, 2) NOT NULL,
+	[TransactionID] [varchar](100) NOT NULL,
+	[Payment_Status] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PaymentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Product]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product](
+	[Product_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Category_Id] [int] NOT NULL,
+	[Brand_Id] [int] NOT NULL,
+	[Product_Name] [varchar](50) NOT NULL,
+	[ImageURL] [varchar](255) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Product_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductItemDetails]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductItemDetails](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Product_Id] [int] NULL,
+	[Unit] [varchar](20) NULL,
+	[SizeOfEachUnit] [decimal](10, 0) NULL,
+	[WeightOfEachUnit] [decimal](18, 0) NULL,
+	[StockOfEachUnit] [decimal](18, 0) NULL,
+	[PRICE] [decimal](18, 0) NULL,
+	[IsAvailable] [bit] NULL,
+	[ManufactureDate] [date] NULL,
+	[ExpiryDate] [date] NULL,
+	[Discount_id] [int] NULL,
+	[Available_Quantity] [decimal](18, 0) NULL,
+	[Description] [text] NULL,
+	[AddedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Reviews]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reviews](
+	[ReviewID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[ProductID] [int] NULL,
+	[Rating] [int] NULL,
+	[Comment] [text] NULL,
+	[ReviewDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ReviewID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ShoppingCartItems]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ShoppingCartItems](
+	[ItemID] [int] IDENTITY(1,1) NOT NULL,
+	[CartID] [int] NULL,
+	[ProductID] [int] NULL,
+	[Quantity] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ShoppingCarts]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ShoppingCarts](
+	[CartID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[CreatedAt] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CartID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[subscription_type]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[subscription_type](
+	[Subscription_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Subscription_Type] [varchar](20) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Subscription_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User_types]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User_types](
+	[Type_id] [int] IDENTITY(1,1) NOT NULL,
+	[User_Type] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Type_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserCoupons]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserCoupons](
+	[UserCouponID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[CouponID] [int] NULL,
+	[UsageDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserCouponID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[User_Id] [int] IDENTITY(1,1) NOT NULL,
+	[user_type_id] [int] NOT NULL,
+	[Username] [varchar](50) NOT NULL,
+	[Password] [varchar](100) NOT NULL,
+	[Firstname] [varchar](50) NOT NULL,
+	[Lastname] [varchar](50) NOT NULL,
+	[Mobile] [varchar](20) NULL,
+	[Email] [varchar](50) NOT NULL,
+	[IsActive] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[User_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserSubscriptions]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserSubscriptions](
+	[UserSubscriptionID] [int] IDENTITY(1,1) NOT NULL,
+	[User_ID] [int] NOT NULL,
+	[Subscription_TypeId] [int] NOT NULL,
+	[Order_id] [int] NOT NULL,
+	[StartDate] [date] NOT NULL,
+	[EndDate] [date] NOT NULL,
+	[Subscription_Price] [decimal](10, 2) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserSubscriptionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Vendors]    Script Date: 02-Oct-23 5:23:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Vendors](
+	[VendorID] [int] IDENTITY(1,1) NOT NULL,
+	[NameofVendor] [varchar](100) NULL,
+	[Brand_ID] [int] NULL,
+	[Address] [varchar](255) NULL,
+	[ContactEmail] [varchar](100) NULL,
+	[ContactPhone] [varchar](15) NULL,
+	[Description] [text] NULL,
+	[LogoURL] [varchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[VendorID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Brand] ON 
 
-INSERT INTO Log (LogDate, EventDescription, User_Id) VALUES
-('2023-09-14 10:00:00', 'Login', 1),
-('2023-09-14 12:30:00', 'Product_added', 2),
-('2023-09-14 15:45:00', 'Order_placed', 3);
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (8, N'Heritage', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Heritage.png', N'heritage products', 11)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (9, N'Thirumala', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Thirumala.png', N'thirumala brand milk', 11)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (10, N'Amul', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Amul.png', N'Amul brand milk', 11)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (11, N'HindusthanTimes', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/HindustanTimes.png', N'ht brand', 12)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (12, N'Times Of India', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/TimesOfIndia.png', N'tms brand', 12)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (13, N'Egg Plant', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/EggPlant.jpg', N'Egg Plant  veggies', 13)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (14, N'Safal', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Safal.png', N'Safal Veggies', 13)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (15, N'MilkyMist', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/MilkyMist.png', N'milkymist', 14)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (16, N'Nestle', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Nestle.jpg', N'Nestle brand', 14)
+SET IDENTITY_INSERT [dbo].[Brand] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Category] ON 
 
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (11, N'Milk', N'Milk Products', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Milk.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (12, N'NewsPapers', N'Contains all publishers ', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Newspapers.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (13, N'Vegetables', N'all kinda of veggies', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Vegetables.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (14, N'Curd', N'curd', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Curd.png')
+SET IDENTITY_INSERT [dbo].[Category] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Discount] ON 
 
-select * from User_types;
-select * from Users;
-select * from UserCoupons;
-select * from UserSubscriptions;
-select * from Product;
-select * from Brand;
-select * from Category;
-select * from Discount;
-select * from Log;
-select * from OrderItems;
-select * from Orders;
-select * from Payments;
-select * from Reviews;
-select * from ShoppingCartItems;
-select * from ShoppingCarts;
-select * from User_types;
-select * from subscription_type;
-select * from Vendors;
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (1, CAST(0.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (2, CAST(10.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (3, CAST(15.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (4, CAST(20.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (5, CAST(0.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (6, CAST(10.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (7, CAST(15.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (8, CAST(20.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (9, CAST(0.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (10, CAST(10.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (11, CAST(15.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (12, CAST(20.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
+SET IDENTITY_INSERT [dbo].[Discount] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Orders] ON 
 
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (1, 1, 2, CAST(100.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (2, 2, 1, CAST(50.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (3, 3, 3, CAST(75.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
+SET IDENTITY_INSERT [dbo].[Orders] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Product] ON 
+
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (22, 11, 8, N'TonedMilk', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/TonedMilk.png')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (23, 12, 12, N'Morning Edition', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/NPTimesOfIndia.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (24, 11, 8, N'Gold Milk', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/GoldMilk.jpg')
+SET IDENTITY_INSERT [dbo].[Product] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ProductItemDetails] ON 
+
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (1, 22, N'ML', CAST(500 AS Decimal(10, 0)), CAST(500 AS Decimal(18, 0)), CAST(1500 AS Decimal(18, 0)), CAST(29 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-11-01' AS Date), 1, CAST(1500 AS Decimal(18, 0)), N'500 ml packets', CAST(N'2023-10-02T11:20:03.560' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (2, 22, N'ML', CAST(1000 AS Decimal(10, 0)), CAST(1000 AS Decimal(18, 0)), CAST(1200 AS Decimal(18, 0)), CAST(57 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-11-01' AS Date), 1, CAST(1200 AS Decimal(18, 0)), N'1000 ml packets', CAST(N'2023-10-02T11:20:22.267' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (3, 23, N'pcs', CAST(1 AS Decimal(10, 0)), CAST(1 AS Decimal(18, 0)), CAST(250 AS Decimal(18, 0)), CAST(7 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(250 AS Decimal(18, 0)), N'morning edition of newspaper', CAST(N'2023-10-02T12:06:37.740' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (4, 24, N'ML', CAST(500 AS Decimal(10, 0)), CAST(500 AS Decimal(18, 0)), CAST(150 AS Decimal(18, 0)), CAST(30 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(150 AS Decimal(18, 0)), N'500 ml gold', CAST(N'2023-10-02T13:23:29.373' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (5, 24, N'ML', CAST(1000 AS Decimal(10, 0)), CAST(1000 AS Decimal(18, 0)), CAST(100 AS Decimal(18, 0)), CAST(60 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(100 AS Decimal(18, 0)), N'1000 ml gold', CAST(N'2023-10-02T13:23:29.380' AS DateTime))
+SET IDENTITY_INSERT [dbo].[ProductItemDetails] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ShoppingCarts] ON 
+
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (1, 2, CAST(N'2023-09-20T11:44:15.090' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (2, 3, CAST(N'2023-09-20T11:44:15.090' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (3, 1, CAST(N'2023-09-20T11:44:15.090' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (4, 3, CAST(N'2023-09-20T16:27:58.247' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (5, 3, CAST(N'2023-09-20T16:32:48.260' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (6, 3, CAST(N'2023-09-20T16:35:16.383' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (7, 11, CAST(N'2023-09-20T16:39:34.993' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (8, 11, CAST(N'2023-09-20T16:40:53.113' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (9, 11, CAST(N'2023-09-20T16:55:27.393' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (10, 17, CAST(N'2023-09-22T15:40:56.277' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (11, 19, CAST(N'2023-09-22T16:51:39.500' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (12, 20, CAST(N'2023-09-22T16:58:05.097' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (13, 21, CAST(N'2023-09-22T17:13:46.320' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (14, 22, CAST(N'2023-09-22T17:15:49.870' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (15, 23, CAST(N'2023-09-22T17:25:04.807' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (16, 24, CAST(N'2023-09-22T17:26:01.747' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (17, 25, CAST(N'2023-09-22T17:28:07.817' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (18, 26, CAST(N'2023-09-22T17:29:33.950' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (19, 27, CAST(N'2023-09-22T17:31:06.683' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (20, 28, CAST(N'2023-09-22T17:31:49.940' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (21, 29, CAST(N'2023-09-22T17:39:34.047' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (22, 30, CAST(N'2023-09-22T17:45:14.543' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (23, 31, CAST(N'2023-09-22T17:45:58.580' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (24, 32, CAST(N'2023-09-22T17:46:25.230' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (25, 33, CAST(N'2023-09-22T17:47:40.423' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (26, 34, CAST(N'2023-09-22T17:52:38.983' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (27, 35, CAST(N'2023-09-22T17:57:32.093' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (28, 36, CAST(N'2023-09-22T19:06:54.540' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (29, 37, CAST(N'2023-09-22T19:07:20.660' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (30, 38, CAST(N'2023-09-22T19:07:57.883' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (31, 39, CAST(N'2023-09-22T19:09:06.653' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (32, 40, CAST(N'2023-09-22T19:14:31.213' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (33, 41, CAST(N'2023-09-22T19:15:08.873' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (34, 42, CAST(N'2023-09-23T12:22:01.303' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (35, 43, CAST(N'2023-09-23T12:28:34.637' AS DateTime))
+SET IDENTITY_INSERT [dbo].[ShoppingCarts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[subscription_type] ON 
+
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (1, N'Monthly')
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (2, N'Annual')
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (3, N'Lifetime')
+SET IDENTITY_INSERT [dbo].[subscription_type] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User_types] ON 
+
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (1, N'Admin')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (2, N'User')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (3, N'Vendor')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (4, N'Deliveryboy')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (5, N'Admin')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (6, N'User')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (7, N'Vendor')
+INSERT [dbo].[User_types] ([Type_id], [User_Type]) VALUES (8, N'Deliveryboy')
+SET IDENTITY_INSERT [dbo].[User_types] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (1, 1, N'Krishna', N'pass@123', N'Krishna', N'Admin', N'1234567890', N'admin@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (2, 2, N'Shiva', N'pass@123', N'Shiva', N'User', N'9876543210', N'user@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (3, 3, N'Bhaskar', N'pass@123', N'Bhaskar', N'Vendor', N'5555555555', N'vendor@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (11, 1, N'KrishnaU', N'pass@123', N'KrishnaU', N'Admin', N'1234567890', N'amin@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (12, 2, N'ShivaU', N'pass@123', N'Shiva', N'User', N'9876543210', N'user1@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (13, 3, N'BhaskaUr', N'pass@123', N'Bhaskar', N'Vendor', N'5555555555', N'vendo1r@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (14, 1, N'vvsg', N'vvsg@123', N'vvsg', N'user', N'9491361441', N'vvsg@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (15, 1, N'vvsg1', N'vvsg@1234', N'vvsg1', N'uservvsg', N'+919491361441', N'vvsg1@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (16, 1, N'mamatha', N'mamath@1234', N'mamatha1', N'mamatha', N'+917680914489', N'mamatha@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (17, 1, N'surya@gmail.com', N'password', N'surya', N'g', N'+919640339222', N'surya@gmail.com', NULL)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (19, 1, N'umesh@gmail.com', N'password', N'umesh', N'null', N'+917894561231', N'umesh@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (20, 1, N'krishna@gmail.com', N'password', N'krishna', N'null', N'+918888888888', N'krishna@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (21, 1, N'vasmi@gmail.com', N'password', N'vamsi', N'null', N'+917777777777', N'vasmi@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (22, 1, N'akhil@gmail.com', N'password', N'akhil', N'null', N'+918529637412', N'akhil@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (23, 1, N'15@gmail.com', N'password', N'user15', N'null', N'+919999999915', N'15@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (24, 1, N'16@gmail.com', N'password', N'user16', N'null', N'+919999999916', N'16@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (25, 1, N'17@gmail.com', N'password', N'user17', N'null', N'+919999999917', N'17@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (26, 1, N'18@gmail.com', N'password', N'user18', N'null', N'+9999999918', N'18@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (27, 1, N'19@gmail.com', N'password', N'user19', N'null', N'+919999999919', N'19@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (28, 1, N'20@gmail.com', N'password', N'user20', N'null', N'+919999999920', N'20@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (29, 1, N'user21@gmail.com', N'password', N'user21', N'null', N'+919999999921', N'user21@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (30, 1, N'user23@gmail.com', N'password', N'user23', N'null', N'+919999999923', N'user23@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (31, 1, N'user24@gmail.com', N'password', N'user24', N'null', N'+919999999924', N'user24@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (32, 1, N'user25@gmail.com', N'password', N'user25', N'null', N'+919999999925', N'user25@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (33, 1, N'user26@gmail.com', N'password', N'user26', N'null', N'+919999999926', N'user26@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (34, 1, N'user27@gmail.com', N'password', N'user27', N'null', N'+919999999927', N'user27@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (35, 1, N'user30@gmail.com', N'password', N'user30', N'null', N'+919999999930', N'user30@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (36, 1, N'user31@gmail.com', N'password', N'user31', N'null', N'+919999999931', N'user31@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (37, 1, N'user32@gmail.com', N'password', N'user32', N'null', N'+919999999932', N'user32@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (38, 1, N'user33@gmail.com', N'password', N'user33', N'null', N'+919999999933', N'user33@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (39, 1, N'user34@gmail.com', N'password', N'user34', N'null', N'+919999999934', N'user34@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (40, 1, N'user35@gmail.com', N'password', N'user34', N'null', N'+919999999935', N'user35@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (41, 1, N'user36@gmail.com', N'password', N'user36', N'null', N'+919999999936', N'user36@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (42, 1, N'user37@gmail.com', N'password', N'user37', N'null', N'+919999999937', N'user37@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (43, 1, N'jane@example.com', N'password', N'jane', N'null', N'+919999999999', N'jane@example.com', 1)
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Coupons__A25C5AA73B8891CC]    Script Date: 02-Oct-23 5:23:01 PM ******/
+ALTER TABLE [dbo].[Coupons] ADD UNIQUE NONCLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__536C85E46B030E97]    Script Date: 02-Oct-23 5:23:01 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__A9D105344E3034C2]    Script Date: 02-Oct-23 5:23:01 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Payments] ADD  DEFAULT (getdate()) FOR [PaymentDate]
+GO
+ALTER TABLE [dbo].[ProductItemDetails] ADD  CONSTRAINT [DF_ProductItemDetails_AddedDate]  DEFAULT (getdate()) FOR [AddedDate]
+GO
+ALTER TABLE [dbo].[Reviews] ADD  DEFAULT (getdate()) FOR [ReviewDate]
+GO
+ALTER TABLE [dbo].[ShoppingCarts] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[UserCoupons] ADD  DEFAULT (getdate()) FOR [UsageDate]
+GO
+ALTER TABLE [dbo].[UserSubscriptions] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[Brand]  WITH CHECK ADD FOREIGN KEY([Category_id])
+REFERENCES [dbo].[Category] ([Category_Id])
+GO
+ALTER TABLE [dbo].[Log]  WITH CHECK ADD FOREIGN KEY([User_Id])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[OrderItems]  WITH CHECK ADD  CONSTRAINT [Fk_OrderId_Orders] FOREIGN KEY([Order_Id])
+REFERENCES [dbo].[Orders] ([Order_Id])
+GO
+ALTER TABLE [dbo].[OrderItems] CHECK CONSTRAINT [Fk_OrderId_Orders]
+GO
+ALTER TABLE [dbo].[OrderItems]  WITH CHECK ADD  CONSTRAINT [Fk_ProductId_Products] FOREIGN KEY([Product_Id])
+REFERENCES [dbo].[Product] ([Product_Id])
+GO
+ALTER TABLE [dbo].[OrderItems] CHECK CONSTRAINT [Fk_ProductId_Products]
+GO
+ALTER TABLE [dbo].[OrderItems]  WITH CHECK ADD  CONSTRAINT [Fk_SubscriptionId_subscriptions] FOREIGN KEY([Subscription_Type_Id])
+REFERENCES [dbo].[subscription_type] ([Subscription_Id])
+GO
+ALTER TABLE [dbo].[OrderItems] CHECK CONSTRAINT [Fk_SubscriptionId_subscriptions]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [Fk_SubscriptionId_Subscription] FOREIGN KEY([Subscription_Type_Id])
+REFERENCES [dbo].[subscription_type] ([Subscription_Id])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [Fk_SubscriptionId_Subscription]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [Fk_UserId_User] FOREIGN KEY([User_id])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [Fk_UserId_User]
+GO
+ALTER TABLE [dbo].[Payments]  WITH CHECK ADD FOREIGN KEY([OrderID])
+REFERENCES [dbo].[Orders] ([Order_Id])
+GO
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Brand_Id_Brand] FOREIGN KEY([Brand_Id])
+REFERENCES [dbo].[Brand] ([Brand_id])
+GO
+ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Brand_Id_Brand]
+GO
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Category_Id_Category] FOREIGN KEY([Category_Id])
+REFERENCES [dbo].[Category] ([Category_Id])
+GO
+ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Category_Id_Category]
+GO
+ALTER TABLE [dbo].[ProductItemDetails]  WITH CHECK ADD FOREIGN KEY([Discount_id])
+REFERENCES [dbo].[Discount] ([Discount_Id])
+GO
+ALTER TABLE [dbo].[ProductItemDetails]  WITH CHECK ADD FOREIGN KEY([Product_Id])
+REFERENCES [dbo].[Product] ([Product_Id])
+GO
+ALTER TABLE [dbo].[Reviews]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([Product_Id])
+GO
+ALTER TABLE [dbo].[Reviews]  WITH CHECK ADD FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[ShoppingCartItems]  WITH CHECK ADD FOREIGN KEY([CartID])
+REFERENCES [dbo].[ShoppingCarts] ([CartID])
+GO
+ALTER TABLE [dbo].[ShoppingCartItems]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([Product_Id])
+GO
+ALTER TABLE [dbo].[ShoppingCarts]  WITH CHECK ADD FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[UserCoupons]  WITH CHECK ADD FOREIGN KEY([CouponID])
+REFERENCES [dbo].[Coupons] ([CouponID])
+GO
+ALTER TABLE [dbo].[UserCoupons]  WITH CHECK ADD FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_usertypeid_User_types] FOREIGN KEY([user_type_id])
+REFERENCES [dbo].[User_types] ([Type_id])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_usertypeid_User_types]
+GO
+ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([Subscription_TypeId])
+REFERENCES [dbo].[subscription_type] ([Subscription_Id])
+GO
+ALTER TABLE [dbo].[UserSubscriptions]  WITH CHECK ADD FOREIGN KEY([User_ID])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[Vendors]  WITH CHECK ADD FOREIGN KEY([Brand_ID])
+REFERENCES [dbo].[Brand] ([Brand_id])
+GO
+ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [CK_ValidEventDescription] CHECK  (([EventDescription]='Product_Discount_Changed' OR [EventDescription]='Product_Removed' OR [EventDescription]='Product_added' OR [EventDescription]='Passwordchanged' OR [EventDescription]='Logoff' OR [EventDescription]='Login'))
+GO
+ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [CK_ValidEventDescription]
+GO
+ALTER TABLE [dbo].[Payments]  WITH CHECK ADD CHECK  (([Payment_Status]='failed' OR [Payment_Status]='completed' OR [Payment_Status]='pending'))
+GO
