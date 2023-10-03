@@ -9,6 +9,14 @@ public partial class Brand
 
     public string BrandName { get; set; } = null!;
 
+    public string? Imageurl { get; set; }
+
+    public string? BrandDescription { get; set; }
+
+    public int? CategoryId { get; set; }
+
+    public virtual Category? Category { get; set; }
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
     public virtual ICollection<Vendor> Vendors { get; set; } = new List<Vendor>();

@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Assests\Images\Brand_images\" />
+    <Folder Include="Assests\Images\Category_images\" />
     <Folder Include="Assests\Images\Product_Images\" />
   </ItemGroup>
 

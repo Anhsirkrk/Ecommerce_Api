@@ -33,6 +33,8 @@ public partial class EcommercedemoContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+    public virtual DbSet<ProductItemDetail> ProductItemDetails { get; set; }
+
     public virtual DbSet<Review> Reviews { get; set; }
 
     public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
@@ -53,7 +55,7 @@ public partial class EcommercedemoContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=KRISHNA\\SQLEXPRESS;Database=Ecommercedemo;Integrated Security=true;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=VVSGHP\\SQLEXPRESS;Database=Ecommercedemo;Integrated Security=true;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,10 +66,19 @@ public partial class EcommercedemoContext : DbContext
             entity.ToTable("Brand");
 
             entity.Property(e => e.BrandId).HasColumnName("Brand_id");
+            entity.Property(e => e.BrandDescription).HasColumnType("text");
             entity.Property(e => e.BrandName)
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("Brand_Name");
+            entity.Property(e => e.CategoryId).HasColumnName("Category_id");
+            entity.Property(e => e.Imageurl)
+                .HasMaxLength(300)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Brands)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK__Brand__Category___4D5F7D71");
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -241,25 +252,14 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.ProductId).HasColumnName("Product_Id");
             entity.Property(e => e.BrandId).HasColumnName("Brand_Id");
             entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
-            entity.Property(e => e.Description)
-                .HasMaxLength(1000)
-                .IsUnicode(false);
-            entity.Property(e => e.DiscountId).HasColumnName("Discount_id");
-            entity.Property(e => e.ExpiryDate).HasColumnType("date");
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("ImageURL");
-            entity.Property(e => e.ManufactureDate).HasColumnType("date");
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Product_Name");
-            entity.Property(e => e.Unit)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.Weight).HasColumnType("decimal(8, 2)");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
@@ -270,11 +270,41 @@ public partial class EcommercedemoContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Category_Id_Category");
+        });
 
-            entity.HasOne(d => d.Discount).WithMany(p => p.Products)
+        modelBuilder.Entity<ProductItemDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ProductI__3213E83FB9126B77");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AddedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.AvailableQuantity)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("Available_Quantity");
+            entity.Property(e => e.Description).HasColumnType("text");
+            entity.Property(e => e.DiscountId).HasColumnName("Discount_id");
+            entity.Property(e => e.ExpiryDate).HasColumnType("date");
+            entity.Property(e => e.ManufactureDate).HasColumnType("date");
+            entity.Property(e => e.Price)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("PRICE");
+            entity.Property(e => e.ProductId).HasColumnName("Product_Id");
+            entity.Property(e => e.SizeOfEachUnit).HasColumnType("decimal(10, 0)");
+            entity.Property(e => e.StockOfEachUnit).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Unit)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.WeightOfEachUnit).HasColumnType("decimal(18, 0)");
+
+            entity.HasOne(d => d.Discount).WithMany(p => p.ProductItemDetails)
                 .HasForeignKey(d => d.DiscountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Discount_Id");
+                .HasConstraintName("FK__ProductIt__Disco__6166761E");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductItemDetails)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK__ProductIt__Produ__41EDCAC5");
         });
 
         modelBuilder.Entity<Review>(entity =>

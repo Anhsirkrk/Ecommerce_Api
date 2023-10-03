@@ -89,7 +89,7 @@ namespace Ecommerce_Api.Repository
 
         }
 
-    //Get Products by brand
+       //Get Products by brand
         public async Task<List<TotalViewModel>> GetProductsByBrand(int brand_Id)
         {
             try
@@ -99,10 +99,6 @@ namespace Ecommerce_Api.Repository
                                      where p.BrandId == brand_Id select new TotalViewModel
                                      {
                                          ProductName = p.ProductName,
-                                         Price = p.Price,
-                                         StockQuantity = p.StockQuantity,
-                                         Weight= (decimal)p.Weight,
-                                         Unit=p.Unit,
                                          ImageUrl=p.ImageUrl,
                                      }).ToListAsync();
                 return product;

@@ -27,54 +27,29 @@ namespace Ecommerce_Api.Controllers
         //Category
         [HttpPost]
         [Route("CreateCategory")]
-        public async Task<CategoryViewModel> CreateCategory(CategoryViewModel ACVM)
+        public async Task<CategoryViewModel> CreateCategory([FromForm] IFormFile image,[FromForm] CategoryViewModel ACVM)
         
         {
             try
             {
-                return await _iar.CreateCategory(ACVM);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpGet]
-        [Route("GetAllCategories")]
-        public async Task<List<Category>> GetAllCategories()
-        {
-            try
-            {
-                return await _iar.GetAllCategories();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [HttpPut]
-        [Route("UpdateCategory")]
-        public async Task<CategoryViewModel> UpdateCategory(CategoryViewModel UCVM)
-        {
-            try
-            {
-                if (UCVM != null)
+                if(_context!=null)
                 {
-                    return await _iar.UpdateCategory(UCVM);
+                    var CreatingCategory = await  _iar.CreateCategory(image, ACVM);
+                    return CreatingCategory;
                 }
-                return null;
+            
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return null;
         }
+
 
         [HttpGet]
         [Route("GetCategoryById")]
-        public async Task<Category> GetCategoryById(int category_id)
+        public async Task<CategoryDetailsWithImage_> GetCategoryById(int category_id)
         {
             try
             {
@@ -85,6 +60,54 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [Route("GetDetailsAndImagesOfCategories")]
+        public async Task<IActionResult> GetDetailsAndImagesOfCategories()
+        {
+            try
+            {
+                if (_context != null)
+                {
+                    var categorieddetails = await _iar.GetDetailsAndImagesOfCategories();
+                    if(categorieddetails != null)
+                    {
+                        return Ok(categorieddetails);
+                    }
+                    else
+                    {
+                        return BadRequest("details not found");
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        [Route("UpdateCategory")]
+        public async Task<CategoryViewModel> UpdateCategory([FromForm] IFormFile image,[FromForm] CategoryViewModel UCVM)
+        {
+            try
+            {
+                if (UCVM != null)
+                {
+                    return await _iar.UpdateCategory(image,UCVM);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         [HttpDelete]
         [Route("DeleteCategory")]
@@ -100,17 +123,44 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("UploadCategoryImage")]
-        public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
+        //[HttpPut]
+        //[Route("UploadCategoryImage")]
+        //public async Task<Category> UploadCategoryImage(int category_id, IFormFile imagefile)
+        //{
+        //    try
+        //    {
+        //        if (category_id != null)
+        //        {
+        //            return await _iar.UploadCategoryImage(category_id, imagefile);
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+
+        //brand
+        [HttpPost]
+        [Route("CreateBrand")]
+        public async Task<IActionResult> CreateBrand([FromForm] IFormFile Image,[FromForm] BrandViewModel bvm)
         {
             try
             {
-                if (category_id != null)
+                if (_context != null)
                 {
-                    return await _iar.UploadCategoryImage(category_id, imagefile);
+                    var creatingbrand = await _iar.CreateBrand(Image, bvm);
+                    return Ok(creatingbrand);
                 }
-                return null;
+                else
+                {
+                    bvm.resultMessage = "Brand Not created";
+                    bvm.IsBrandCreated = false;
+                    return NotFound(bvm);
+                }
+                   
             }
             catch (Exception ex)
             {
@@ -121,21 +171,33 @@ namespace Ecommerce_Api.Controllers
 
     //brand
         [HttpPost]
-        [Route("CreateBrand")]
-        public async Task<Brand> CreateBrand(string brandName)
+        [Route("GetDetailsAndImagesOfBrands")]
+        public async Task<IActionResult> GetDetailsAndImagesOfBrands()
         {
             try
             {
-                var brand = new Brand()
+                if (_context != null)
                 {
-                    BrandName =brandName,
-                };
-                return await _iar.CreateBrand(brand);
+                    var branddetails = await _iar.GetDetailsAndImagesOfBrands();
+                    if (branddetails != null)
+                    {
+                        return Ok(branddetails);
+                    }
+                    else
+                    {
+                        return BadRequest("details not found");
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+
             }
+            return BadRequest();
         }
         [HttpDelete]
         [Route("Deletebrand")]
@@ -152,13 +214,13 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateBrand")]
-        public async Task<Brand> UpdateBrand(int brand_id, string brandName)
+        public async Task<BrandViewModel> UpdateBrand([FromForm] IFormFile image,[FromForm] BrandViewModel bvm)
         {
             try
             {
-                if (brand_id != null)
+                if (bvm != null)
                 {
-                    return await _iar.UpdateBrand(brand_id,brandName);
+                    return await _iar.UpdateBrand(image, bvm);
                 }
                 return null;
             }
@@ -167,22 +229,10 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-        [HttpGet]
-        [Route("GetAllBrands")]
-        public async Task<List<Brand>> GetAllBrands()
-        {
-            try
-            {
-                return await _iar.GetAllBrands();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+  
         [HttpGet]
         [Route("GetBrandById")]
-        public async Task<Brand> GetBrandById(int brand_id)
+        public async Task<BrandViewModel> GetBrandById(int brand_id)
         {
             try
             {
@@ -197,13 +247,13 @@ namespace Ecommerce_Api.Controllers
     //product
         [HttpPost]
         [Route("CreateProduct")]
-        public async Task<ProductViewModel> CreateProduct([FromForm] ProductViewModel APVM)
+        public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image,[FromForm] ProductViewModel APVM)
         {
             try
             {
                 if (APVM != null)
                 {
-                    return await _iar.CreateProduct(APVM);
+                    return await _iar.CreateProduct(Image, APVM);
                 }
                 return null;  
             }
@@ -213,19 +263,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("UploadProductImage")]
-        public async Task<Product> UploadProductImage( int product_id,  IFormFile imagefile)
-        {
-            try
-            {
-                return await _iar.UploadProductImage(product_id, imagefile);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+   
         [HttpDelete]
         [Route("DeleteProduct")]
         public async Task<string> DeleteProduct(int product_id)
@@ -241,13 +279,14 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<Product> UpdateProduct(UpdateProductViewModel UPVM)
+        public async Task<IActionResult> UpdateProduct([FromForm] IFormFile image,[FromForm] ProductViewModel UPVM)
         {
             try
             {
                 if (UPVM != null)
                 {
-                    return await _iar.UpdateProduct(UPVM);
+                    var updateproduct = await _iar.UpdateProduct(image, UPVM);
+                    return Ok(updateproduct);
                 }
                 return null;
             }   
@@ -258,7 +297,7 @@ namespace Ecommerce_Api.Controllers
         }
         [HttpGet]
         [Route("GetAllProducts")]
-        public async Task<List<Product>> GetAllProducts()
+        public async Task<List<ProductViewModel>> GetAllProducts()
         {
             try
             {
@@ -282,51 +321,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-        [HttpPost]
-        [Route("GetDetailsAndImagesOfCategories")]
-        public async Task<IActionResult> GetDetailsAndImagesOfCategories(List<int> ids)
-        {
-            if (_context != null)
-            {
-                List<CategoryDetailsWithImage_> CategoryDetailsWithImage_s = new List<CategoryDetailsWithImage_>();
-
-                foreach (int id in ids)
-                {
-                    var user = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
-                    if (user != null)
-                    {
-                        var imageurl = user.ImageUrl;
-                        using (var image = System.Drawing.Image.FromFile(imageurl))
-                        {
-                            ImageFormat format = image.RawFormat;
-                            var memorystream = new MemoryStream();
-                            image.Save(memorystream, format);
-
-                            // Convert the image to base64 string
-                            string base64Image = Convert.ToBase64String(memorystream.ToArray());
-
-                            // Create a CategoryDetailsWithImage_ object
-                            CategoryDetailsWithImage_ CategoryDetailsWithImage_ = new CategoryDetailsWithImage_
-                            {
-                                UserId = user.CategoryId,
-                                UserName = user.CategoryName,
-                                Base64Image = base64Image
-                            };
-
-                            CategoryDetailsWithImage_s.Add(CategoryDetailsWithImage_);
-                        }
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                }
-
-                return Ok(CategoryDetailsWithImage_s);
-            }
-
-            return BadRequest();
-        }
+    
     }
 
 }

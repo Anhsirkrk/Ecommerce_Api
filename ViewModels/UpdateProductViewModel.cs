@@ -29,5 +29,6 @@
         public int DiscountId { get; set; }
 
         public string Description { get; set; }
+        public decimal TypesOfQuantites_Available { get; set; }
     }
 }
