@@ -57,8 +57,8 @@ namespace Ecommerce_Api.Controllers
         }
 
         [HttpPost]
-        [Route("GetUserByEmail")]
-        public async Task<IActionResult> GetUserByEmail([FromBody] LoginViewModel loginViewModel)
+        [Route("GetUserByEmails")]
+        public async Task<IActionResult> GetUserByEmails([FromBody] LoginViewModel loginViewModel)
         {
             try
             {

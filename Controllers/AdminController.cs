@@ -169,6 +169,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
+    //brand
         [HttpPost]
         [Route("GetDetailsAndImagesOfBrands")]
         public async Task<IActionResult> GetDetailsAndImagesOfBrands()
