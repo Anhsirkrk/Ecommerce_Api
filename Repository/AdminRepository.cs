@@ -92,8 +92,8 @@ namespace Ecommerce_Api.Repository
 
 
                     // Specify the directory where you want to save the image
-                    string ProductuploadDirectory = @"C:\Users\HP\Source\Repos\Ecommerce_Api\Assests\Images\Product_images"; // Change this to your desired path
-
+                    string ProductuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Product_images"; // Change this to your desired path
+                    
                     // Ensure the directory exists, or create it if it doesn't
                     if (!Directory.Exists(ProductuploadDirectory))
                     {
@@ -107,7 +107,7 @@ namespace Ecommerce_Api.Repository
                         await image.CopyToAsync(stream);
                     }
 
-                    return "C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/" + fileName; // Store the relative URL in the database
+                    return "C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/" + fileName; // Store the relative URL in the database
                 }
             }
             catch (Exception ex)
@@ -514,7 +514,7 @@ namespace Ecommerce_Api.Repository
 
 
                     // Specify the directory where you want to save the image
-                    string CategoryuploadDirectory = @"C:\Users\HP\Source\Repos\Ecommerce_Api\Assests\Images\Brand_images"; // Change this to your desired path
+                    string CategoryuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Brand_images"; // Change this to your desired path
 
                     // Ensure the directory exists, or create it if it doesn't
                     if (!Directory.Exists(CategoryuploadDirectory))
@@ -529,7 +529,7 @@ namespace Ecommerce_Api.Repository
                         await image.CopyToAsync(stream);
                     }
 
-                    return "C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/" + fileName; // Store the relative URL in the database
+                    return "C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Brand_images/" + fileName; // Store the relative URL in the database
                 }
             }
             catch (Exception ex)
@@ -638,7 +638,7 @@ namespace Ecommerce_Api.Repository
 
 
                     // Specify the directory where you want to save the image
-                    string CategoryuploadDirectory = @"C:\Users\HP\Source\Repos\Ecommerce_Api\Assests\Images\Category_images"; // Change this to your desired path
+                    string CategoryuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Category_images"; // Change this to your desired path
 
                     // Ensure the directory exists, or create it if it doesn't
                     if (!Directory.Exists(CategoryuploadDirectory))
@@ -653,7 +653,7 @@ namespace Ecommerce_Api.Repository
                         await image.CopyToAsync(stream);
                     }
 
-                    return "C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/" + fileName; // Store the relative URL in the database
+                    return "C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/" + fileName; // Store the relative URL in the database
                 }
             }
             catch (Exception ex)
