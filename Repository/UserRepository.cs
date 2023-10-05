@@ -109,5 +109,46 @@ namespace Ecommerce_Api.Repository
             }
         }
 
+        //Get UserSubscibedProducts Besed on userid
+       public async Task<List<UserSubscriptionProductsViewModel>> GetUserSubsriptionProductsBasedonUserId(int userId)
+        {
+           
+
+
+            var userSubscriptionViewModels =
+      from us in context.UserSubscriptions
+       join o in context.Orders on us.OrderId equals o.OrderId
+       join oi in context.OrderItems on o.OrderId equals oi.OrderId
+       join p in context.Products on oi.ProductId equals p.ProductId
+       join q in context.ProductItemDetails on p.ProductId equals q.ProductId
+       join a in context.Addresses on o.UserId equals a.UserId
+       where us.UserId == userId
+       group new { us, o, oi, p, q, a } by p.ProductId into g
+       select new UserSubscriptionProductsViewModel
+       {
+           ProductId = g.Key,
+           ProductName = g.First().p.ProductName,
+           image = g.First().p.ImageUrl,
+           SizeOfEachUnit = g.First().q.SizeOfEachUnit ?? 0m,
+           ProductPrice = g.First().oi.ProductPrice,
+           Quantity = g.First().oi.Quantity ?? 0,
+           OrderDate = g.First().o.OrderDate ?? DateTime.MinValue,
+           StartDate = g.First().o.StartDate,
+           EndDate = g.First().o.EndDate,
+           TotalAmount = g.First().o.TotalAmount,
+           AddressId = g.First().a.AddressId,
+           Country = g.First().a.Country,
+           State = g.First().a.State,
+           City = g.First().a.City,
+           Area = g.First().a.Area,
+           Pincode = g.First().a.Pincode,
+           HouseNo = g.First().a.HouseNo,
+           Longitude = g.First().a.Longitude ?? 0.0m,
+           Latitude = g.First().a.Latitude ?? 0.0m,
+           // Map other properties here...
+       };
+            return userSubscriptionViewModels.ToList();
+
+        }
     }
 }

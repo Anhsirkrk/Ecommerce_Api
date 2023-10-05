@@ -3,6 +3,7 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -17,6 +18,7 @@ namespace Ecommerce_Api.Controllers
         {
             context = _context;
             iur = _iur;
+            context.Database.SetCommandTimeout(120);
         }
 
         [HttpPost]
@@ -55,6 +57,28 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        [Route("GetUserSubscribedProducts")]
+        public async Task<ActionResult<List<UserSubscriptionProductsViewModel>>> GetUserSubsriptionProductsBasedonUserId(int userId)
+        {
+            try
+            {
+           
+                if (userId != 0)
+                {
+                    
+                    var item= await iur.GetUserSubsriptionProductsBasedonUserId(userId);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
 
 

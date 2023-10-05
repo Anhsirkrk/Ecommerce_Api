@@ -92,8 +92,9 @@ namespace Ecommerce_Api.Repository
 
 
                     // Specify the directory where you want to save the image
-                    string ProductuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Product_images"; // Change this to your desired path
-                    
+                    //string ProductuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Product_images"; // Change this to your desired path
+                    string ProductuploadDirectory = @"C:\Users\User\Desktop\EcommerceApi_Images\Product_images"; // Change this to your desired path
+                   
                     // Ensure the directory exists, or create it if it doesn't
                     if (!Directory.Exists(ProductuploadDirectory))
                     {
@@ -107,7 +108,7 @@ namespace Ecommerce_Api.Repository
                         await image.CopyToAsync(stream);
                     }
 
-                    return "C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/" + fileName; // Store the relative URL in the database
+                    return "C:/Users/User/Desktop/EcommerceApi_Images/Product_images/" + fileName; // Store the relative URL in the database
                 }
             }
             catch (Exception ex)
