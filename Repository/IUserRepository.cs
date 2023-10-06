@@ -14,7 +14,8 @@ namespace Ecommerce_Api.Repository
 
         // GET: get the details of user-subscribed products 
         Task<List<UserSubscriptionProductsViewModel>>GetUserSubsriptionProductsBasedonUserId(int userId);
-
+        Task<UserViewModel> UpdateUserDetails(UserViewModel userViewModel);
+        Task<User> GetUserDetailsByUserId(int userid);
     }
 
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Imaging;
 
 namespace Ecommerce_Api.Repository
 {
@@ -147,8 +148,82 @@ namespace Ecommerce_Api.Repository
            Latitude = g.First().a.Latitude ?? 0.0m,
            // Map other properties here...
        };
-            return userSubscriptionViewModels.ToList();
+            var userSubscriptionList = userSubscriptionViewModels.ToList();
 
+            // Convert and assign the image as base64
+            foreach (var viewModel in userSubscriptionList)
+            {
+                string imageurl = viewModel.image; // Replace 'ImageUrl' with the actual property name
+
+                using (var image = System.Drawing.Image.FromFile(imageurl))
+                {
+                    ImageFormat format = image.RawFormat;
+                    var memorystream = new MemoryStream();
+                    image.Save(memorystream, format);
+
+                    // Convert the image to base64 string
+                    string base64Image = Convert.ToBase64String(memorystream.ToArray());
+
+                    viewModel.image = base64Image; // Replace 'ImageUrl' with the actual property name
+                }
+            }
+
+            return userSubscriptionList;
+
+        }
+
+        //Get user details by UserId 
+       public async Task<User> GetUserDetailsByUserId(int userid)
+        {
+            try
+            {
+                var item = context.Users.Find(userid);
+                
+                return item;
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+
+        //update userprofile
+        public async Task<UserViewModel> UpdateUserDetails(UserViewModel user)
+        {
+            var existingUser = context.Users.Find(user.UserId);
+
+            if (existingUser == null)
+            {
+                return null;
+            }
+
+           
+            //existingUser.UserTypeId = user.UserTypeId;
+            existingUser.Username = user.Username;
+            existingUser.Password = user.Password;
+            existingUser.Firstname = user.Firstname;
+            existingUser.Lastname = user.Lastname;
+            existingUser.Mobile = user.Mobile;
+            existingUser.Email = user.Email;
+            //existingUser.IsActive = user.IsActive;
+
+            // Save changes to the repository
+            context.Users.Update(existingUser);
+            context.SaveChanges();
+            var updatedUserViewModel = new UserViewModel
+            {
+                UserId = existingUser.UserId, 
+               Username =existingUser.Username,
+               Password =existingUser.Password,
+                Firstname=existingUser.Firstname,
+               Lastname =existingUser.Lastname,
+               Mobile=existingUser.Mobile,
+              Email =existingUser.Email,
+            
+        // Map other properties as needed
+    };
+            return updatedUserViewModel; // Return the updated user
         }
     }
 }

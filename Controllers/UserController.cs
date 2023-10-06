@@ -79,9 +79,47 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetUserDetailsByUserId")]
+        public async Task<ActionResult<User>> GetUserDetailsByUserId(int userid)
+        {
+            try
+            {
 
+                if (userid != 0)
+                {
 
+                    var item = await iur.GetUserDetailsByUserId(userid);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        [HttpPost]
+        [Route("UpdateUserDetails")]
+        public async Task<ActionResult<UserViewModel>> UpdateUserDetails(UserViewModel user)
+        {
+            try
+            {
+
+                if (user.UserId != 0)
+                {
+
+                    var item = await iur.UpdateUserDetails(user);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

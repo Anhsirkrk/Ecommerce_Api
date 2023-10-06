@@ -127,5 +127,26 @@ namespace Ecommerce_Api.Controllers
             return cvm;
         }
 
+        [HttpGet]
+        [Route("GetCartItemsBasedOnUserId")]
+        public async Task<ActionResult<List<CartUserViewModel>>> GetCartItemsBasedOnUserId(int userId)
+        {
+            try
+            {
+
+                if (userId != 0)
+                {
+
+                    var item = await icr.GetCartItemsBasedOnUserId(userId);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
