@@ -121,5 +121,44 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("AddingAdressDetails")]
+        public async Task<ActionResult<UserAdressViewModel>> AddingAdressDetails(UserAdressViewModel address)
+        {
+            try
+            {
+
+                if (address != null)
+                {
+
+                    var item = await iur.AddingAdressDetails(address);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTheUserAdressDetails")]
+        public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userid)
+        {
+            try
+            {
+                if (userid != 0)
+                {
+                   var item= await iur.GetTheUserAdressDetails(userid);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ;
+            }
+        }
     }
 }

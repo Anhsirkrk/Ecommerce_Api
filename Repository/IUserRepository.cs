@@ -16,6 +16,12 @@ namespace Ecommerce_Api.Repository
         Task<List<UserSubscriptionProductsViewModel>>GetUserSubsriptionProductsBasedonUserId(int userId);
         Task<UserViewModel> UpdateUserDetails(UserViewModel userViewModel);
         Task<User> GetUserDetailsByUserId(int userid);
+        //adding adress details of user
+        Task<UserAdressViewModel> AddingAdressDetails(UserAdressViewModel useraddress);
+
+        //get  adress details of user
+        Task<List<UserAdressViewModel>> GetTheUserAdressDetails(int userid);
+
     }
 
 }

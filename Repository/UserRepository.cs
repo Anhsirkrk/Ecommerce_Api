@@ -225,5 +225,56 @@ namespace Ecommerce_Api.Repository
     };
             return updatedUserViewModel; // Return the updated user
         }
+
+        //adding adress details of user
+        public async Task<UserAdressViewModel> AddingAdressDetails(UserAdressViewModel address)
+        {
+            try
+            {             
+                if (address != null)
+                {
+                    var useraddress = new Address
+                    {
+                        UserId = address.UserId,
+                        Country = address.Country,
+                        State = address.State,
+                        City = address.City,
+                        Area = address.Area,
+                        Pincode = address.Pincode,
+                        HouseNo = address.HouseNo,
+                        Longitude = address.Longitude,
+                        Latitude = address.Latitude,
+                    };
+                    context.Addresses.Add(useraddress);
+                    await context.SaveChangesAsync();
+                    return address;
+                }
+                return address;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public async Task<List<UserAdressViewModel>> GetTheUserAdressDetails(int userid)
+        {
+            var addresses = await context.Addresses
+            .Where(address => address.UserId == userid)
+            .Select(address => new UserAdressViewModel
+            {
+                AddressId = address.AddressId,
+                UserId = address.UserId ?? 0,
+                Country = address.Country,
+                State = address.State,
+                City = address.City,
+                Area = address.Area,
+                Pincode = address.Pincode,
+                HouseNo = address.HouseNo,
+                Longitude = address.Longitude ?? 0,
+                Latitude = address.Latitude ?? 0
+            })
+            .ToListAsync();
+            return addresses;
+        }
     }
 }
