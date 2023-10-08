@@ -46,7 +46,6 @@ namespace Ecommerce_Api.Controllers
             return null;
         }
 
-
         [HttpGet]
         [Route("GetCategoryById")]
         public async Task<CategoryDetailsWithImage_> GetCategoryById(int category_id)
