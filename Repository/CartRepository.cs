@@ -12,8 +12,6 @@ namespace Ecommerce_Api.Repository
         {
             context = _context;
         }
-
-
             public async Task<CartViewModel> AddItemToCart(CartViewModel cvm)
             {
                 try
@@ -54,8 +52,6 @@ namespace Ecommerce_Api.Repository
                 return null;
            
             }
-        
-
            public async Task<CartViewModel> ChangingQuantityOfItem(CartViewModel cvm)
            {
                 try
