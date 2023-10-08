@@ -14,9 +14,9 @@ namespace Ecommerce_Api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly EcommercedemoContext context;
+        private readonly EcommerceDailyPickContext context;
         private readonly IloginRepository _ipr;
-        public LoginController(IloginRepository ipr, EcommercedemoContext _context)
+        public LoginController(IloginRepository ipr, EcommerceDailyPickContext _context)
         {
             _ipr = ipr;
             context = _context;
@@ -28,14 +28,14 @@ namespace Ecommerce_Api.Controllers
         [Route("GetUserByMobileNumber")]
         public async Task<IActionResult> GetUserByMobileNumber([FromBody] LoginViewModel loginViewModel)
         {
-            try            
+            try
             {
                 if (context != null)
                 {
                     if (loginViewModel != null)
                     {
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
-                        if (user != null && user.UserFound==true)
+                        if (user != null && user.UserFound == true)
                         {
                             return Ok(user);
 
@@ -44,7 +44,7 @@ namespace Ecommerce_Api.Controllers
                         {
                             return Ok(user);
                         }
-                        
+
                     }
                 }
                 return BadRequest();

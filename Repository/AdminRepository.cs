@@ -12,21 +12,21 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Ecommerce_Api.Repository
 {
-    public class AdminRepository:IAdminRepository
+    public class AdminRepository : IAdminRepository
     {
-        private readonly EcommercedemoContext _context;
-        public AdminRepository(EcommercedemoContext context)
+        private readonly EcommerceDailyPickContext _context;
+        public AdminRepository(EcommerceDailyPickContext context)
         {
-            _context = context;   
+            _context = context;
         }
 
 
         //Product
-        public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image,[FromForm] ProductViewModel APVM)
+        public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image, [FromForm] ProductViewModel APVM)
         {
             try
             {
-                if (_context != null && APVM!=null)
+                if (_context != null && APVM != null)
                 {
                     APVM.IsProductAdded = false;
                     var product = new Product()
@@ -39,14 +39,14 @@ namespace Ecommerce_Api.Repository
                     var createproduct = await _context.Products.AddAsync(product);
                     await _context.SaveChangesAsync();
                     var PID = product.ProductId;
-                    string SAVEDimageUrl = await SaveProductImageAsync(Image,product.ProductId);
+                    string SAVEDimageUrl = await SaveProductImageAsync(Image, product.ProductId);
                     product.ImageUrl = SAVEDimageUrl;
                     await _context.SaveChangesAsync();
-                    for (int i = 0, j = 0, k = 0,l = 0,m=0,n=0,o=0,p=0,q=0,r=0; i < APVM.SizeOfEachUnits.Count && j < APVM.WeightOfEachUnits.Count 
-                        && k <APVM.StockOfEachUnits.Count && l<APVM.PriceOfEachUnits.Count && m < APVM.IsAvailable_OfEachUnit.Count
-                        && n<APVM.MFG_OfEachUnits.Count && o < APVM.EXP_OfEachUnits.Count && p<APVM.DiscountId_OfEachUnit.Count 
-                        && q<APVM.Avaialble_Quantity_ofEachUnit.Count && r<APVM.Description_OfEachUnits.Count; 
-                        i++, j++, k++,l++,m++,n++,o++,p++,q++,r++)
+                    for (int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0, o = 0, p = 0, q = 0, r = 0; i < APVM.SizeOfEachUnits.Count && j < APVM.WeightOfEachUnits.Count
+                        && k < APVM.StockOfEachUnits.Count && l < APVM.PriceOfEachUnits.Count && m < APVM.IsAvailable_OfEachUnit.Count
+                        && n < APVM.MFG_OfEachUnits.Count && o < APVM.EXP_OfEachUnits.Count && p < APVM.DiscountId_OfEachUnit.Count
+                        && q < APVM.Avaialble_Quantity_ofEachUnit.Count && r < APVM.Description_OfEachUnits.Count;
+                        i++, j++, k++, l++, m++, n++, o++, p++, q++, r++)
                     {
                         var ItemdetailsOfeachproduct = new ProductItemDetail
                         {
@@ -55,13 +55,13 @@ namespace Ecommerce_Api.Repository
                             SizeOfEachUnit = APVM.SizeOfEachUnits[i],
                             WeightOfEachUnit = APVM.WeightOfEachUnits[j],
                             StockOfEachUnit = APVM.StockOfEachUnits[k],
-                            Price= APVM.PriceOfEachUnits[l],
+                            Price = APVM.PriceOfEachUnits[l],
                             IsAvailable = APVM.IsAvailable_OfEachUnit[m],
-                            ManufactureDate= APVM.MFG_OfEachUnits[n],
-                            ExpiryDate  = APVM.EXP_OfEachUnits[o],
-                            DiscountId  = APVM.DiscountId_OfEachUnit[p],
+                            ManufactureDate = APVM.MFG_OfEachUnits[n],
+                            ExpiryDate = APVM.EXP_OfEachUnits[o],
+                            DiscountId = APVM.DiscountId_OfEachUnit[p],
                             AvailableQuantity = APVM.Avaialble_Quantity_ofEachUnit[q],
-                            Description = APVM.Description_OfEachUnits[r],     
+                            Description = APVM.Description_OfEachUnits[r],
                         };
                         var addproductitemdetails = await _context.ProductItemDetails.AddAsync(ItemdetailsOfeachproduct);
                         await _context.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace Ecommerce_Api.Repository
 
                     // Specify the directory where you want to save the image
                     string ProductuploadDirectory = @"C:\Users\HP\OneDrive\Desktop\EcommerceApi_Images\Product_images"; // Change this to your desired path
-                    
+
                     // Ensure the directory exists, or create it if it doesn't
                     if (!Directory.Exists(ProductuploadDirectory))
                     {
@@ -116,7 +116,7 @@ namespace Ecommerce_Api.Repository
             }
             return null;
         }
-       
+
 
         public async Task<string> DeleteProduct(int product_id)
         {
@@ -124,11 +124,11 @@ namespace Ecommerce_Api.Repository
             {
                 if (_context != null)
                 {
-                    var productitemdetails = await _context.ProductItemDetails.FirstOrDefaultAsync(X=>X.ProductId == product_id);
+                    var productitemdetails = await _context.ProductItemDetails.FirstOrDefaultAsync(X => X.ProductId == product_id);
                     if (productitemdetails != null)
                     {
-                            _context.ProductItemDetails.Remove(productitemdetails);
-                            _context.SaveChanges();
+                        _context.ProductItemDetails.Remove(productitemdetails);
+                        _context.SaveChanges();
                     }
                     var product = await _context.Products.FindAsync(product_id);
                     if (product != null)
@@ -148,7 +148,7 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-        public async Task<ProductViewModel> UpdateProduct([FromForm] IFormFile image,[FromForm] ProductViewModel UPVM)
+        public async Task<ProductViewModel> UpdateProduct([FromForm] IFormFile image, [FromForm] ProductViewModel UPVM)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace Ecommerce_Api.Repository
                     var productitemdetail = await _context.ProductItemDetails.FirstOrDefaultAsync(x => x.ProductId == UPVM.ProductId);
                     if (productitemdetail != null)
                     {
-                        for (int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0, o = 0, p = 0,q=0,r=0; i < UPVM.SizeOfEachUnits.Count && j < UPVM.WeightOfEachUnits.Count
+                        for (int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0, o = 0, p = 0, q = 0, r = 0; i < UPVM.SizeOfEachUnits.Count && j < UPVM.WeightOfEachUnits.Count
                             && k < UPVM.StockOfEachUnits.Count && l < UPVM.PriceOfEachUnits.Count &&
                             m < UPVM.IsAvailable_OfEachUnit.Count && n < UPVM.MFG_OfEachUnits.Count && o < UPVM.EXP_OfEachUnits.Count &&
                             p < UPVM.DiscountId_OfEachUnit.Count && q < UPVM.Avaialble_Quantity_ofEachUnit.Count && r < UPVM.Description_OfEachUnits.Count;
@@ -201,9 +201,7 @@ namespace Ecommerce_Api.Repository
             return null;
         }
 
-        public async Task<List<ProductViewModel>> GetAllProducts()
-        
-        
+        public async Task<List<ProductViewModel>> GetAllProductswithImage()
         {
             try
             {
@@ -227,32 +225,32 @@ namespace Ecommerce_Api.Repository
                             // Convert the image to base64 string
                             string base64Image = Convert.ToBase64String(memorystream.ToArray());
 
-                            var productdata =await (from p in _context.Products
-                                               join pi in _context.ProductItemDetails on p.ProductId equals pi.ProductId
-                                               join pc in _context.Categories on p.CategoryId equals pc.CategoryId
-                                               join pb in _context.Brands on p.BrandId equals pb.BrandId
-                                               where p.ProductId == id
-                                               select new ProductViewModel
-                                               {
-                                                   ProductId = p.ProductId,
-                                                   ProductName = p.ProductName,
-                                                   CategoryId = p.CategoryId,
-                                                   CategoryName = pc.CategoryName,
-                                                   BrandId = p.BrandId,
-                                                   BrandName = pb.BrandName,
-                                                   Base64Image = base64Image,
-                                                   Unit = pi.Unit,
-                                                   SizeOfUnit = (decimal)pi.SizeOfEachUnit,
-                                                   WeightOfUnit = (decimal)pi.WeightOfEachUnit,
-                                                   StockOfUnit = (decimal)pi.StockOfEachUnit,
-                                                   Price = (decimal)pi.Price,
-                                                   IsAvailable = (bool)pi.IsAvailable,
-                                                   MFG = (DateTime)pi.ManufactureDate,
-                                                   EXP = (DateTime)pi.ExpiryDate,
-                                                   DiscountId = (int)pi.DiscountId,
-                                                   Avaialble_Quantity = (decimal)pi.AvailableQuantity,
-                                                  Description= pi.Description
-                                               }).ToListAsync();
+                            var productdata = await (from p in _context.Products
+                                                     join pi in _context.ProductItemDetails on p.ProductId equals pi.ProductId
+                                                     join pc in _context.Categories on p.CategoryId equals pc.CategoryId
+                                                     join pb in _context.Brands on p.BrandId equals pb.BrandId
+                                                     where p.ProductId == id
+                                                     select new ProductViewModel
+                                                     {
+                                                         ProductId = p.ProductId,
+                                                         ProductName = p.ProductName,
+                                                         CategoryId = p.CategoryId,
+                                                         CategoryName = pc.CategoryName,
+                                                         BrandId = p.BrandId,
+                                                         BrandName = pb.BrandName,
+                                                         Base64Image = base64Image,
+                                                         Unit = pi.Unit,
+                                                         SizeOfUnit = (decimal)pi.SizeOfEachUnit,
+                                                         WeightOfUnit = (decimal)pi.WeightOfEachUnit,
+                                                         StockOfUnit = (decimal)pi.StockOfEachUnit,
+                                                         Price = (decimal)pi.Price,
+                                                         IsAvailable = (bool)pi.IsAvailable,
+                                                         MFG = (DateTime)pi.ManufactureDate,
+                                                         EXP = (DateTime)pi.ExpiryDate,
+                                                         DiscountId = (int)pi.DiscountId,
+                                                         Avaialble_Quantity = (decimal)pi.AvailableQuantity,
+                                                         Description = pi.Description
+                                                     }).ToListAsync();
 
                             var groupedData = productdata.GroupBy(item => item.ProductId);
 
@@ -285,7 +283,7 @@ namespace Ecommerce_Api.Repository
                         }
                     }
                     return productlist;
-               
+
                 }
                 return null;
             }
@@ -314,7 +312,7 @@ namespace Ecommerce_Api.Repository
         }
 
 
-    
+
 
         //brand
         public async Task<BrandViewModel> CreateBrand([FromForm] IFormFile Image, [FromForm] BrandViewModel bvm)
@@ -329,7 +327,7 @@ namespace Ecommerce_Api.Repository
                     {
                         BrandName = bvm.BrandName,
                         BrandDescription = bvm.BrandDescription,
-                        CategoryId=bvm.Category_id,
+                        CategoryId = bvm.Category_id,
                     };
                     await _context.Brands.AddAsync(brand);
                     await _context.SaveChangesAsync();
@@ -558,13 +556,6 @@ namespace Ecommerce_Api.Repository
                             // Convert the image to base64 string
                             string base64Image = Convert.ToBase64String(memorystream.ToArray());
 
-                            // Create a CategoryDetailsWithImage_ object
-                            BrandViewModel BrandDetailsWithImage = new BrandViewModel
-                            {
-                                BrandId = brand.BrandId,
-                                BrandName = brand.BrandName,
-                                Base64Image = base64Image
-                            };
                             return base64Image;
 
                         }
@@ -782,13 +773,6 @@ namespace Ecommerce_Api.Repository
                             // Convert the image to base64 string
                             string base64Image = Convert.ToBase64String(memorystream.ToArray());
 
-                            // Create a CategoryDetailsWithImage_ object
-                            CategoryDetailsWithImage_ CategoryDetailsWithImage_ = new CategoryDetailsWithImage_
-                            {
-                                CategoryId = user.CategoryId,
-                                CategoryName = user.CategoryName,
-                                Base64Image = base64Image
-                            };
                             return base64Image;
 
                         }
@@ -801,7 +785,6 @@ namespace Ecommerce_Api.Repository
             }
             return null;
         }
-
 
         public async Task<CategoryViewModel> UpdateCategory(IFormFile image, CategoryViewModel UCVM)
         {
@@ -858,7 +841,7 @@ namespace Ecommerce_Api.Repository
         {
             try
             {
-                if( _context != null)
+                if (_context != null)
                 {
                     var subscriptiontypes = await _context.SubscriptionTypes.ToListAsync();
                     return subscriptiontypes.ToList();

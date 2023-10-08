@@ -7,8 +7,8 @@ namespace Ecommerce_Api.Repository
 {
     public class LoginRepository : IloginRepository
     {
-        private readonly EcommercedemoContext _context;
-        public LoginRepository(EcommercedemoContext context)
+        private readonly EcommerceDailyPickContext _context;
+        public LoginRepository(EcommerceDailyPickContext context)
         {
             _context = context;
         }
@@ -44,7 +44,7 @@ namespace Ecommerce_Api.Repository
                 return user;
 
             }
-            }
+        }
 
         public async Task<LoginViewModel> GetUserByEmail(LoginViewModel loginViewModel)
         {

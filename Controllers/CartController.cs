@@ -9,10 +9,10 @@ namespace Ecommerce_Api.Controllers
     [Route("api/[controller]")]
     public class CartController : Controller
     {
-        private readonly EcommercedemoContext context;
+        private readonly EcommerceDailyPickContext context;
         private readonly ICartRepository icr;
 
-        public CartController(EcommercedemoContext _context,ICartRepository _icr)
+        public CartController(EcommerceDailyPickContext _context, ICartRepository _icr)
         {
             context = _context;
             icr = _icr;
@@ -27,7 +27,7 @@ namespace Ecommerce_Api.Controllers
                 if (context != null && cvm != null)
                 {
                     var newcart = await icr.AddItemToCart(cvm);
-                    if (newcart.IsItemAdded==true)
+                    if (newcart.IsItemAdded == true)
                     {
                         return newcart;
                     }
@@ -51,7 +51,7 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
-                if(context != null && cvm != null)
+                if (context != null && cvm != null)
                 {
                     var updateproduct = await icr.ChangingQuantityOfItem(cvm);
                     if (updateproduct.IsQuantityUpdated == true)
@@ -64,7 +64,7 @@ namespace Ecommerce_Api.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -108,7 +108,7 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
-                if (context != null && cvm!= null)
+                if (context != null && cvm != null)
                 {
                     var newcart = await icr.CreateCartForUserMultipleProductsAtOnce(cvm);
                     if (newcart != null)
@@ -125,6 +125,28 @@ namespace Ecommerce_Api.Controllers
             }
             cvm.Resultmessage = "not inserted to cart";
             return cvm;
+        }
+
+
+        [HttpGet]
+        [Route("GetCartItemsBasedOnUserId")]
+        public async Task<ActionResult<List<CartUserViewModel>>> GetCartItemsBasedOnUserId(int userId)
+        {
+            try
+            {
+
+                if (userId != 0)
+                {
+
+                    var item = await icr.GetCartItemsBasedOnUserId(userId);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
