@@ -23,6 +23,8 @@ public partial class User
 
     public bool? IsActive { get; set; }
 
+    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+
     public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
