@@ -853,7 +853,29 @@ namespace Ecommerce_Api.Repository
         }
 
 
+        //subscriptions
+        public async Task<List<SubscriptionType>> GetSubscriptiontypes()
+        {
+            try
+            {
+                if( _context != null)
+                {
+                    var subscriptiontypes = await _context.SubscriptionTypes.ToListAsync();
+                    return subscriptiontypes.ToList();
 
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
 
 
 

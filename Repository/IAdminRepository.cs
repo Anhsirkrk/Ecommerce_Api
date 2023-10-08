@@ -7,6 +7,8 @@ namespace Ecommerce_Api.Repository
     public interface IAdminRepository
     {
 
+        //subscriptions
+        Task<List<SubscriptionType>> GetSubscriptiontypes();
         //Brand
         Task<BrandViewModel> CreateBrand([FromForm] IFormFile Image, [FromForm] BrandViewModel bvm);
         Task<List<BrandViewModel>> GetDetailsAndImagesOfBrands();

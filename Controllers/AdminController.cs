@@ -46,7 +46,6 @@ namespace Ecommerce_Api.Controllers
             return null;
         }
 
-
         [HttpGet]
         [Route("GetCategoryById")]
         public async Task<CategoryDetailsWithImage_> GetCategoryById(int category_id)
@@ -321,7 +320,24 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-    
+        [HttpGet]
+        [Route("GetSubscriptionTypes")]
+        public async Task<IActionResult> GetSubscriptiontypes()
+        {
+            try
+            {
+                var susbcriptionttypes= await _iar.GetSubscriptiontypes();
+                return Ok(susbcriptionttypes);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
     }
 
 }
