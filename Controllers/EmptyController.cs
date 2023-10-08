@@ -4,7 +4,7 @@ namespace Ecommerce_Api.Controllers
 {
     public class EmptyController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index1()
         {
             return View();
         }
