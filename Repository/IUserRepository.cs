@@ -19,7 +19,7 @@ namespace Ecommerce_Api.Repository
 
         //get  adress details of user
         Task<List<UserAdressViewModel>> GetTheUserAdressDetails(int userid);
-
+        Task<UserAdressViewModel> UpdateAdressDetails(UserAdressViewModel userAdressViewModel);
 
         //hidden
         ////Get by Brand

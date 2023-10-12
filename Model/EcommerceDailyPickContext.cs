@@ -82,6 +82,9 @@ public partial class EcommerceDailyPickContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Latitude).HasColumnType("decimal(9, 6)");
             entity.Property(e => e.Longitude).HasColumnType("decimal(9, 6)");
+            entity.Property(e => e.MobileNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.Pincode)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -89,6 +92,9 @@ public partial class EcommerceDailyPickContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.User).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
