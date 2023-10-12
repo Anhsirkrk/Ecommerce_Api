@@ -1,6 +1,30 @@
-USE [Ecommercedemo]
+USE [Ecommerce_dailyPick]
 GO
-/****** Object:  Table [dbo].[Brand]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Address]    Script Date: 12-Oct-23 1:46:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Address](
+	[AddressID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[Country] [varchar](50) NULL,
+	[State] [varchar](50) NULL,
+	[City] [varchar](50) NULL,
+	[Area] [varchar](50) NULL,
+	[Pincode] [varchar](10) NULL,
+	[HouseNo] [varchar](300) NULL,
+	[Longitude] [decimal](9, 6) NULL,
+	[Latitude] [decimal](9, 6) NULL,
+	[Username] [varchar](50) NULL,
+	[MobileNumber] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AddressID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Brand]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17,7 +41,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Category]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Category]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -33,7 +57,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Coupons]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Coupons]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -50,7 +74,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Discount]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Discount]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -66,7 +90,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Log]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Log]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -82,7 +106,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderItems]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[OrderItems]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,7 +126,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +145,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -140,7 +164,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Product]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -157,7 +181,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProductItemDetails]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[ProductItemDetails]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -183,7 +207,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Reviews]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Reviews]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +225,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingCartItems]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[ShoppingCartItems]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -217,7 +241,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingCarts]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[ShoppingCarts]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -232,7 +256,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[subscription_type]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[subscription_type]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -246,7 +270,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_types]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[User_types]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -260,7 +284,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserCoupons]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[UserCoupons]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -276,7 +300,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -297,7 +321,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserSubscriptions]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[UserSubscriptions]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -317,7 +341,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 12-Oct-23 1:46:04 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -337,6 +361,20 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+SET IDENTITY_INSERT [dbo].[Address] ON 
+
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (1, 3, N'India', N'Telangana', N'Hyderabad', N'Banjara Hills', N'500034', N'123 ABC Street', CAST(78.459100 AS Decimal(9, 6)), CAST(17.412900 AS Decimal(9, 6)), NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (2, 2, N'India', N'Telangana', N'Secunderabad', N'Begumpet', N'500003', N'456 XYZ Road', CAST(78.504400 AS Decimal(9, 6)), CAST(17.439900 AS Decimal(9, 6)), NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (4, 2, N'India', N'Telangana', N'Hyderabad', N'Kondapur', N'500084', N'Raginiresidency block b', CAST(78.692345 AS Decimal(9, 6)), CAST(17.467579 AS Decimal(9, 6)), NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (15, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'ko', N'582582', N'jnn', CAST(77.230899 AS Decimal(9, 6)), CAST(28.604134 AS Decimal(9, 6)), N'ashok', N'+919595959595')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (16, 2, N'India', N'Gujarat', N'Bagasra', N'mkm', N'656565', N'mmm', CAST(77.226221 AS Decimal(9, 6)), CAST(28.607563 AS Decimal(9, 6)), N'swathi', N'+919569569562')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (17, 2, N'India', N'Kerala', N'Cherthala', N'll', N'256987', N'lll', CAST(77.236307 AS Decimal(9, 6)), CAST(28.606809 AS Decimal(9, 6)), N'mamatha', N'+919494948585')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (18, 2, N'India', N'Gujarat', N'Babra', N'lk', N'526232', N'bvhvgh', CAST(77.236307 AS Decimal(9, 6)), CAST(28.607141 AS Decimal(9, 6)), N'satwik', N'+919898989898')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (19, 2, N'India', N'Jharkhand', N'Deogarh', N'ml', N'524875', N'bhbh', CAST(77.228539 AS Decimal(9, 6)), CAST(28.606907 AS Decimal(9, 6)), N'siva', N'+918585858585')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (20, 2, N'India', N'Karnataka', N'Athni', N'jujubh', N'586692', N'knjn', CAST(77.232873 AS Decimal(9, 6)), CAST(28.605589 AS Decimal(9, 6)), N'mama', N'+919862532145')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (21, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'km', N'563252', N'bjbjbj', CAST(77.234402 AS Decimal(9, 6)), CAST(28.610219 AS Decimal(9, 6)), N'ramaa', N'+919533255210')
+SET IDENTITY_INSERT [dbo].[Address] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Brand] ON 
 
 INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (8, N'Heritage', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Heritage.png', N'heritage products', 11)
@@ -348,14 +386,18 @@ INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], 
 INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (14, N'Safal', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Safal.png', N'Safal Veggies', 13)
 INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (15, N'MilkyMist', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/MilkyMist.png', N'milkymist', 14)
 INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (16, N'Nestle', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Brand_images/Nestle.jpg', N'Nestle brand', 14)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (17, N'Natures Basket', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Brand_images/NaturesBasket.jpg', N'provides all kinds of fruits', 15)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (18, N'Hatsun', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Brand_images/Hatsun.jpeg', N'provides the curd in different sizes', 14)
+INSERT [dbo].[Brand] ([Brand_id], [Brand_Name], [Imageurl], [BrandDescription], [Category_id]) VALUES (19, N'ITC', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Brand_images/ITC.png', N'itc products ', 12)
 SET IDENTITY_INSERT [dbo].[Brand] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Category] ON 
 
-INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (11, N'Milk', N'Milk Products', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Milk.png')
-INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (12, N'NewsPapers', N'Contains all publishers ', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Newspapers.png')
-INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (13, N'Vegetables', N'all kinda of veggies', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Vegetables.png')
-INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (14, N'Curd', N'curd', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Category_images/Curd.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (11, N'Milk', N'Milk Products', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/Milk.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (12, N'NewsPapers', N'Contains all publishers ', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/Newspapers.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (13, N'Vegetables', N'all kinda of veggies', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/Vegetables.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (14, N'Curd', N'curd', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/Curd.png')
+INSERT [dbo].[Category] ([Category_Id], [Category_Name], [Description], [ImageURL]) VALUES (15, N'Fruits', N'Contains all kinds of Seasonal Fruits also', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Category_images/Fruits1.jpg')
 SET IDENTITY_INSERT [dbo].[Category] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Discount] ON 
@@ -374,6 +416,11 @@ INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [en
 INSERT [dbo].[Discount] ([Discount_Id], [Discount_percentage], [start_date], [end_date]) VALUES (12, CAST(20.00 AS Decimal(10, 2)), CAST(N'2023-09-01' AS Date), CAST(N'2023-09-30' AS Date))
 SET IDENTITY_INSERT [dbo].[Discount] OFF
 GO
+SET IDENTITY_INSERT [dbo].[OrderItems] ON 
+
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date]) VALUES (1, 2, 22, CAST(29 AS Decimal(18, 0)), 1, 1, CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date))
+SET IDENTITY_INSERT [dbo].[OrderItems] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Orders] ON 
 
 INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (1, 1, 2, CAST(100.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
@@ -381,11 +428,19 @@ INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amo
 INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (3, 3, 3, CAST(75.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
 SET IDENTITY_INSERT [dbo].[Orders] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Payments] ON 
+
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (2, 2, CAST(N'2023-10-07' AS Date), N'online', CAST(50.00 AS Decimal(10, 2)), N'04J8PAY5RS', N'Pending')
+SET IDENTITY_INSERT [dbo].[Payments] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Product] ON 
 
-INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (22, 11, 8, N'TonedMilk', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/TonedMilk.png')
-INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (23, 12, 12, N'Morning Edition', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/NPTimesOfIndia.jpg')
-INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (24, 11, 8, N'Gold Milk', N'C:/Users/HP/Source/Repos/Ecommerce_Api/Assests/Images/Product_images/GoldMilk.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (22, 11, 8, N'TonedMilk', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/TonedMilk.png')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (23, 12, 12, N'Morning Edition', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/NPTimesOfIndia.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (24, 11, 8, N'Gold Milk', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/GoldMilk.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (25, 13, 14, N'Onions', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/Onions.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (26, 14, 18, N'Curd(packets)', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/HatsunPacketCurd.jpg')
+INSERT [dbo].[Product] ([Product_Id], [Category_Id], [Brand_Id], [Product_Name], [ImageURL]) VALUES (27, 15, 17, N'Green Apples', N'C:/Users/HP/OneDrive/Desktop/EcommerceApi_Images/Product_images/GreenApple.jpeg')
 SET IDENTITY_INSERT [dbo].[Product] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ProductItemDetails] ON 
@@ -395,7 +450,25 @@ INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit],
 INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (3, 23, N'pcs', CAST(1 AS Decimal(10, 0)), CAST(1 AS Decimal(18, 0)), CAST(250 AS Decimal(18, 0)), CAST(7 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(250 AS Decimal(18, 0)), N'morning edition of newspaper', CAST(N'2023-10-02T12:06:37.740' AS DateTime))
 INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (4, 24, N'ML', CAST(500 AS Decimal(10, 0)), CAST(500 AS Decimal(18, 0)), CAST(150 AS Decimal(18, 0)), CAST(30 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(150 AS Decimal(18, 0)), N'500 ml gold', CAST(N'2023-10-02T13:23:29.373' AS DateTime))
 INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (5, 24, N'ML', CAST(1000 AS Decimal(10, 0)), CAST(1000 AS Decimal(18, 0)), CAST(100 AS Decimal(18, 0)), CAST(60 AS Decimal(18, 0)), 1, CAST(N'2023-10-02' AS Date), CAST(N'2023-10-03' AS Date), 1, CAST(100 AS Decimal(18, 0)), N'1000 ml gold', CAST(N'2023-10-02T13:23:29.380' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (6, 25, N'KG', CAST(5 AS Decimal(10, 0)), CAST(5 AS Decimal(18, 0)), CAST(500 AS Decimal(18, 0)), CAST(500 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(500 AS Decimal(18, 0)), N'5 KG BAGS OF ONIONS', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (7, 25, N'KG', CAST(10 AS Decimal(10, 0)), CAST(10 AS Decimal(18, 0)), CAST(1000 AS Decimal(18, 0)), CAST(950 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(1000 AS Decimal(18, 0)), N'10 KG BAGS OF ONIONS', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (8, 25, N'KG', CAST(20 AS Decimal(10, 0)), CAST(20 AS Decimal(18, 0)), CAST(1500 AS Decimal(18, 0)), CAST(1800 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(1500 AS Decimal(18, 0)), N'5 KG BAGS OF ONIONS', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (9, 25, N'KG', CAST(50 AS Decimal(10, 0)), CAST(50 AS Decimal(18, 0)), CAST(2000 AS Decimal(18, 0)), CAST(4200 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(2000 AS Decimal(18, 0)), N'5 KG BAGS OF ONIONS', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (10, 26, N'GM', CAST(110 AS Decimal(10, 0)), CAST(110 AS Decimal(18, 0)), CAST(50 AS Decimal(18, 0)), CAST(10 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(50 AS Decimal(18, 0)), N'110 GMS OF PACKET', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (11, 26, N'GM', CAST(200 AS Decimal(10, 0)), CAST(200 AS Decimal(18, 0)), CAST(20 AS Decimal(18, 0)), CAST(20 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(20 AS Decimal(18, 0)), N'200 GMS OF PACKET', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (12, 26, N'GM', CAST(400 AS Decimal(10, 0)), CAST(400 AS Decimal(18, 0)), CAST(20 AS Decimal(18, 0)), CAST(40 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(20 AS Decimal(18, 0)), N'400 GMS OF PACKET', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (13, 26, N'GM', CAST(500 AS Decimal(10, 0)), CAST(500 AS Decimal(18, 0)), CAST(20 AS Decimal(18, 0)), CAST(50 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(20 AS Decimal(18, 0)), N'500 GMS OF PACKET', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (14, 26, N'GM', CAST(1000 AS Decimal(10, 0)), CAST(1000 AS Decimal(18, 0)), CAST(20 AS Decimal(18, 0)), CAST(60 AS Decimal(18, 0)), 1, CAST(N'2023-10-04' AS Date), CAST(N'2023-12-04' AS Date), 1, CAST(20 AS Decimal(18, 0)), N'1000 GMS OF PACKET', CAST(N'2023-10-04T16:47:00.173' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (15, 27, N'KG', CAST(1 AS Decimal(10, 0)), CAST(1 AS Decimal(18, 0)), CAST(30 AS Decimal(18, 0)), CAST(80 AS Decimal(18, 0)), 1, CAST(N'2023-10-14' AS Date), CAST(N'2023-10-14' AS Date), 1, CAST(30 AS Decimal(18, 0)), N'1KG', CAST(N'2023-10-04T17:24:33.130' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (16, 27, N'KG', CAST(3 AS Decimal(10, 0)), CAST(3 AS Decimal(18, 0)), CAST(15 AS Decimal(18, 0)), CAST(240 AS Decimal(18, 0)), 1, CAST(N'2023-10-14' AS Date), CAST(N'2023-10-14' AS Date), 1, CAST(15 AS Decimal(18, 0)), N'3 KG', CAST(N'2023-10-04T17:24:33.130' AS DateTime))
+INSERT [dbo].[ProductItemDetails] ([id], [Product_Id], [Unit], [SizeOfEachUnit], [WeightOfEachUnit], [StockOfEachUnit], [PRICE], [IsAvailable], [ManufactureDate], [ExpiryDate], [Discount_id], [Available_Quantity], [Description], [AddedDate]) VALUES (17, 27, N'KG', CAST(5 AS Decimal(10, 0)), CAST(5 AS Decimal(18, 0)), CAST(10 AS Decimal(18, 0)), CAST(370 AS Decimal(18, 0)), 1, CAST(N'2023-10-14' AS Date), CAST(N'2023-10-14' AS Date), 1, CAST(10 AS Decimal(18, 0)), N'5 1KG', CAST(N'2023-10-04T17:24:33.130' AS DateTime))
 SET IDENTITY_INSERT [dbo].[ProductItemDetails] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ShoppingCartItems] ON 
+
+INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity]) VALUES (1, 1, 23, 1)
+INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity]) VALUES (2, 1, 24, 1)
+SET IDENTITY_INSERT [dbo].[ShoppingCartItems] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ShoppingCarts] ON 
 
@@ -434,6 +507,10 @@ INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (32, 40, C
 INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (33, 41, CAST(N'2023-09-22T19:15:08.873' AS DateTime))
 INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (34, 42, CAST(N'2023-09-23T12:22:01.303' AS DateTime))
 INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (35, 43, CAST(N'2023-09-23T12:28:34.637' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (36, 45, CAST(N'2023-10-08T19:05:39.377' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (37, 46, CAST(N'2023-10-09T11:31:34.683' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (38, 47, CAST(N'2023-10-11T13:15:45.867' AS DateTime))
+INSERT [dbo].[ShoppingCarts] ([CartID], [UserID], [CreatedAt]) VALUES (39, 48, CAST(N'2023-10-11T16:55:01.237' AS DateTime))
 SET IDENTITY_INSERT [dbo].[ShoppingCarts] OFF
 GO
 SET IDENTITY_INSERT [dbo].[subscription_type] ON 
@@ -458,7 +535,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (1, 1, N'Krishna', N'pass@123', N'Krishna', N'Admin', N'1234567890', N'admin@example.com', 1)
-INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (2, 2, N'Shiva', N'pass@123', N'Shiva', N'User', N'9876543210', N'user@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (2, 2, N'Shivaprakash', N'shiva123', N'shiva', N'prakash', N'111122', N'shiva@gmail.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (3, 3, N'Bhaskar', N'pass@123', N'Bhaskar', N'Vendor', N'5555555555', N'vendor@example.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (11, 1, N'KrishnaU', N'pass@123', N'KrishnaU', N'Admin', N'1234567890', N'amin@example.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (12, 2, N'ShivaU', N'pass@123', N'Shiva', N'User', N'9876543210', N'user1@example.com', 1)
@@ -492,11 +569,20 @@ INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstn
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (41, 1, N'user36@gmail.com', N'password', N'user36', N'null', N'+919999999936', N'user36@gmail.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (42, 1, N'user37@gmail.com', N'password', N'user37', N'null', N'+919999999937', N'user37@gmail.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (43, 1, N'jane@example.com', N'password', N'jane', N'null', N'+919999999999', N'jane@example.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (45, 1, N'a@a.com', N'password', N'gudupu surya', N'null', N'+919490890244', N'a@a.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (46, 1, N'm@m.com', N'password', N'Madhura', N'null', N'+918897037576', N'm@m.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (47, 1, N'b@b.com', N'shiva123', N'bhaskar', N'null', N'+919491361442', N'b@b.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (48, 1, N'ashok@gmail.com', N'password', N'ashok', N'null', N'+919533233031', N'ashok@gmail.com', 1)
 SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserSubscriptions] ON 
+
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (1, 2, 1, 2, CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date), CAST(50.00 AS Decimal(10, 2)), 1)
+SET IDENTITY_INSERT [dbo].[UserSubscriptions] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Coupons__A25C5AA73B8891CC]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Index [UQ__Coupons__A25C5AA732B10DC6]    Script Date: 12-Oct-23 1:46:04 PM ******/
 ALTER TABLE [dbo].[Coupons] ADD UNIQUE NONCLUSTERED 
 (
 	[Code] ASC
@@ -504,7 +590,7 @@ ALTER TABLE [dbo].[Coupons] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Users__536C85E46B030E97]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Index [UQ__Users__536C85E401826BAD]    Script Date: 12-Oct-23 1:46:04 PM ******/
 ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
 (
 	[Username] ASC
@@ -512,7 +598,7 @@ ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Users__A9D105344E3034C2]    Script Date: 02-Oct-23 5:23:01 PM ******/
+/****** Object:  Index [UQ__Users__A9D1053407E15804]    Script Date: 12-Oct-23 1:46:04 PM ******/
 ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
 (
 	[Email] ASC
@@ -529,6 +615,9 @@ GO
 ALTER TABLE [dbo].[UserCoupons] ADD  DEFAULT (getdate()) FOR [UsageDate]
 GO
 ALTER TABLE [dbo].[UserSubscriptions] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([User_Id])
 GO
 ALTER TABLE [dbo].[Brand]  WITH CHECK ADD FOREIGN KEY([Category_id])
 REFERENCES [dbo].[Category] ([Category_Id])
