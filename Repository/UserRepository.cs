@@ -224,9 +224,12 @@ namespace Ecommerce_Api.Repository
                         HouseNo = address.HouseNo,
                         Longitude = address.Longitude,
                         Latitude = address.Latitude,
+                        Username = address.Username,
+                        MobileNumber = address.MobileNumber,
                     };
                     context.Addresses.Add(useraddress);
                     await context.SaveChangesAsync();
+                    address.AddressId = useraddress.AddressId;
                     return address;
                 }
                 return address;
@@ -251,11 +254,63 @@ namespace Ecommerce_Api.Repository
                 Pincode = address.Pincode,
                 HouseNo = address.HouseNo,
                 Longitude = address.Longitude ?? 0,
-                Latitude = address.Latitude ?? 0
+                Latitude = address.Latitude ?? 0,
+                Username = address.Username,
+                MobileNumber = address.MobileNumber,
             })
             .ToListAsync();
             return addresses;
         }
+
+
+        public async Task<UserAdressViewModel> UpdateAdressDetails(UserAdressViewModel userAdressViewModel)
+        {
+            var existingadress = context.Addresses.Find(userAdressViewModel.AddressId);
+
+            if (existingadress == null)
+            {
+                return null;
+            }
+
+
+            //existingUser.UserTypeId = user.UserTypeId;
+            existingadress.AddressId = userAdressViewModel.AddressId;
+            existingadress.UserId = userAdressViewModel.UserId;
+            existingadress.Country = userAdressViewModel.Country;
+            existingadress.State = userAdressViewModel.State;
+            existingadress.City = userAdressViewModel.City;
+            existingadress.Area = userAdressViewModel.Area;
+            existingadress.Pincode = userAdressViewModel.Pincode;
+            existingadress.HouseNo = userAdressViewModel.HouseNo;
+            existingadress.Longitude = userAdressViewModel.Longitude;
+            existingadress.Latitude = userAdressViewModel.Latitude;
+            existingadress.Username = userAdressViewModel.Username;
+            existingadress.MobileNumber = userAdressViewModel.MobileNumber;
+            //existingUser.IsActive = user.IsActive;
+
+            // Save changes to the repository
+            context.Addresses.Update(existingadress);
+            context.SaveChanges();
+            var updatedUserAdressViewModel = new UserAdressViewModel
+            {
+                AddressId = existingadress.AddressId,
+                UserId = existingadress.UserId ?? 0,
+                Country = existingadress.Country,
+                State = existingadress.State,
+                City = existingadress.City,
+                Area = existingadress.Area,
+                Pincode = existingadress.Pincode,
+                HouseNo = existingadress.HouseNo,
+                Longitude = existingadress.Longitude ?? 0,
+                Latitude = existingadress.Latitude ?? 0,
+                Username = existingadress.Username,
+                MobileNumber = existingadress.MobileNumber,
+
+                // Map other properties as needed
+            };
+            return updatedUserAdressViewModel; // Return the updated user
+        }
+
 
 
         //hidden

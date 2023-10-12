@@ -103,6 +103,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
         [HttpPost]
         [Route("AddingAdressDetails")]
         public async Task<ActionResult<UserAdressViewModel>> AddingAdressDetails(UserAdressViewModel address)
@@ -127,6 +128,7 @@ namespace Ecommerce_Api.Controllers
         [HttpGet]
         [Route("GetTheUserAdressDetails")]
         public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userid)
+        
         {
             try
             {
@@ -142,6 +144,28 @@ namespace Ecommerce_Api.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("UpdateAdressDetails")]
+        public async Task<ActionResult<UserAdressViewModel>> UpdateAdressDetails(UserAdressViewModel userAdressViewModel)
+        {
+            try
+            {
+
+                if (userAdressViewModel.AddressId != 0)
+                {
+
+                    var item = await iur.UpdateAdressDetails(userAdressViewModel);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
 
 

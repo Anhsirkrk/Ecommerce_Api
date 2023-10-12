@@ -23,6 +23,9 @@ namespace Ecommerce_Api.ViewModels
         public decimal Longitude { get; set; }
 
         public decimal Latitude { get; set; }
+        public string Username { get; set; }
+
+        public string MobileNumber { get; set; }
 
 
     }
