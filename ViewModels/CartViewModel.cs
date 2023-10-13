@@ -1,4 +1,5 @@
-﻿namespace Ecommerce_Api.ViewModels
+﻿
+namespace Ecommerce_Api.ViewModels
 {
     public class CartViewModel
     {
@@ -11,22 +12,24 @@
         public int ProductId { get; set; }
 
         public int Quantity { get; set; }
+        public decimal SizeOfItem { get; set; }
 
         public decimal Price { get; set; }
 
         public List<int> ProductsList { get; set; }
         public List<int> Quantitiesofeachproduct { get; set; }
+        public List<decimal> EachitemSizeOfProducts { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public string Resultmessage { get;set; }
+        public string Resultmessage { get; set; }
 
         public bool IsItemAdded { get; set; }
-        public bool IsCartCreated{ get; set; }
+        public bool IsCartCreated { get; set; }
         public bool IsItemDeleted { get; set; }
 
-        public bool IsQuantityUpdated { get; set; } 
-        public int CreatedCartID { get; set; } 
-       
+        public bool IsQuantityUpdated { get; set; }
+        public int CreatedCartID { get; set; }
+
     }
 }

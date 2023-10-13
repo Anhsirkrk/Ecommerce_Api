@@ -55,6 +55,8 @@ public partial class EcommerceDailyPickContext : DbContext
 
     public virtual DbSet<Vendor> Vendors { get; set; }
 
+    public virtual DbSet<Wishlist> Wishlists { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=VVSGHP\\SQLEXPRESS;Database=Ecommerce_dailyPick;Integrated Security=true;TrustServerCertificate=True");
@@ -538,6 +540,26 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.HasOne(d => d.Brand).WithMany(p => p.Vendors)
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("FK__Vendors__Brand_I__797309D9");
+        });
+
+        modelBuilder.Entity<Wishlist>(entity =>
+        {
+            entity.HasKey(e => e.WishlistId).HasName("PK__Wishlist__233189CB2F38CF01");
+
+            entity.ToTable("Wishlist");
+
+            entity.Property(e => e.WishlistId).HasColumnName("WishlistID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Wishlists)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Wishlist__Produc__03F0984C");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Wishlist__UserID__02FC7413");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,13 +1,12 @@
 ﻿namespace Ecommerce_Api.ViewModels
 {
-    public class CartUserViewModel
+    public class UserWishlistViewModel
     {
-        public int UserId { get; set; }
-        public int ItemId { get; set; }
-
-        public int CartId { get; set; }
-
+        public int WishlistId { get; set; }
         public int ProductId { get; set; }
+
+        public int UserId { get; set; }
+        public bool IsInWishlist { get; set; }
 
         public int CategoryId { get; set; }
 
@@ -19,8 +18,9 @@
 
         public string ProductName { get; set; } = null!;
 
+        public IFormFile image { get; set; }
 
-        public string image { get; set; }
+        public string Base64Image { get; set; }
 
         public string Unit { get; set; }
 
@@ -41,7 +41,14 @@
 
         public List<int> DiscountId_OfEachUnit { get; set; }
 
-        //public string ResultMessage { get; set; }
+        public string ResultMessage { get; set; }
+
+        public bool IsProductAdded { get; set; }
+
+        public bool IsProductDeleted { get; set; }
+
+        public bool IsProductUpdated { get; set; }
+
         public bool IsAvailable { get; set; }
 
         public decimal SizeOfUnit { get; set; }
