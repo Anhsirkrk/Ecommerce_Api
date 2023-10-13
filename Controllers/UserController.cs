@@ -160,5 +160,26 @@ namespace Ecommerce_Api.Controllers
                 throw ;
             }
         }
+
+        [HttpPost]
+        [Route("UpdateAdressDetails")]
+        public async Task<ActionResult<UserAdressViewModel>> UpdateAdressDetails(UserAdressViewModel userAdressViewModel)
+        {
+            try
+            {
+
+                if (userAdressViewModel.AddressId != 0)
+                {
+
+                    var item = await iur.UpdateAdressDetails(userAdressViewModel);
+                    return Ok(item);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

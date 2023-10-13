@@ -11,11 +11,13 @@
         public int ProductId { get; set; }
 
         public int Quantity { get; set; }
+        public decimal SizeOfItem { get; set; }
 
         public decimal Price { get; set; }
 
         public List<int> ProductsList { get; set; }
         public List<int> Quantitiesofeachproduct { get; set; }
+        public List<decimal> EachitemSizeOfProducts { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

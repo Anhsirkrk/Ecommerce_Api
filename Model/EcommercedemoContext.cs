@@ -55,6 +55,8 @@ public partial class EcommercedemoContext : DbContext
 
     public virtual DbSet<Vendor> Vendors { get; set; }
 
+    public virtual DbSet<Wishlist> Wishlists { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=DESKTOP-SRDJ1O4\\SQLEXPRESS;Database=Ecommercedemo;Integrated Security=true;TrustServerCertificate=True");
@@ -82,6 +84,9 @@ public partial class EcommercedemoContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Latitude).HasColumnType("decimal(9, 6)");
             entity.Property(e => e.Longitude).HasColumnType("decimal(9, 6)");
+            entity.Property(e => e.MobileNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.Pincode)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -89,6 +94,9 @@ public partial class EcommercedemoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.User).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
@@ -386,6 +394,7 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.ItemId).HasColumnName("ItemID");
             entity.Property(e => e.CartId).HasColumnName("CartID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.SizeOfItem).HasColumnType("decimal(10, 0)");
 
             entity.HasOne(d => d.Cart).WithMany(p => p.ShoppingCartItems)
                 .HasForeignKey(d => d.CartId)
@@ -532,6 +541,26 @@ public partial class EcommercedemoContext : DbContext
             entity.HasOne(d => d.Brand).WithMany(p => p.Vendors)
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("FK__Vendors__Brand_I__76969D2E");
+        });
+
+        modelBuilder.Entity<Wishlist>(entity =>
+        {
+            entity.HasKey(e => e.WishlistId).HasName("PK__Wishlist__233189CBB8678A65");
+
+            entity.ToTable("Wishlist");
+
+            entity.Property(e => e.WishlistId).HasColumnName("WishlistID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Wishlists)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_product");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_user");
         });
 
         OnModelCreatingPartial(modelBuilder);

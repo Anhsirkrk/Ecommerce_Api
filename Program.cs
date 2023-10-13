@@ -2,6 +2,7 @@ using Ecommerce_Api;
 using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Microsoft.EntityFrameworkCore;
+using Razorpay.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,16 @@ builder.Services.AddScoped<IloginRepository, LoginRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>(); // Example, replace CartRepository with your actual implementation
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddSingleton<RazorpayClient>(sp =>
+{
+    var apiKey = "rzp_test_eU5IaExAj1oLTZ";
+    var apiKeySecret = "8GwQc2yBqtylRod7VLon9m2w";
+    return new RazorpayClient(apiKey, apiKeySecret);
+});
+
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
 
 builder.Services.AddSwaggerGen(c =>
 {

@@ -25,5 +25,9 @@ public partial class Address
 
     public decimal? Latitude { get; set; }
 
+    public string? Username { get; set; }
+
+    public string? MobileNumber { get; set; }
+
     public virtual User? User { get; set; }
 }
