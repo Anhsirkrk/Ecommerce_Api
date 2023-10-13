@@ -37,6 +37,7 @@ namespace Ecommerce_Api.Repository
                             CartId = cvm.CartId,
                             ProductId = cvm.ProductId,
                             Quantity = cvm.Quantity,
+                            //SizeOfItem = cvm.SizeOfItem,
                         };
                         var insertingitem = await context.ShoppingCartItems.AddAsync(cartitem);
                         await context.SaveChangesAsync();
@@ -61,6 +62,7 @@ namespace Ecommerce_Api.Repository
                 {
                     var item = await context.ShoppingCartItems.FirstOrDefaultAsync(x => x.CartId == cvm.CartId && x.ProductId == cvm.ProductId);
                     item.Quantity = cvm.Quantity;
+                    //item.SizeOfItem = cvm.SizeOfItem;
                     var ChangingQuantity = context.ShoppingCartItems.Update(item);
                     await context.SaveChangesAsync();
                     cvm.Resultmessage = "Quantity Updated";
@@ -187,6 +189,7 @@ namespace Ecommerce_Api.Repository
             return null;
         }
 
+        //get user cartitems based on userid
         public async Task<List<CartUserViewModel>> GetCartItemsBasedOnUserId(int userid)
         {
             var cartUserViewModels = (from sc in context.ShoppingCarts
@@ -203,7 +206,7 @@ namespace Ecommerce_Api.Repository
                                           // Map properties based on your requirements
                                           UserId = g.First().sc.UserId ?? 0,
                                           CartId = g.First().sc.CartId,
-                                          ItemId = g.First().sci.CartId ?? 0,
+                                          ItemId = g.First().sci.ItemId,
                                           ProductId = g.First().sci.ProductId ?? 0,
                                           image = g.First().p.ImageUrl,
                                           CategoryId = g.First().c.CategoryId,
@@ -212,7 +215,7 @@ namespace Ecommerce_Api.Repository
                                           BrandName = g.First().b.BrandName,
                                           ProductName = g.First().p.ProductName,
                                           Unit = g.First().pid.Unit,
-                                          SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
+                                          //SizeOfEachUnits = g.Select(item => item.sci.SizeOfItem ?? 0m).ToList(),
                                           WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
                                           StockOfEachUnits = g.Select(item => item.pid.StockOfEachUnit ?? 0m).ToList(),
                                           PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
@@ -270,3 +273,4 @@ namespace Ecommerce_Api.Repository
         }
     }
 }
+   

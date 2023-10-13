@@ -321,7 +321,22 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-
+        //public async Task<List<Product>> GetProductById(List<int> product_id)
+        //{
+        //    try
+        //    {
+        //        if (_context != null && product_id != null && product_id.Any())
+        //        {
+        //            var product = await _context.Products.Where(x => product_id.Contains(x.ProductId)).ToListAsync();
+        //            return product;
+        //        }
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
 
         //brand
