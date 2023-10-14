@@ -58,5 +58,7 @@
         public int DiscountId { get; set; }
         public decimal Avaialble_Quantity { get; set; }
         public string Description { get; set; }
+
+        public decimal SizeOfUnit { get; set; }
     }
 }
