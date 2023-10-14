@@ -394,6 +394,7 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.Property(e => e.ItemId).HasColumnName("ItemID");
             entity.Property(e => e.CartId).HasColumnName("CartID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.SizeOfItem).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Cart).WithMany(p => p.ShoppingCartItems)
                 .HasForeignKey(d => d.CartId)

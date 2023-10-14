@@ -13,6 +13,8 @@ public partial class ShoppingCartItem
 
     public int Quantity { get; set; }
 
+    public decimal? SizeOfItem { get; set; }
+
     public virtual ShoppingCart? Cart { get; set; }
 
     public virtual Product? Product { get; set; }
