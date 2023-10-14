@@ -3,6 +3,8 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Ecommerce_Api.Controllers
 {
     [ApiController]
@@ -16,6 +18,7 @@ namespace Ecommerce_Api.Controllers
         {
             context = _context;
             icr = _icr;
+            context.Database.SetCommandTimeout(120);
         }
 
         [HttpPost]

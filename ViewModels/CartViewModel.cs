@@ -13,7 +13,8 @@ namespace Ecommerce_Api.ViewModels
 
         public int Quantity { get; set; }
         public decimal SelectedSizeOfItem { get; set; }
-
+        
+         
         public decimal Price { get; set; }
 
         public List<int> ProductsList { get; set; }
