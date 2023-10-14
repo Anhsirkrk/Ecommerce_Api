@@ -62,7 +62,7 @@ namespace Ecommerce_Api.Repository
                 {
                     var item = await context.ShoppingCartItems.FirstOrDefaultAsync(x => x.CartId == cvm.CartId && x.ProductId == cvm.ProductId);
                     item.Quantity = cvm.Quantity;
-                    //item.SizeOfItem = cvm.SizeOfItem;
+                    item.SizeOfItem = cvm.SelectedSizeOfItem;
                     var ChangingQuantity = context.ShoppingCartItems.Update(item);
                     await context.SaveChangesAsync();
                     cvm.Resultmessage = "Quantity Updated";
