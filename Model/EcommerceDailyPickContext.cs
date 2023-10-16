@@ -394,7 +394,7 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.Property(e => e.ItemId).HasColumnName("ItemID");
             entity.Property(e => e.CartId).HasColumnName("CartID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.SizeOfItem).HasColumnType("decimal(18, 0)");
+            //entity.Property(e => e.SizeOfItem).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Cart).WithMany(p => p.ShoppingCartItems)
                 .HasForeignKey(d => d.CartId)
@@ -552,16 +552,18 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.Property(e => e.WishlistId).HasColumnName("WishlistID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.Wishlists)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Wishlist__Produc__03F0984C");
+        //    entity.HasOne(d => d.Product).WithMany(p => p.Wishlists)
+        //        .HasForeignKey(d => d.ProductId)
+        //        .OnDelete(DeleteBehavior.ClientSetNull)
+        //        .HasConstraintName("FK__Wishlist__Produc__03F0984C");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Wishlist__UserID__02FC7413");
-        });
+        //    entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
+        //        .HasForeignKey(d => d.UserId)
+        //        .OnDelete(DeleteBehavior.ClientSetNull)
+        //        .HasConstraintName("FK__Wishlist__UserID__02FC7413");
+        //
+        }
+        );
 
         OnModelCreatingPartial(modelBuilder);
     }
