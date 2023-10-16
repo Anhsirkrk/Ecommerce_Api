@@ -208,10 +208,10 @@ namespace Ecommerce_Api.Repository
                                             select new CartUserViewModel
                                             {
                                                 // Map properties based on your requirements
-                                                UserId = g.First().sc.UserId ?? 0,
+                                                UserId = (int)g.First().sc.UserId,
                                                 CartId = g.First().sc.CartId,
                                                 ItemId = g.First().sci.ItemId,
-                                                ProductId = g.First().sci.ProductId ?? 0,
+                                                ProductId = (int)g.First().sci.ProductId,
                                                 image = g.First().p.ImageUrl,
                                                 CategoryName = g.First().c.CategoryName,
                                                 BrandName = g.First().b.BrandName,
