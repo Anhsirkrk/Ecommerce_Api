@@ -70,7 +70,7 @@ namespace Ecommerce_Api.Repository
                     Email = item.Email,
                     Firstname = item.Firstname,
                     Lastname = item.Lastname,
-                    //Mobile = item.Mobile,
+                    Mobile = item.Mobile,
                     UserTypeId = item.UserTypeId,
 
                 };
