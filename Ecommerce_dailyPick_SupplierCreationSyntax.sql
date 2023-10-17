@@ -69,5 +69,17 @@ ADD CONSTRAINT CHK_Supplier_Order_Payment_status
 CHECK (Order_Payment_status IN ('Payment Recieved', 'Pending from Admin', 'Pending from Bank' ,
 					'Not Recieved' ));
 
+ALTER TABLE OrderItems
+ADD SizeOfProduct decimal(10,2);
+
+ALTER TABLE Orders
+ADD OrderPaymentStatus varchar(40);
+
+ALTER TABLE Orders
+ADD CONSTRAINT CHK_USer_Order_Payment_status 
+CHECK (OrderPaymentStatus IN ('Success', 'Pending', 'Payment Failed' 
+					));
+
+
 
 
