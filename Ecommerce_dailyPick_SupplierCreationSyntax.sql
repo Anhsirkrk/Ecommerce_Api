@@ -81,5 +81,24 @@ CHECK (OrderPaymentStatus IN ('Success', 'Pending', 'Payment Failed'
 					));
 
 
+// added below code on 18-10-2023
+
+alter table Orders add TimeSlot varchar(20)
+
+
+alter table Orders add AddressID int 
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_order_Address_Id
+FOREIGN KEY (AddressID)
+REFERENCES Address(AddressID);
+
+alter table Orders add SupplierId int 
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_order_Supplier_Id
+FOREIGN KEY (SupplierId)
+REFERENCES Supplier(Supplier_Id);
+
 
 
