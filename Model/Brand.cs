@@ -19,5 +19,7 @@ public partial class Brand
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
+    public virtual ICollection<SupplierBrand> SupplierBrands { get; set; } = new List<SupplierBrand>();
+
     public virtual ICollection<Vendor> Vendors { get; set; } = new List<Vendor>();
 }
