@@ -213,6 +213,7 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1E4607BBD08AAA1");
 
             entity.Property(e => e.OrderId).HasColumnName("Order_Id");
+            entity.Property(e => e.AddressId).HasColumnName("AddressID");
             entity.Property(e => e.EndDate)
                 .HasColumnType("date")
                 .HasColumnName("End_Date");
@@ -226,15 +227,26 @@ public partial class EcommerceDailyPickContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("Start_Date");
             entity.Property(e => e.SubscriptionTypeId).HasColumnName("Subscription_Type_Id");
+            entity.Property(e => e.TimeSlot)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.TotalAmount)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Total_Amount");
             entity.Property(e => e.UserId).HasColumnName("User_id");
 
+            entity.HasOne(d => d.Address).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.AddressId)
+                .HasConstraintName("FK_order_Address_Id");
+
             entity.HasOne(d => d.SubscriptionType).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.SubscriptionTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_SubscriptionId_Subscription");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK_order_Supplier_Id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
