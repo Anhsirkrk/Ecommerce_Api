@@ -30,6 +30,7 @@ builder.Services.AddScoped<IloginRepository, LoginRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
 builder.Services.AddSingleton<RazorpayClient>(sp =>
 {
     var apiKey = "rzp_test_1P09DzG08tmJ4d";
