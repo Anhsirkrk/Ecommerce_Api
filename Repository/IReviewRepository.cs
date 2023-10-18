@@ -6,5 +6,6 @@ namespace Ecommerce_Api.Repository
     {
         Task<ReviewViewModel> AddReviewOfProduct(ReviewViewModel reviewViewModel);
         Task<List<ProductReviewsViewModel>> GetProductReviewsBasedOnProductId(int productId);
+        Task<decimal> GetAverageRatingForProduct(int productId);
     }
 }

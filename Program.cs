@@ -3,12 +3,17 @@ using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Razorpay.Api;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.IgnoreNullValues = true;
+    // Add any other serialization options you need.
+});
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -40,7 +45,7 @@ builder.Services.AddSingleton<RazorpayClient>(sp =>
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
-
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddSwaggerGen(c =>
 {
     // ... (other configurations)

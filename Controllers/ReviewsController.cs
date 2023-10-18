@@ -64,5 +64,26 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetAverageRatingForProduct")]
+        public async Task<ActionResult<double>> GetAverageRatingForProduct(int productId)
+        {
+            try
+            {
+
+                if (productId != 0)
+                {
+
+                    var item = await irr.GetAverageRatingForProduct(productId);
+                    return Ok(item);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

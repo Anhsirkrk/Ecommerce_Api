@@ -221,7 +221,7 @@ namespace Ecommerce_Api.Repository
                                           BrandName = g.First().b.BrandName,
                                           ProductName = g.First().p.ProductName,
                                           Unit = g.First().pid.Unit,
-                                          SizeOfEachUnits = g.Select(item => item.sci.SizeOfItem ?? 0m).ToList(),
+                                          SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
                                           WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
                                           StockOfEachUnits = g.Select(item => item.pid.StockOfEachUnit ?? 0m).ToList(),
                                           PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
@@ -243,7 +243,7 @@ namespace Ecommerce_Api.Repository
                                           //DiscountId_OfEachUnit = new List<int> { g.First().pid.DiscountId ?? 0 },
                                           //ResultMessage = g.First().sc.userid,
                                           IsAvailable = g.First().pid.IsAvailable ?? false,
-                                          SizeOfUnit = g.First().pid.SizeOfEachUnit ?? 0m,
+                                          selectedSizeOfUnit = g.First().sci.SizeOfItem ?? 0m,
                                           WeightOfUnit = (decimal)(g.First().pid.WeightOfEachUnit ?? 0m),
                                           StockOfUnit = (decimal)(g.First().pid.StockOfEachUnit ?? 0m),
                                           MFG = g.First().pid.ManufactureDate ?? DateTime.MinValue,
@@ -252,6 +252,7 @@ namespace Ecommerce_Api.Repository
                                           DiscountId = g.First().pid.DiscountId ?? 0,
                                           Avaialble_Quantity = g.First().pid.AvailableQuantity ?? 0m,
                                           Description = g.First().pid.Description,
+                                          selectedquantityofitem=g.First().sci.Quantity,
                                           // Map other properties
                                       }).ToList();
             var cartUserViewModelslist = cartUserViewModels.ToList();

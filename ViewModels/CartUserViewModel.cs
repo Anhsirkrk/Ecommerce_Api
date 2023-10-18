@@ -45,7 +45,8 @@
         //public string ResultMessage { get; set; }
         public bool IsAvailable { get; set; }
 
-        public decimal SizeOfUnit { get; set; }
+        public decimal selectedSizeOfUnit { get; set; }
+        public int selectedquantityofitem { get; set; }
 
         public decimal WeightOfUnit { get; set; }
 
