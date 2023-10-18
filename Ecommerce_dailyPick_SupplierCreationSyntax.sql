@@ -80,6 +80,9 @@ ADD CONSTRAINT CHK_USer_Order_Payment_status
 CHECK (OrderPaymentStatus IN ('Success', 'Pending', 'Payment Failed' 
 					));
 
+
+// added below code on 18-10-2023
+
 alter table Orders add TimeSlot varchar(20)
 
 
