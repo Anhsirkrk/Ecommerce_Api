@@ -83,5 +83,12 @@ CHECK (OrderPaymentStatus IN ('Success', 'Pending', 'Payment Failed'
 alter table Orders add TimeSlot varchar(20)
 
 
+alter table Orders add AddressID int 
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_order_Address_Id
+FOREIGN KEY (AddressID)
+REFERENCES Address(AddressID);
+
 
 
