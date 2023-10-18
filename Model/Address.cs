@@ -31,6 +31,8 @@ public partial class Address
 
     public int? SupplierId { get; set; }
 
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
     public virtual Supplier? Supplier { get; set; }
 
     public virtual User? User { get; set; }

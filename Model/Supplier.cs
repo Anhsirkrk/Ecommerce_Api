@@ -27,6 +27,8 @@ public partial class Supplier
 
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
     public virtual ICollection<SupplierBrand> SupplierBrands { get; set; } = new List<SupplierBrand>();
 
     public virtual ICollection<SupplierOrderTable> SupplierOrderTables { get; set; } = new List<SupplierOrderTable>();
