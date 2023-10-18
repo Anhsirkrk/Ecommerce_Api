@@ -90,5 +90,12 @@ ADD CONSTRAINT FK_order_Address_Id
 FOREIGN KEY (AddressID)
 REFERENCES Address(AddressID);
 
+alter table Orders add SupplierId int 
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_order_Supplier_Id
+FOREIGN KEY (SupplierId)
+REFERENCES Supplier(Supplier_Id);
+
 
 
