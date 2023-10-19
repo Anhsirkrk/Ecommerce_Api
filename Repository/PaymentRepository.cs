@@ -1,7 +1,10 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace Ecommerce_Api.Repository
 {
@@ -15,57 +18,77 @@ namespace Ecommerce_Api.Repository
             context = _context;
         }
 
+
         public async Task<PaymentViewModel> UserPayment(PaymentViewModel paymentView)
         {
-            try
+            string randomTransactionId = GenerateRandomTransactionId();
+            var parameters = new[]
             {
-                if (paymentView != null)
-                {
-                    // Create a new Payment entity and map properties from PaymentViewModel
-                    var payment = new Payment
-                    {
-                        // Map the properties as needed
-                        OrderId = paymentView.OrderId,
-                        // PaymentDate = paymentView.PaymentDate,
-                        PaymentMethod = paymentView.PaymentMethod,
-                        Amount = paymentView.Amount,
-                        PaymentStatus = "Pending",
-                         //PaymentStatus = paymentView.PaymentStatus,
+            new SqlParameter("@OrderId", paymentView.OrderId),
+            new SqlParameter("@PaymentDate",  DateTime.Now),
+            new SqlParameter("@PaymentMethod", paymentView.PaymentMethod),
+            new SqlParameter("@Amount", paymentView.Amount),
+            new SqlParameter("@TransactionId", randomTransactionId),
+            new SqlParameter("@PaymentStatus", paymentView.PaymentStatus),
+            
+            };
 
-                        // Generate a random TransactionId
-                        TransactionId = GenerateRandomTransactionId()
-                    };
+            context.Database.ExecuteSqlRaw("EXEC SP_InsertPaymentAndUpdateOrderAndUserSubscription @OrderId, @PaymentDate, @PaymentMethod, @Amount, @TransactionId, @PaymentStatus", parameters);
 
-                    // Set PaymentDate to the current date/time if not provided
-                    payment.PaymentDate ??= DateTime.Now;
-
-                    // Set a default payment status (e.g., "Pending") if not provided
-                    // payment.PaymentStatus ??= "Sucess";
-
-                    context.Payments.Add(payment);
-                    await context.SaveChangesAsync();
-                    var paymentViewModel = new PaymentViewModel
-                    {
-                        // Map the properties as needed
-                        OrderId = payment.OrderId,
-                        // PaymentDate = payment.PaymentDate ?? DateTime.Now,
-                        PaymentMethod = payment.PaymentMethod,
-                        Amount = payment.Amount,
-                        // PaymentStatus = payment.PaymentStatus,
-                        //TransactionId = payment.TransactionId
-                    };
-
-                    return paymentViewModel;
-
-                }
-                return null;
-            }
-
-            catch
-            {
-                throw;
-            }
+            return paymentView;
         }
+
+        //public async Task<PaymentViewModel> UserPayment(PaymentViewModel paymentView)
+        //{
+        //    try
+        //    {
+        //        if (paymentView != null)
+        //        {
+        //            // Create a new Payment entity and map properties from PaymentViewModel
+        //            var payment = new Payment
+        //            {
+        //                // Map the properties as needed
+        //                OrderId = paymentView.OrderId,
+        //                // PaymentDate = paymentView.PaymentDate,
+        //                PaymentMethod = paymentView.PaymentMethod,
+        //                Amount = paymentView.Amount,
+        //                PaymentStatus = "Pending",
+        //                //PaymentStatus = paymentView.PaymentStatus,
+
+        //                // Generate a random TransactionId
+        //                TransactionId = GenerateRandomTransactionId()
+        //            };
+
+        //            // Set PaymentDate to the current date/time if not provided
+        //            payment.PaymentDate ??= DateTime.Now;
+
+        //            // Set a default payment status (e.g., "Pending") if not provided
+        //            // payment.PaymentStatus ??= "Sucess";
+
+        //            context.Payments.Add(payment);
+        //            await context.SaveChangesAsync();
+        //            var paymentViewModel = new PaymentViewModel
+        //            {
+        //                // Map the properties as needed
+        //                OrderId = payment.OrderId,
+        //                // PaymentDate = payment.PaymentDate ?? DateTime.Now,
+        //                PaymentMethod = payment.PaymentMethod,
+        //                Amount = payment.Amount,
+        //                // PaymentStatus = payment.PaymentStatus,
+        //                //TransactionId = payment.TransactionId
+        //            };
+
+        //            return paymentViewModel;
+
+        //        }
+        //        return null;
+        //    }
+
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
 
         //public async Task<PaymentViewModel> UserPayment([FromBody] PaymentViewModel paymentView)
