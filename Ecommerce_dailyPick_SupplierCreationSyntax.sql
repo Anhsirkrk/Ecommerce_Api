@@ -100,5 +100,8 @@ ADD CONSTRAINT FK_order_Supplier_Id
 FOREIGN KEY (SupplierId)
 REFERENCES Supplier(Supplier_Id);
 
+// added on 19-10-2023
+alter table Supplier_order_Table alter column Order_type int
+
 
 
