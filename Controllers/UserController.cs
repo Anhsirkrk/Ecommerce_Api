@@ -3,6 +3,14 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+//19-10-2023
+using Twilio;
+using Twilio.Types;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Rest.Voice.V1.DialingPermissions;
+using Microsoft.AspNetCore.Mvc;
+using WhatsAppApi;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -13,10 +21,13 @@ namespace Ecommerce_Api.Controllers
     {
         private readonly EcommerceDailyPickContext context;
         private readonly IUserRepository iur;
-        public UserController(IUserRepository _iur, EcommerceDailyPickContext _context)
+        private readonly IConfiguration _configuration;
+        public UserController(IUserRepository _iur, EcommerceDailyPickContext _context, IConfiguration configuration)
         {
             context = _context;
             iur = _iur;
+            _configuration = configuration;
+            context.Database.SetCommandTimeout(120);
         }
 
         [HttpPost]
@@ -30,7 +41,24 @@ namespace Ecommerce_Api.Controllers
                 {
                     return BadRequest("User Not Created");
                 }
+                //var accountSid = _configuration["Twilio:AccountSid"];
+                //var authToken = _configuration["Twilio:AuthToken"];
+                //TwilioClient.Init(accountSid, authToken);
+
+                //var recipientPhoneNumber = "whatsapp:" + item.Mobile; // Make sure item.Mobile is in the correct format
+
+                //var fromPhoneNumber = new PhoneNumber(_configuration["Twilio:PhoneNumber"]);
+
+                //var toPhoneNumber = new PhoneNumber(recipientPhoneNumber);
+
+                //var messageOptions = new CreateMessageOptions(toPhoneNumber)
+                //{
+                //    From = fromPhoneNumber,
+                //    Body = "Hello, your registration on daily pic is successful"
+                //};
+                //var message = MessageResource.Create(messageOptions);
                 return Ok(item);
+               
             }
             catch (Exception ex)
             {

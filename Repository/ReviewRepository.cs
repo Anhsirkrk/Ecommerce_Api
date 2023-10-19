@@ -1,5 +1,4 @@
-﻿
-using Ecommerce_Api.Model;
+﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +21,7 @@ namespace Ecommerce_Api.Repository
                 {
                     UserId = reviewViewModel.UserId,
                     ProductId = reviewViewModel.ProductId,
-                    Rating = reviewViewModel.Rating,
+                    Rating = (int?)reviewViewModel.Rating,
                     Comment = reviewViewModel.Comment,
                     ReviewDate = DateTime.UtcNow
                 };
@@ -34,7 +33,7 @@ namespace Ecommerce_Api.Repository
                     ReviewId = review.ReviewId,
                     UserId = (int)review.UserId,
                     ProductId = (int)review.ProductId,
-                    Rating = (int)review.Rating,
+                    Rating = (decimal)review.Rating,
                     Comment = review.Comment,
                     //ReviewDate = DateTime.UtcNow
                 };
@@ -63,6 +62,40 @@ namespace Ecommerce_Api.Repository
            .ToListAsync();
 
             return reviews;
+        }
+
+        //get the average rating  of product
+        public async Task<decimal> GetAverageRatingForProduct(int productId)
+        {
+            try
+            {
+                if (context != null)
+                {
+                    // Get a list of ratings for the specified product
+                    var ratings = await context.Reviews
+                        .Where(r => r.ProductId == productId && r.Rating.HasValue)
+                        .Select(r => r.Rating.Value)
+                        .ToListAsync();
+
+                    if (ratings.Any())
+                    {
+                        // Calculate the average rating
+                        decimal averageRating = (decimal)ratings.Average();
+                        return averageRating;
+                    }
+                    else
+                    {
+                        // Handle the case where there are no ratings
+                        return 0.0M;
+                    }
+                }
+
+                return 0.0M;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
