@@ -60,5 +60,7 @@
         public string Description { get; set; }
 
         public decimal SizeOfUnit { get; set; }
+        public decimal selectedSizeOfUnit { get; set; }
+        public int selectedquantityofitem { get; set; }
     }
 }
