@@ -15,6 +15,7 @@
         //public string TransactionId { get; set; } = null!;
 
         //public string PaymentStatus { get; set; }
+        public string PaymentStatus { get; set; }
 
     }
 }
