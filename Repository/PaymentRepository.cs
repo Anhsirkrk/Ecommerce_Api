@@ -3,6 +3,8 @@ using Ecommerce_Api.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Razorpay.Api;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Ecommerce_Api.Repository
 {
@@ -16,7 +18,121 @@ namespace Ecommerce_Api.Repository
             context = _context;
         }
 
+        public async Task<PaymentViewModel> UserPayment3([FromBody] PaymentViewModel paymentView)
+        
+        {
+            var insertedPaymentIdParameter = new SqlParameter("@InsertedPaymentId", SqlDbType.Int);
+            insertedPaymentIdParameter.Direction = ParameterDirection.Output;
+            var insertedUserSubscriptionIdParameter = new SqlParameter("@InsertedUserSubscriptionId", SqlDbType.Int);
+            insertedUserSubscriptionIdParameter.Direction = ParameterDirection.Output;
 
+            var tid = GenerateRandomTransactionId();
+            var parameters = new List<SqlParameter>
+        {
+            new SqlParameter("@OrderId", paymentView.OrderId),
+            new SqlParameter("@PaymentDate", DateTime.UtcNow),
+            new SqlParameter("@PaymentMethod", paymentView.PaymentMethod),
+            new SqlParameter("@Amount", paymentView.Amount),
+            new SqlParameter("@TransactionId",tid),
+            new SqlParameter("@PaymentStatus", paymentView.PaymentStatus),
+             insertedPaymentIdParameter,
+             insertedUserSubscriptionIdParameter // Add the output parameter to the list of parameters
+        };
+            context.Database.ExecuteSqlRaw("EXEC SP_InsertPaymentAndUpdateOrderAndUserSubscription @OrderId, @PaymentDate, @PaymentMethod, @Amount, @TransactionId, @PaymentStatus, @InsertedPaymentId OUTPUT, @InsertedUserSubscriptionId OUTPUT", parameters.ToArray());
+            // Retrieve the inserted PayemntId from the output parameter
+            int insertedpaymentid = (int)insertedPaymentIdParameter.Value;
+
+            // Retrieve the inserted UserSusbcriptionId from the output parameter
+            int insertedUserSubscriptionid = (int)insertedUserSubscriptionIdParameter.Value;
+
+            // Assign the retrieved OrderId to the orderViewModel
+            paymentView.PaymentId = insertedpaymentid;
+            paymentView.UserSubscriptionId = insertedUserSubscriptionid;
+            paymentView.PaymentStatus = "Success";
+            
+
+            return paymentView;
+        }
+
+        public async Task<PaymentViewModel> UserPayment2([FromBody] PaymentViewModel paymentView)
+        {
+            try
+            {
+                if (paymentView != null)
+                {
+                    // Create a Razorpay payment order
+                    Random randomObj = new Random();
+                    string transactionId = randomObj.Next(10000000, 100000000).ToString();
+                    var amountInPaise = (int)(paymentView.Amount * 100);
+                //    var orderOptions = new Dictionary<string, object>
+                //{
+                //    { "amount", amountInPaise },
+                //    { "currency", "INR" },
+                //    { "receipt", transactionId },
+                //    // You can add additional options here as needed
+                //};
+
+                    //var order = razorpayClient.Order.Create(orderOptions);
+
+                    // Capture the payment using the Razorpay order ID
+                    //var paymentId = order["id"].ToString();
+                //    var order_id = order["id"].ToString();
+                //    var paymentOptions = new Dictionary<string, object>
+                //{
+                //      { "order_id", order_id },
+                //    { "amount", amountInPaise },
+                //     { "currency", "INR" },
+                //};
+
+                    //var capturedPayment = razorpayClient.Payment.Capture(paymentOptions);
+
+                    //var pid = razorpayClient.Payment["id"].ToString();
+                    // Capture the payment using the Razorpay order and payment IDs.
+                    //var payment = razorpayClient.Payment.Fetch(pid);
+
+                    //if (payment["status"] == "captured")
+                    //{
+                        // Payment was successful, store data in the 'Payment' table.
+                        var paymentData = new Model.Payment
+                        {
+                            OrderId = paymentView.OrderId,
+                            PaymentDate = DateTime.UtcNow,
+                            PaymentMethod = "Razorpay",
+                            Amount = paymentView.Amount, // Convert paise to rupees if necessary.
+                            TransactionId = transactionId,
+                            PaymentStatus = paymentView.PaymentStatus,
+                        };
+
+                        // Set PaymentDate to the current date/time if not provided
+                        paymentData.PaymentDate ??= DateTime.Now;
+
+                        context.Payments.Add(paymentData);
+                        await context.SaveChangesAsync();
+
+                        var paymentViewModel = new PaymentViewModel
+                        {
+                            // Map the properties as needed
+                            OrderId = paymentData.OrderId,
+                            // PaymentDate = payment.PaymentDate ?? DateTime.Now,
+                            PaymentMethod = paymentData.PaymentMethod,
+                            Amount = paymentData.Amount,
+                            // PaymentStatus = payment.PaymentStatus,
+                            //TransactionId = payment.TransactionId
+                        };
+
+                        return paymentViewModel;
+                    //}
+
+                    return null;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         public async Task<PaymentViewModel> UserPayment([FromBody] PaymentViewModel paymentView)
         {
@@ -64,7 +180,7 @@ namespace Ecommerce_Api.Repository
                             PaymentMethod = "Razorpay",
                             Amount = paymentView.Amount, // Convert paise to rupees if necessary.
                             TransactionId = transactionId,
-                            PaymentStatus = "Sucess",
+                            PaymentStatus = "Success",
                         };
 
                         // Set PaymentDate to the current date/time if not provided
