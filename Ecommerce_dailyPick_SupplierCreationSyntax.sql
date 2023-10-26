@@ -103,5 +103,40 @@ REFERENCES Supplier(Supplier_Id);
 // added on 19-10-2023
 alter table Supplier_order_Table alter column Order_type int
 
+// addded on 20-10-2023
+ALTER PROCEDURE SpInsertOrderAndOrderItem
+    @UserId INT,
+    @SubscriptionTypeId INT,
+    @TotalAmount DECIMAL,
+    @OrderDate DATETIME,
+    @StartDate DATETIME,
+    @EndDate DATETIME,
+    @OrderPaymentStatus VARCHAR(255),
+    @TimeSlot VARCHAR(255),
+    @AddressId INT,
+    @SupplierId INT,
+    @ProductId INT,
+    @ProductPrice DECIMAL,
+    @Quantity INT,
+    @SizeOfProduct DECIMAL,
+    @InsertedOrderId INT OUTPUT -- Define an output parameter for the inserted OrderID
+AS
+BEGIN
+    -- Insert data into the Order table
+    INSERT INTO Orders (User_id, Subscription_Type_Id, Total_Amount, Order_Date, Start_Date, End_Date, OrderPaymentStatus, TimeSlot, AddressID, SupplierId)
+    VALUES (@UserId, @SubscriptionTypeId, @TotalAmount, @OrderDate, @StartDate, @EndDate, @OrderPaymentStatus, @TimeSlot, @AddressId, @SupplierId)
+
+    -- Get the OrderId of the inserted Order
+    SET @InsertedOrderId = SCOPE_IDENTITY()
+
+    -- Insert data into the OrderItem table
+    INSERT INTO OrderItems(Order_Id, Product_Id, Product_Price, Quantity, Subscription_Type_Id, Start_Date, End_Date, SizeOfProduct)
+    VALUES (@InsertedOrderId, @ProductId, @ProductPrice, @Quantity, @SubscriptionTypeId, @StartDate, @EndDate, @SizeOfProduct)
+END     
+
+////
+ALTER TABLE orders 
+ADD createdat datetime DEFAULT CURRENT_TIMESTAMP;
+
 
 
