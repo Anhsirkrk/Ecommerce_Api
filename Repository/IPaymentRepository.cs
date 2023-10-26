@@ -6,5 +6,8 @@ namespace Ecommerce_Api.Repository
     {
         //adding payment details of user 
         Task<PaymentViewModel> UserPayment(PaymentViewModel paymentView);
+        Task<PaymentViewModel> UserPayment2(PaymentViewModel paymentView);
+
+        Task<PaymentViewModel> UserPayment3(PaymentViewModel paymentView);
     }
 }

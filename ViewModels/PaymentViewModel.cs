@@ -3,6 +3,7 @@
     public class PaymentViewModel
     {
         public int PaymentId { get; set; }
+        public int UserSubscriptionId { get; set; }
 
         public int OrderId { get; set; }
 
@@ -16,6 +17,7 @@
 
         //public string PaymentStatus { get; set; }
         public string PaymentStatus { get; set; }
+        public string TransactionId { get; set; }   
 
     }
 }

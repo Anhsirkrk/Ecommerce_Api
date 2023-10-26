@@ -22,6 +22,12 @@ namespace Ecommerce_Api.Controllers
         [HttpPost]
         [Route("CreateOrder")]
         public async Task<IActionResult> CreateOrder(OrderViewModel model)
+        
+        
+        
+        
+        
+        
         {
             if (model == null)
             {

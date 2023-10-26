@@ -30,7 +30,7 @@ namespace Ecommerce_Api.Controllers
                 if (context != null)
                 {
 
-                    var item = await ipr.UserPayment(paymentView);
+                    var item = await ipr.UserPayment3(paymentView);
                     return Ok(item);
                 }
                 return BadRequest();
