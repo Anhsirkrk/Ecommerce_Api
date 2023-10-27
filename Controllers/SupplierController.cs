@@ -3,6 +3,7 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -96,13 +97,40 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
-                var suppliers = isr.GetAllSuppliers();
+                var suppliers = isr.GetSuppliersWithPinCodes();
 
                 return Ok(suppliers);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("SupplierOrderCreation")]
+        public async Task<IActionResult> SupplierOrderCreation(SupplierOrderViewModel sovm)
+        {
+            try
+            {
+                if (sovm == null)
+                {
+                    return BadRequest("Invalid data");
+                }
+                var result = await isr.SupplierOrderCreation(sovm);
+
+                // Create a custom response
+                var SupplierOrderResponse = new
+                {
+                    Message = "Supplier Order Created  successfully",
+                    Supplier = result // Include the newly created supplier data
+                };
+
+                return Ok(SupplierOrderResponse);
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
             }
         }
 
