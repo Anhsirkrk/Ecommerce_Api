@@ -7,6 +7,8 @@ namespace Ecommerce_Api.Repository
     {
         Task<SupplierViewModel> AddSupplier(SupplierViewModel supplierViewModel);
         Task<Supplier> GetSupplierById(int SupplierId);
-        List<Supplier> GetAllSuppliers();
+        List<SupplierWithPinCodesViewModel> GetSuppliersWithPinCodes();
+        Task<SupplierOrderViewModel> SupplierOrderCreation(SupplierOrderViewModel sovm);
+
     }
 }
