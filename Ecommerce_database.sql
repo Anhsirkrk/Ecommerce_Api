@@ -1,6 +1,6 @@
 USE [Ecommerce_dailyPick]
 GO
-/****** Object:  Table [dbo].[Address]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Address]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -18,13 +18,14 @@ CREATE TABLE [dbo].[Address](
 	[Latitude] [decimal](9, 6) NULL,
 	[Username] [varchar](50) NULL,
 	[MobileNumber] [varchar](20) NULL,
+	[Supplier_Id] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[AddressID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Brand]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Brand]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -41,7 +42,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Category]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Category]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -57,7 +58,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Coupons]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Coupons]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -74,7 +75,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Discount]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Discount]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,7 +91,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Log]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Log]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +107,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderItems]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[OrderItems]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -120,13 +121,14 @@ CREATE TABLE [dbo].[OrderItems](
 	[Subscription_Type_Id] [int] NOT NULL,
 	[Start_Date] [date] NOT NULL,
 	[End_Date] [date] NOT NULL,
+	[SizeOfProduct] [decimal](10, 2) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[ItemId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,13 +141,18 @@ CREATE TABLE [dbo].[Orders](
 	[Order_Date] [date] NULL,
 	[Start_Date] [date] NOT NULL,
 	[End_Date] [date] NOT NULL,
+	[OrderPaymentStatus] [varchar](40) NULL,
+	[TimeSlot] [varchar](20) NULL,
+	[AddressID] [int] NULL,
+	[SupplierId] [int] NULL,
+	[createdat] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Order_Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Payments]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Payments]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -164,7 +171,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Product]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +188,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProductItemDetails]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[ProductItemDetails]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -207,7 +214,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Reviews]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Reviews]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +232,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingCartItems]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[ShoppingCartItems]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -235,13 +242,14 @@ CREATE TABLE [dbo].[ShoppingCartItems](
 	[CartID] [int] NULL,
 	[ProductID] [int] NULL,
 	[Quantity] [int] NOT NULL,
+	[SizeOfItem] [decimal](18, 0) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[ItemID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShoppingCarts]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[ShoppingCarts]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +264,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[subscription_type]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[subscription_type]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +278,80 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User_types]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Supplier]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Supplier](
+	[Supplier_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](150) NULL,
+	[Email] [varchar](80) NULL,
+	[Mobile] [varchar](20) NULL,
+	[JoinDate] [datetime] NULL,
+	[RegistrationAmountPaid] [decimal](18, 0) NULL,
+	[Expiry_Date] [datetime] NULL,
+	[StatusOfRegistration] [varchar](50) NULL,
+	[PanCard] [varchar](20) NULL,
+	[Licenceno] [varchar](30) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Supplier_Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Supplier_order_Table]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Supplier_order_Table](
+	[Supplier_order_ID] [int] IDENTITY(1,1) NOT NULL,
+	[Supplier_Id] [int] NULL,
+	[Order_Id] [int] NULL,
+	[Amount_per_Order] [decimal](18, 0) NULL,
+	[Order_status] [varchar](50) NULL,
+	[Order_Payment_status] [varchar](50) NULL,
+	[Order_type] [int] NULL,
+	[Order_startdate] [date] NULL,
+	[Order_enddate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Supplier_order_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SupplierBrand]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SupplierBrand](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Supplier_Id] [int] NULL,
+	[BrandIdOfSupply] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SupplierPinCodes]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SupplierPinCodes](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[Supplier_Id] [int] NULL,
+	[PinCodeOfSupply] [varchar](10) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User_types]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,7 +365,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserCoupons]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[UserCoupons]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -300,7 +381,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -321,7 +402,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserSubscriptions]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[UserSubscriptions]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -341,7 +422,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Vendors]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Table [dbo].[Vendors]    Script Date: 30-Oct-23 2:34:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -361,18 +442,35 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Wishlist]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Wishlist](
+	[WishlistID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[IsInWishlist] [bit] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[WishlistID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 SET IDENTITY_INSERT [dbo].[Address] ON 
 
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (1, 3, N'India', N'Telangana', N'Hyderabad', N'Banjara Hills', N'500034', N'123 ABC Street', CAST(78.459100 AS Decimal(9, 6)), CAST(17.412900 AS Decimal(9, 6)), NULL, NULL)
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (2, 2, N'India', N'Telangana', N'Secunderabad', N'Begumpet', N'500003', N'456 XYZ Road', CAST(78.504400 AS Decimal(9, 6)), CAST(17.439900 AS Decimal(9, 6)), NULL, NULL)
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (4, 2, N'India', N'Telangana', N'Hyderabad', N'Kondapur', N'500084', N'Raginiresidency block b', CAST(78.692345 AS Decimal(9, 6)), CAST(17.467579 AS Decimal(9, 6)), NULL, NULL)
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (15, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'ko', N'582582', N'jnn', CAST(77.230899 AS Decimal(9, 6)), CAST(28.604134 AS Decimal(9, 6)), N'ashok', N'+919595959595')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (16, 2, N'India', N'Gujarat', N'Bagasra', N'mkm', N'656565', N'mmm', CAST(77.226221 AS Decimal(9, 6)), CAST(28.607563 AS Decimal(9, 6)), N'swathi', N'+919569569562')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (17, 2, N'India', N'Kerala', N'Cherthala', N'll', N'256987', N'lll', CAST(77.236307 AS Decimal(9, 6)), CAST(28.606809 AS Decimal(9, 6)), N'mamatha', N'+919494948585')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (18, 2, N'India', N'Gujarat', N'Babra', N'lk', N'526232', N'bvhvgh', CAST(77.236307 AS Decimal(9, 6)), CAST(28.607141 AS Decimal(9, 6)), N'satwik', N'+919898989898')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (19, 2, N'India', N'Jharkhand', N'Deogarh', N'ml', N'524875', N'bhbh', CAST(77.228539 AS Decimal(9, 6)), CAST(28.606907 AS Decimal(9, 6)), N'siva', N'+918585858585')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (20, 2, N'India', N'Karnataka', N'Athni', N'jujubh', N'586692', N'knjn', CAST(77.232873 AS Decimal(9, 6)), CAST(28.605589 AS Decimal(9, 6)), N'mama', N'+919862532145')
-INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber]) VALUES (21, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'km', N'563252', N'bjbjbj', CAST(77.234402 AS Decimal(9, 6)), CAST(28.610219 AS Decimal(9, 6)), N'ramaa', N'+919533255210')
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (1, 3, N'India', N'Telangana', N'Hyderabad', N'Banjara Hills', N'500034', N'123 ABC Street', CAST(78.459100 AS Decimal(9, 6)), CAST(17.412900 AS Decimal(9, 6)), NULL, NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (2, 2, N'India', N'Telangana', N'Secunderabad', N'Begumpet', N'500003', N'456 XYZ Road', CAST(78.504400 AS Decimal(9, 6)), CAST(17.439900 AS Decimal(9, 6)), NULL, NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (4, 2, N'India', N'Telangana', N'Hyderabad', N'Kondapur', N'500084', N'Raginiresidency block b', CAST(78.692345 AS Decimal(9, 6)), CAST(17.467579 AS Decimal(9, 6)), NULL, NULL, NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (15, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'ko', N'582582', N'jnn', CAST(77.230899 AS Decimal(9, 6)), CAST(28.604134 AS Decimal(9, 6)), N'ashok', N'+919595959595', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (16, 2, N'India', N'Gujarat', N'Bagasra', N'mkm', N'656565', N'mmm', CAST(77.226221 AS Decimal(9, 6)), CAST(28.607563 AS Decimal(9, 6)), N'swathi', N'+919569569562', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (17, 2, N'India', N'Kerala', N'Cherthala', N'll', N'256987', N'lll', CAST(77.236307 AS Decimal(9, 6)), CAST(28.606809 AS Decimal(9, 6)), N'mamatha', N'+919494948585', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (18, 2, N'India', N'Gujarat', N'Babra', N'lk', N'526232', N'bvhvgh', CAST(77.236307 AS Decimal(9, 6)), CAST(28.607141 AS Decimal(9, 6)), N'satwik', N'+919898989898', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (19, 2, N'India', N'Jharkhand', N'Deogarh', N'ml', N'524875', N'bhbh', CAST(77.228539 AS Decimal(9, 6)), CAST(28.606907 AS Decimal(9, 6)), N'siva', N'+918585858585', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (20, 2, N'India', N'Karnataka', N'Athni', N'jujubh', N'586692', N'knjn', CAST(77.232873 AS Decimal(9, 6)), CAST(28.605589 AS Decimal(9, 6)), N'mama', N'+919862532145', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (21, 2, N'India', N'Himachal Pradesh', N'Dharamsala', N'km', N'563252', N'bjbjbj', CAST(77.234402 AS Decimal(9, 6)), CAST(28.610219 AS Decimal(9, 6)), N'ramaa', N'+919533255210', NULL)
+INSERT [dbo].[Address] ([AddressID], [UserID], [Country], [State], [City], [Area], [Pincode], [HouseNo], [Longitude], [Latitude], [Username], [MobileNumber], [Supplier_Id]) VALUES (22, 2, N'India', N'Andhra Pradesh', N'Addanki', N'kkm', N'533308', N'hbvv', CAST(77.230942 AS Decimal(9, 6)), CAST(28.605182 AS Decimal(9, 6)), N'bhavana', N'+919595959595', NULL)
 SET IDENTITY_INSERT [dbo].[Address] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Brand] ON 
@@ -418,19 +516,129 @@ SET IDENTITY_INSERT [dbo].[Discount] OFF
 GO
 SET IDENTITY_INSERT [dbo].[OrderItems] ON 
 
-INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date]) VALUES (1, 2, 22, CAST(29 AS Decimal(18, 0)), 1, 1, CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (1, 2, 22, CAST(29 AS Decimal(18, 0)), 1, 1, CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date), NULL)
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (2, 4, 22, CAST(29 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(1000.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (3, 5, 24, CAST(29 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(1000.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (4, 6, 24, CAST(25 AS Decimal(18, 0)), 4, 2, CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(100.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (7, 9, 22, CAST(29 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (8, 10, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (9, 11, 22, CAST(29 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (10, 12, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (11, 13, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (12, 14, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (13, 15, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (14, 16, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (15, 17, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (16, 18, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (17, 21, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (18, 20, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (19, 19, 25, CAST(500 AS Decimal(18, 0)), 2, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(5.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (20, 22, 23, CAST(7 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(1.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (21, 23, 23, CAST(7 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(1.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (22, 24, 27, CAST(80 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(1.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (23, 25, 27, CAST(80 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(1.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (24, 26, 27, CAST(80 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(1.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (25, 27, 26, CAST(10 AS Decimal(18, 0)), 3, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(110.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (26, 28, 26, CAST(10 AS Decimal(18, 0)), 3, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(110.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (27, 29, 26, CAST(10 AS Decimal(18, 0)), 3, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(110.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (28, 30, 26, CAST(10 AS Decimal(18, 0)), 3, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(110.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (29, 31, 22, CAST(29 AS Decimal(18, 0)), 2, 1, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (30, 32, 22, CAST(29 AS Decimal(18, 0)), 1, 1, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (31, 33, 22, CAST(29 AS Decimal(18, 0)), 1, 1, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (32, 34, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (33, 35, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (34, 36, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (35, 37, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (36, 38, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (37, 39, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (38, 40, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (39, 41, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (40, 42, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (41, 43, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (42, 44, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
+INSERT [dbo].[OrderItems] ([ItemId], [Order_Id], [Product_Id], [Product_Price], [Quantity], [Subscription_Type_Id], [Start_Date], [End_Date], [SizeOfProduct]) VALUES (43, 45, 22, CAST(29 AS Decimal(18, 0)), 1, 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(500.00 AS Decimal(10, 2)))
 SET IDENTITY_INSERT [dbo].[OrderItems] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Orders] ON 
 
-INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (1, 1, 2, CAST(100.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
-INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (2, 2, 1, CAST(50.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date))
-INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date]) VALUES (3, 3, 3, CAST(75.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (1, 1, 2, CAST(100.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date), NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (2, 2, 1, CAST(50.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date), NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (3, 3, 3, CAST(75.00 AS Decimal(10, 2)), CAST(N'2023-09-14' AS Date), CAST(N'2023-09-15' AS Date), CAST(N'2024-09-14' AS Date), NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (4, 2, 2, CAST(250.00 AS Decimal(10, 2)), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), N'pending', N'Morning', 4, 1, NULL)
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (5, 2, 2, CAST(250.00 AS Decimal(10, 2)), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), N'pending', N'Morning', 4, 1, NULL)
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (6, 2, 2, CAST(5000.00 AS Decimal(10, 2)), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), N'Success', N'evening', 4, 1, CAST(N'2023-10-20T21:14:05.337' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (9, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:14:12.993' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (10, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:18:48.997' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (11, 2, 2, CAST(386.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:19:17.430' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (12, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:21:42.657' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (13, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:23:16.940' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (14, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T12:26:22.107' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (15, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T12:27:52.637' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (16, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T15:52:00.647' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (17, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T15:54:07.047' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (18, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T15:54:12.120' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (19, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T15:56:16.483' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (20, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T15:56:16.483' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (21, 2, 2, CAST(6650.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T15:56:16.483' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (22, 2, 2, CAST(47.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T15:57:33.237' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (23, 2, 2, CAST(47.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T15:58:57.393' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (24, 2, 2, CAST(532.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T16:02:16.630' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (25, 2, 2, CAST(532.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Pending', N'Morning', 4, 1, CAST(N'2023-10-26T16:04:33.800' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (26, 2, 2, CAST(532.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T16:06:02.990' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (27, 2, 2, CAST(200.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T16:12:10.663' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (28, 2, 2, CAST(200.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T16:14:26.153' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (29, 2, 2, CAST(200.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T16:15:31.800' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (30, 2, 2, CAST(200.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-26T16:16:37.087' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (31, 2, 1, CAST(58.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-27T12:47:04.167' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (32, 2, 1, CAST(29.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 1, CAST(N'2023-10-27T14:56:55.187' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (33, 2, 1, CAST(29.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T14:57:23.607' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (34, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:26:15.060' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (35, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:28:41.663' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (36, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:29:01.063' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (37, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:30:09.867' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (38, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:30:15.963' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (39, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:31:33.473' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (40, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:33:30.857' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (41, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:38:16.780' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (42, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:40:12.657' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (43, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:42:09.647' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (44, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 22, 5, CAST(N'2023-10-27T15:46:04.690' AS DateTime))
+INSERT [dbo].[Orders] ([Order_Id], [User_id], [Subscription_Type_Id], [Total_Amount], [Order_Date], [Start_Date], [End_Date], [OrderPaymentStatus], [TimeSlot], [AddressID], [SupplierId], [createdat]) VALUES (45, 2, 2, CAST(193.00 AS Decimal(10, 2)), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), N'Success', N'Morning', 4, 1, CAST(N'2023-10-30T11:47:27.947' AS DateTime))
 SET IDENTITY_INSERT [dbo].[Orders] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Payments] ON 
 
 INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (2, 2, CAST(N'2023-10-07' AS Date), N'online', CAST(50.00 AS Decimal(10, 2)), N'04J8PAY5RS', N'Pending')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (4, 6, CAST(N'2023-10-25' AS Date), N'Razorpay', CAST(5000.00 AS Decimal(10, 2)), N'82657374', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (5, 6, CAST(N'2023-10-25' AS Date), N'UPI', CAST(5000.00 AS Decimal(10, 2)), N'JDNVFFFC06', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (6, 15, CAST(N'2023-10-26' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'22X5SCTU8S', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (7, 15, CAST(N'2023-10-26' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'BNRVYVZNT7', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (8, 15, CAST(N'2023-10-26' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'AL5F1BEWSL', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (9, 16, CAST(N'2023-10-26' AS Date), N'UPI', CAST(6650.00 AS Decimal(10, 2)), N'IQCPIU3SCR', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (10, 18, CAST(N'2023-10-26' AS Date), N'UPI', CAST(6650.00 AS Decimal(10, 2)), N'21AOSMLDH3', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (11, 18, CAST(N'2023-10-26' AS Date), N'UPI', CAST(6650.00 AS Decimal(10, 2)), N'TFAKUQG6O6', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (12, 18, CAST(N'2023-10-26' AS Date), N'UPI', CAST(6650.00 AS Decimal(10, 2)), N'1U8H837FP2', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (13, 22, CAST(N'2023-10-26' AS Date), N'UPI', CAST(47.00 AS Decimal(10, 2)), N'1QDB9S4OJ8', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (14, 26, CAST(N'2023-10-26' AS Date), N'UPI', CAST(532.00 AS Decimal(10, 2)), N'S7973NCAXH', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (15, 27, CAST(N'2023-10-26' AS Date), N'UPI', CAST(200.00 AS Decimal(10, 2)), N'ANA5FIO26E', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (16, 28, CAST(N'2023-10-26' AS Date), N'UPI', CAST(200.00 AS Decimal(10, 2)), N'D3TOXC14NO', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (17, 29, CAST(N'2023-10-26' AS Date), N'UPI', CAST(200.00 AS Decimal(10, 2)), N'4X644UXP1A', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (18, 30, CAST(N'2023-10-26' AS Date), N'UPI', CAST(200.00 AS Decimal(10, 2)), N'JE2IWBU5VL', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (19, 31, CAST(N'2023-10-27' AS Date), N'UPI', CAST(58.00 AS Decimal(10, 2)), N'G4H8GKAQTO', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (20, 32, CAST(N'2023-10-27' AS Date), N'UPI', CAST(29.00 AS Decimal(10, 2)), N'W7UA3T55YQ', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (21, 33, CAST(N'2023-10-27' AS Date), N'UPI', CAST(29.00 AS Decimal(10, 2)), N'TAWV6NG9YQ', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (22, 34, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'E3M7TH9QBL', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (23, 35, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'TY68CRK7VG', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (24, 36, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'P1G4ERZPVM', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (25, 37, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'H5OCV80C42', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (26, 38, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'YJN5AVZSOR', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (27, 39, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'KGHDJLGUSQ', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (28, 40, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'6EXLCFG2FA', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (29, 41, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'JMQEG7LSX1', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (30, 42, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'VARBT3CJ0H', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (31, 43, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'269ATXS08S', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (32, 44, CAST(N'2023-10-27' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'F5XG7JSXHF', N'completed')
+INSERT [dbo].[Payments] ([PaymentID], [OrderID], [PaymentDate], [PaymentMethod], [Amount], [TransactionID], [Payment_Status]) VALUES (33, 45, CAST(N'2023-10-30' AS Date), N'UPI', CAST(193.00 AS Decimal(10, 2)), N'5FGOPTM25O', N'completed')
 SET IDENTITY_INSERT [dbo].[Payments] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Product] ON 
@@ -466,8 +674,8 @@ SET IDENTITY_INSERT [dbo].[ProductItemDetails] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ShoppingCartItems] ON 
 
-INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity]) VALUES (1, 1, 23, 1)
-INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity]) VALUES (2, 1, 24, 1)
+INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity], [SizeOfItem]) VALUES (4, 1, 24, 2, CAST(1000 AS Decimal(18, 0)))
+INSERT [dbo].[ShoppingCartItems] ([ItemID], [CartID], [ProductID], [Quantity], [SizeOfItem]) VALUES (6, 1, 22, 1, CAST(1 AS Decimal(18, 0)))
 SET IDENTITY_INSERT [dbo].[ShoppingCartItems] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ShoppingCarts] ON 
@@ -515,10 +723,41 @@ SET IDENTITY_INSERT [dbo].[ShoppingCarts] OFF
 GO
 SET IDENTITY_INSERT [dbo].[subscription_type] ON 
 
-INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (1, N'Monthly')
-INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (2, N'Annual')
-INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (3, N'Lifetime')
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (1, N'SingleDay')
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (2, N'Weekly')
+INSERT [dbo].[subscription_type] ([Subscription_Id], [Subscription_Type]) VALUES (3, N'Mothly')
 SET IDENTITY_INSERT [dbo].[subscription_type] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Supplier] ON 
+
+INSERT [dbo].[Supplier] ([Supplier_Id], [Name], [Email], [Mobile], [JoinDate], [RegistrationAmountPaid], [Expiry_Date], [StatusOfRegistration], [PanCard], [Licenceno]) VALUES (1, N'Supplier1', N'supplier1@gmail.com', N'+919898989890', CAST(N'2023-10-19T07:40:08.103' AS DateTime), CAST(100 AS Decimal(18, 0)), CAST(N'2023-10-19T07:40:08.103' AS DateTime), N'Approved', N'DXC23FGRE4S', N'CF534GJB68GV')
+INSERT [dbo].[Supplier] ([Supplier_Id], [Name], [Email], [Mobile], [JoinDate], [RegistrationAmountPaid], [Expiry_Date], [StatusOfRegistration], [PanCard], [Licenceno]) VALUES (3, N'Supplier 2', N'supplier2@example.com', N'+919876543210', CAST(N'2023-10-27T00:00:00.000' AS DateTime), CAST(1200 AS Decimal(18, 0)), CAST(N'2023-11-30T00:00:00.000' AS DateTime), N'Approved', N'FGHIJ5678K', N'LICENSE002')
+INSERT [dbo].[Supplier] ([Supplier_Id], [Name], [Email], [Mobile], [JoinDate], [RegistrationAmountPaid], [Expiry_Date], [StatusOfRegistration], [PanCard], [Licenceno]) VALUES (4, N'Supplier 3', N'supplier3@example.com', N'+915555555555', CAST(N'2023-10-27T00:00:00.000' AS DateTime), CAST(800 AS Decimal(18, 0)), CAST(N'2023-11-25T00:00:00.000' AS DateTime), N'Approved', N'LMNOP6789L', N'LICENSE003')
+INSERT [dbo].[Supplier] ([Supplier_Id], [Name], [Email], [Mobile], [JoinDate], [RegistrationAmountPaid], [Expiry_Date], [StatusOfRegistration], [PanCard], [Licenceno]) VALUES (5, N'Supplier 4', N'supplier4@example.com', N'+913333333333', CAST(N'2023-10-27T00:00:00.000' AS DateTime), CAST(1500 AS Decimal(18, 0)), CAST(N'2023-11-22T00:00:00.000' AS DateTime), N'Approved', N'QRSTUV9012M', N'LICENSE004')
+SET IDENTITY_INSERT [dbo].[Supplier] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Supplier_order_Table] ON 
+
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (1, 1, 30, CAST(190 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved ', 0, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (3, 5, 34, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (4, 5, 39, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (5, 5, 40, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (6, 5, 41, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (7, 5, 42, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (8, 5, 43, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (9, 5, 44, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+INSERT [dbo].[Supplier_order_Table] ([Supplier_order_ID], [Supplier_Id], [Order_Id], [Amount_per_Order], [Order_status], [Order_Payment_status], [Order_type], [Order_startdate], [Order_enddate]) VALUES (10, 1, 45, CAST(183 AS Decimal(18, 0)), N'To be Delivered', N'Not Recieved', 2, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date))
+SET IDENTITY_INSERT [dbo].[Supplier_order_Table] OFF
+GO
+SET IDENTITY_INSERT [dbo].[SupplierPinCodes] ON 
+
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (1, 1, N'500084')
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (2, 1, N'533308')
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (3, 4, N'500085')
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (4, 4, N'533308')
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (5, 5, N'500086')
+INSERT [dbo].[SupplierPinCodes] ([id], [Supplier_Id], [PinCodeOfSupply]) VALUES (6, 5, N'533308')
+SET IDENTITY_INSERT [dbo].[SupplierPinCodes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[User_types] ON 
 
@@ -535,7 +774,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (1, 1, N'Krishna', N'pass@123', N'Krishna', N'Admin', N'1234567890', N'admin@example.com', 1)
-INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (2, 2, N'Shivaprakash', N'shiva123', N'shiva', N'prakash', N'111122', N'shiva@gmail.com', 1)
+INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (2, 2, N'Shivaprakash', N'shiva123', N'shiva', N'prakash', N'+919491361441', N'shiva@gmail.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (3, 3, N'Bhaskar', N'pass@123', N'Bhaskar', N'Vendor', N'5555555555', N'vendor@example.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (11, 1, N'KrishnaU', N'pass@123', N'KrishnaU', N'Admin', N'1234567890', N'amin@example.com', 1)
 INSERT [dbo].[Users] ([User_Id], [user_type_id], [Username], [Password], [Firstname], [Lastname], [Mobile], [Email], [IsActive]) VALUES (12, 2, N'ShivaU', N'pass@123', N'Shiva', N'User', N'9876543210', N'user1@example.com', 1)
@@ -578,11 +817,49 @@ GO
 SET IDENTITY_INSERT [dbo].[UserSubscriptions] ON 
 
 INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (1, 2, 1, 2, CAST(N'2023-09-15' AS Date), CAST(N'2023-10-14' AS Date), CAST(50.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (2, 2, 2, 6, CAST(N'2023-10-20' AS Date), CAST(N'2023-10-20' AS Date), CAST(5000.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (3, 2, 2, 15, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (4, 2, 2, 15, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (5, 2, 2, 15, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (6, 2, 2, 16, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(6650.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (7, 2, 2, 18, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(6650.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (8, 2, 2, 18, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(6650.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (9, 2, 2, 18, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(6650.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (10, 2, 2, 22, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(47.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (11, 2, 2, 26, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(532.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (12, 2, 2, 27, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(200.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (13, 2, 2, 28, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(200.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (14, 2, 2, 29, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(200.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (15, 2, 2, 30, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(200.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (16, 2, 1, 31, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(58.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (17, 2, 1, 32, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(29.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (18, 2, 1, 33, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(29.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (19, 2, 2, 34, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (20, 2, 2, 35, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (21, 2, 2, 36, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (22, 2, 2, 37, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (23, 2, 2, 38, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (24, 2, 2, 39, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (25, 2, 2, 40, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (26, 2, 2, 41, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (27, 2, 2, 42, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (28, 2, 2, 43, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (29, 2, 2, 44, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
+INSERT [dbo].[UserSubscriptions] ([UserSubscriptionID], [User_ID], [Subscription_TypeId], [Order_id], [StartDate], [EndDate], [Subscription_Price], [IsActive]) VALUES (30, 2, 2, 45, CAST(N'2023-10-26' AS Date), CAST(N'2023-10-26' AS Date), CAST(193.00 AS Decimal(10, 2)), 1)
 SET IDENTITY_INSERT [dbo].[UserSubscriptions] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Wishlist] ON 
+
+INSERT [dbo].[Wishlist] ([WishlistID], [UserID], [ProductId], [IsInWishlist]) VALUES (1, 2, 24, 1)
+INSERT [dbo].[Wishlist] ([WishlistID], [UserID], [ProductId], [IsInWishlist]) VALUES (2, 2, 22, 1)
+INSERT [dbo].[Wishlist] ([WishlistID], [UserID], [ProductId], [IsInWishlist]) VALUES (3, 2, 27, 0)
+INSERT [dbo].[Wishlist] ([WishlistID], [UserID], [ProductId], [IsInWishlist]) VALUES (4, 2, 23, 0)
+INSERT [dbo].[Wishlist] ([WishlistID], [UserID], [ProductId], [IsInWishlist]) VALUES (5, 2, 25, 0)
+SET IDENTITY_INSERT [dbo].[Wishlist] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Coupons__A25C5AA732B10DC6]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Index [UQ__Coupons__A25C5AA732B10DC6]    Script Date: 30-Oct-23 2:34:54 PM ******/
 ALTER TABLE [dbo].[Coupons] ADD UNIQUE NONCLUSTERED 
 (
 	[Code] ASC
@@ -590,7 +867,7 @@ ALTER TABLE [dbo].[Coupons] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Users__536C85E401826BAD]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Index [UQ__Users__536C85E401826BAD]    Script Date: 30-Oct-23 2:34:54 PM ******/
 ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
 (
 	[Username] ASC
@@ -598,11 +875,13 @@ ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Users__A9D1053407E15804]    Script Date: 12-Oct-23 1:46:04 PM ******/
+/****** Object:  Index [UQ__Users__A9D1053407E15804]    Script Date: 30-Oct-23 2:34:54 PM ******/
 ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
 (
 	[Email] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Orders] ADD  DEFAULT (getdate()) FOR [createdat]
 GO
 ALTER TABLE [dbo].[Payments] ADD  DEFAULT (getdate()) FOR [PaymentDate]
 GO
@@ -612,12 +891,19 @@ ALTER TABLE [dbo].[Reviews] ADD  DEFAULT (getdate()) FOR [ReviewDate]
 GO
 ALTER TABLE [dbo].[ShoppingCarts] ADD  DEFAULT (getdate()) FOR [CreatedAt]
 GO
+ALTER TABLE [dbo].[Supplier] ADD  DEFAULT (getdate()) FOR [JoinDate]
+GO
 ALTER TABLE [dbo].[UserCoupons] ADD  DEFAULT (getdate()) FOR [UsageDate]
 GO
 ALTER TABLE [dbo].[UserSubscriptions] ADD  DEFAULT ((1)) FOR [IsActive]
 GO
 ALTER TABLE [dbo].[Address]  WITH CHECK ADD FOREIGN KEY([UserID])
 REFERENCES [dbo].[Users] ([User_Id])
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Supplier_Id] FOREIGN KEY([Supplier_Id])
+REFERENCES [dbo].[Supplier] ([Supplier_Id])
+GO
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [FK_Supplier_Id]
 GO
 ALTER TABLE [dbo].[Brand]  WITH CHECK ADD FOREIGN KEY([Category_id])
 REFERENCES [dbo].[Category] ([Category_Id])
@@ -639,6 +925,16 @@ ALTER TABLE [dbo].[OrderItems]  WITH CHECK ADD  CONSTRAINT [Fk_SubscriptionId_su
 REFERENCES [dbo].[subscription_type] ([Subscription_Id])
 GO
 ALTER TABLE [dbo].[OrderItems] CHECK CONSTRAINT [Fk_SubscriptionId_subscriptions]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_order_Address_Id] FOREIGN KEY([AddressID])
+REFERENCES [dbo].[Address] ([AddressID])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_order_Address_Id]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_order_Supplier_Id] FOREIGN KEY([SupplierId])
+REFERENCES [dbo].[Supplier] ([Supplier_Id])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_order_Supplier_Id]
 GO
 ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [Fk_SubscriptionId_Subscription] FOREIGN KEY([Subscription_Type_Id])
 REFERENCES [dbo].[subscription_type] ([Subscription_Id])
@@ -684,6 +980,21 @@ GO
 ALTER TABLE [dbo].[ShoppingCarts]  WITH CHECK ADD FOREIGN KEY([UserID])
 REFERENCES [dbo].[Users] ([User_Id])
 GO
+ALTER TABLE [dbo].[Supplier_order_Table]  WITH CHECK ADD FOREIGN KEY([Order_Id])
+REFERENCES [dbo].[Orders] ([Order_Id])
+GO
+ALTER TABLE [dbo].[Supplier_order_Table]  WITH CHECK ADD FOREIGN KEY([Supplier_Id])
+REFERENCES [dbo].[Supplier] ([Supplier_Id])
+GO
+ALTER TABLE [dbo].[SupplierBrand]  WITH CHECK ADD FOREIGN KEY([BrandIdOfSupply])
+REFERENCES [dbo].[Brand] ([Brand_id])
+GO
+ALTER TABLE [dbo].[SupplierBrand]  WITH CHECK ADD FOREIGN KEY([Supplier_Id])
+REFERENCES [dbo].[Supplier] ([Supplier_Id])
+GO
+ALTER TABLE [dbo].[SupplierPinCodes]  WITH CHECK ADD FOREIGN KEY([Supplier_Id])
+REFERENCES [dbo].[Supplier] ([Supplier_Id])
+GO
 ALTER TABLE [dbo].[UserCoupons]  WITH CHECK ADD FOREIGN KEY([CouponID])
 REFERENCES [dbo].[Coupons] ([CouponID])
 GO
@@ -704,9 +1015,248 @@ GO
 ALTER TABLE [dbo].[Vendors]  WITH CHECK ADD FOREIGN KEY([Brand_ID])
 REFERENCES [dbo].[Brand] ([Brand_id])
 GO
+ALTER TABLE [dbo].[Wishlist]  WITH CHECK ADD FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Product] ([Product_Id])
+GO
+ALTER TABLE [dbo].[Wishlist]  WITH CHECK ADD FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([User_Id])
+GO
 ALTER TABLE [dbo].[Log]  WITH CHECK ADD  CONSTRAINT [CK_ValidEventDescription] CHECK  (([EventDescription]='Product_Discount_Changed' OR [EventDescription]='Product_Removed' OR [EventDescription]='Product_added' OR [EventDescription]='Passwordchanged' OR [EventDescription]='Logoff' OR [EventDescription]='Login'))
 GO
 ALTER TABLE [dbo].[Log] CHECK CONSTRAINT [CK_ValidEventDescription]
 GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [CHK_USer_Order_Payment_status] CHECK  (([OrderPaymentStatus]='Payment Failed' OR [OrderPaymentStatus]='Pending' OR [OrderPaymentStatus]='Success'))
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [CHK_USer_Order_Payment_status]
+GO
 ALTER TABLE [dbo].[Payments]  WITH CHECK ADD CHECK  (([Payment_Status]='failed' OR [Payment_Status]='completed' OR [Payment_Status]='pending'))
+GO
+ALTER TABLE [dbo].[Supplier]  WITH CHECK ADD  CONSTRAINT [CHK_StatusOfRegistration] CHECK  (([StatusOfRegistration]='Rejected' OR [StatusOfRegistration]='Approved' OR [StatusOfRegistration]='Pending'))
+GO
+ALTER TABLE [dbo].[Supplier] CHECK CONSTRAINT [CHK_StatusOfRegistration]
+GO
+ALTER TABLE [dbo].[Supplier_order_Table]  WITH CHECK ADD  CONSTRAINT [CHK_Order_status] CHECK  (([Order_status]='Scheduled Changed' OR [Order_status]='Address Not Found' OR [Order_status]='User Not AVailable' OR [Order_status]='Cancelled By User' OR [Order_status]='Delivered' OR [Order_status]='To be Delivered'))
+GO
+ALTER TABLE [dbo].[Supplier_order_Table] CHECK CONSTRAINT [CHK_Order_status]
+GO
+ALTER TABLE [dbo].[Supplier_order_Table]  WITH CHECK ADD  CONSTRAINT [CHK_Supplier_Order_Payment_status] CHECK  (([Order_Payment_status]='Not Recieved' OR [Order_Payment_status]='Pending from Bank' OR [Order_Payment_status]='Pending from Admin' OR [Order_Payment_status]='Payment Recieved'))
+GO
+ALTER TABLE [dbo].[Supplier_order_Table] CHECK CONSTRAINT [CHK_Supplier_Order_Payment_status]
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllSuppliers]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAllSuppliers]
+AS
+BEGIN
+    SELECT * FROM Supplier;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetSupplierById]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetSupplierById]
+    @SupplierId INT
+AS
+BEGIN
+    SELECT * FROM Supplier
+    WHERE Supplier_Id = @SupplierId;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetSupplierDataWithPinCodes]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetSupplierDataWithPinCodes]
+AS
+BEGIN
+    SELECT 
+        S.[Supplier_Id],
+        S.[Name],
+        S.[Email],
+        S.[Mobile],
+        S.[JoinDate],
+        S.[RegistrationAmountPaid],
+        S.[Expiry_Date],
+        S.[StatusOfRegistration],
+        S.[PanCard],
+        S.[Licenceno],
+        (
+            SELECT STUFF((
+                SELECT ', ' + [PinCodeOfSupply]
+                FROM [dbo].[SupplierPinCodes] SP
+                WHERE SP.[Supplier_Id] = S.[Supplier_Id]
+                FOR XML PATH('')), 1, 2, '')
+        ) AS [PinCodesOfSupply]
+    FROM 
+        [dbo].[Supplier] S
+END
+GO
+/****** Object:  StoredProcedure [dbo].[InsertSupplier]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[InsertSupplier]
+    @Name VARCHAR(255),
+    @Email VARCHAR(255),
+    @Mobile VARCHAR(15),
+    @JoinDate DATETIME,
+    @RegistrationAmountPaid DECIMAL,
+    @ExpiryDate DATETIME,
+    @StatusOfRegistration VARCHAR(50),
+    @PanCard VARCHAR(20),
+    @Licenceno VARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Supplier (Name, Email, Mobile, JoinDate, RegistrationAmountPaid, Expiry_Date, StatusOfRegistration, PanCard, Licenceno)
+    VALUES (@Name, @Email, @Mobile, @JoinDate, @RegistrationAmountPaid, @ExpiryDate, @StatusOfRegistration, @PanCard, @Licenceno)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertPaymentAndUpdateOrderAndUserSubscription]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Create a stored procedure to insert payment, update order, and insert UserSubscription (if PaymentStatus is 'Success')
+CREATE PROCEDURE [dbo].[SP_InsertPaymentAndUpdateOrderAndUserSubscription]
+    @OrderId INT,
+    @PaymentDate DATETIME,
+    @PaymentMethod VARCHAR(255),
+    @Amount DECIMAL,
+    @TransactionId VARCHAR(255),
+    @PaymentStatus VARCHAR(255),
+     @InsertedPaymentId INT OUTPUT -- Define an output parameter for the inserted OrderID 
+	 ,@InsertedUserSubscriptionId INT OUTPUT 
+  
+  
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Insert data into the Payments table
+        INSERT INTO Payments (OrderID, PaymentDate, PaymentMethod, Amount, TransactionID, Payment_Status)
+        VALUES (@OrderId, @PaymentDate, @PaymentMethod, @Amount, @TransactionId, @PaymentStatus)
+
+		  -- Get the OrderId of the inserted Order
+    SET @InsertedPaymentId = SCOPE_IDENTITY()
+
+        -- Update the Orders table based on Payment status
+        UPDATE Orders
+        SET OrderPaymentStatus =
+            CASE
+                WHEN @PaymentStatus = 'completed' THEN 'Success'
+                WHEN @PaymentStatus = 'pending' THEN 'Pending'
+                WHEN @PaymentStatus = 'failed' THEN 'Payment Failed'
+                ELSE OrderPaymentStatus
+            END
+        WHERE Order_Id = @OrderId;
+
+        -- Insert data into the UserSubscriptions table if PaymentStatus is 'Success'
+        IF @PaymentStatus = 'completed'
+        BEGIN
+            -- Retrieve necessary values from Orders table
+             DECLARE @Subscription_TypeId INT;
+        DECLARE @Subscription_Price DECIMAL;
+        DECLARE @UserSubscriptionStartDate DATETIME;
+        DECLARE @UserSubscriptionEndDate DATETIME;
+        DECLARE  @UserId INT;
+
+        SELECT @Subscription_TypeId = Subscription_Type_Id,
+               @Subscription_Price = Total_Amount,
+               @UserSubscriptionStartDate = Start_Date,
+               @UserSubscriptionEndDate = End_Date,
+               @UserId =User_id
+        FROM Orders WHERE Order_Id = @OrderId;
+            
+            -- Insert data into the UserSubscriptions table
+            INSERT INTO UserSubscriptions (User_ID, Subscription_TypeId, Order_id, StartDate, EndDate, Subscription_Price, IsActive)
+            VALUES (@UserId, @Subscription_TypeId, @OrderId, @UserSubscriptionStartDate, @UserSubscriptionEndDate, @Subscription_Price, 1)
+
+				  -- Get the OrderId of the inserted Order
+    SET @InsertedUserSubscriptionId = SCOPE_IDENTITY()
+
+        END
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        PRINT ERROR_MESSAGE(); 
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertSupplier_order_Table]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create PROCEDURE [dbo].[SP_InsertSupplier_order_Table]
+    @Supplier_Id INT,
+    @Order_Id INT,
+    @Amount_per_Order DECIMAL,
+    @Order_status varchar(50),
+    @Order_Payment_status varchar(50),
+    @Order_type int,
+    @Order_startdate datetime,
+    @Order_enddate datetime,
+    @InsertedSupplier_order_ID INT OUTPUT -- Define an output parameter for the inserted OrderID
+AS
+BEGIN
+    -- Insert data into the Order table
+    INSERT INTO Supplier_order_Table(Supplier_Id,Order_Id ,Amount_per_Order,Order_status,Order_Payment_status,Order_type,Order_startdate,Order_enddate)
+    VALUES ( @Supplier_Id ,
+    @Order_Id ,
+    @Amount_per_Order ,
+    @Order_status ,
+    @Order_Payment_status ,
+    @Order_type ,
+    @Order_startdate ,
+    @Order_enddate )
+
+    -- Get the OrderId of the inserted Order
+    SET @InsertedSupplier_order_ID = SCOPE_IDENTITY()
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SpInsertOrderAndOrderItem]    Script Date: 30-Oct-23 2:34:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SpInsertOrderAndOrderItem]
+    @UserId INT,
+    @SubscriptionTypeId INT,
+    @TotalAmount DECIMAL,
+    @OrderDate DATETIME,
+    @StartDate DATETIME,
+    @EndDate DATETIME,
+    @OrderPaymentStatus VARCHAR(255),
+    @TimeSlot VARCHAR(255),
+    @AddressId INT,
+    @SupplierId INT,
+    @ProductId INT,
+    @ProductPrice DECIMAL,
+    @Quantity INT,
+    @SizeOfProduct DECIMAL,
+    @InsertedOrderId INT OUTPUT -- Define an output parameter for the inserted OrderID
+AS
+BEGIN
+    -- Insert data into the Order table
+    INSERT INTO Orders (User_id, Subscription_Type_Id, Total_Amount, Order_Date, Start_Date, End_Date, OrderPaymentStatus, TimeSlot, AddressID, SupplierId)
+    VALUES (@UserId, @SubscriptionTypeId, @TotalAmount, @OrderDate, @StartDate, @EndDate, @OrderPaymentStatus, @TimeSlot, @AddressId, @SupplierId)
+
+    -- Get the OrderId of the inserted Order
+    SET @InsertedOrderId = SCOPE_IDENTITY()
+
+    -- Insert data into the OrderItem table
+    INSERT INTO OrderItems(Order_Id, Product_Id, Product_Price, Quantity, Subscription_Type_Id, Start_Date, End_Date, SizeOfProduct)
+    VALUES (@InsertedOrderId, @ProductId, @ProductPrice, @Quantity, @SubscriptionTypeId, @StartDate, @EndDate, @SizeOfProduct)
+END
 GO
