@@ -11,6 +11,8 @@ using Twilio.Rest.Api.V2010.Account;
 using Twilio.Rest.Voice.V1.DialingPermissions;
 using Microsoft.AspNetCore.Mvc;
 using WhatsAppApi;
+using System.Net.Mail;
+using System.Net;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -57,6 +59,7 @@ namespace Ecommerce_Api.Controllers
                 //    Body = "Hello, your registration on daily pic is successful"
                 //};
                 //var message = MessageResource.Create(messageOptions);
+
                 return Ok(item);
                
             }
@@ -238,8 +241,53 @@ namespace Ecommerce_Api.Controllers
         //    }
         //}
 
+        //private void SendEmail(string email)
+        //{
+        //    string senderEmail ="ramakrishna.hds.15@gmail.com";
+        //    string senderPassword = "xvdf bpib kdpx fyru";
 
 
+        //    string toEmail = email;
+        //    string subject = "Welcome to Our DailyPick Website!";
+        //    string body = "Thank you for registering on our website. We are excited to have you on board!";
 
+
+        //    MailMessage mail = new MailMessage(senderEmail, toEmail);
+        //    mail.Subject = subject;
+        //    mail.Body = body;
+        //    mail.IsBodyHtml = true;
+
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com")
+        //    {
+        //        Port = 587,
+        //        Credentials = new NetworkCredential(senderEmail, senderPassword),
+        //        EnableSsl = true,
+        //    };
+
+        //    try
+        //    {
+        //        smtp.Send(mail);
+        //    }
+        //    catch (SmtpException ex)
+        //    {
+        //        // Handle SMTP exceptions (e.g., invalid recipient, server not reachable, authentication issues, etc.)
+        //        // Log the error and handle it appropriately.
+        //        Console.WriteLine("SMTP Exception: " + ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle other exceptions
+        //        // Log the error and handle it appropriately.
+        //        Console.WriteLine("Exception: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        mail.Dispose();
+        //        smtp.Dispose();
+        //    }
+        //}
     }
+
+
 }
+
