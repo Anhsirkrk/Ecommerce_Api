@@ -11,7 +11,7 @@ public partial class Review
 
     public int? ProductId { get; set; }
 
-    public int? Rating { get; set; }
+    public decimal? Rating { get; set; }
 
     public string? Comment { get; set; }
 

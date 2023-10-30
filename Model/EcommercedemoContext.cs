@@ -45,6 +45,14 @@ public partial class EcommercedemoContext : DbContext
 
     public virtual DbSet<SubscriptionType> SubscriptionTypes { get; set; }
 
+    public virtual DbSet<Supplier> Suppliers { get; set; }
+
+    public virtual DbSet<SupplierBrand> SupplierBrands { get; set; }
+
+    public virtual DbSet<SupplierOrderTable> SupplierOrderTables { get; set; }
+
+    public virtual DbSet<SupplierPinCode> SupplierPinCodes { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserCoupon> UserCoupons { get; set; }
@@ -93,10 +101,15 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.State)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.Addresses)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK_Supplier_Id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.UserId)
@@ -200,25 +213,40 @@ public partial class EcommercedemoContext : DbContext
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__F1E4607B79468241");
 
             entity.Property(e => e.OrderId).HasColumnName("Order_Id");
+            entity.Property(e => e.AddressId).HasColumnName("AddressID");
             entity.Property(e => e.EndDate)
                 .HasColumnType("date")
                 .HasColumnName("End_Date");
             entity.Property(e => e.OrderDate)
                 .HasColumnType("date")
                 .HasColumnName("Order_Date");
+            entity.Property(e => e.OrderPaymentStatus)
+                .HasMaxLength(40)
+                .IsUnicode(false);
             entity.Property(e => e.StartDate)
                 .HasColumnType("date")
                 .HasColumnName("Start_Date");
             entity.Property(e => e.SubscriptionTypeId).HasColumnName("Subscription_Type_Id");
+            entity.Property(e => e.TimeSlot)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.TotalAmount)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Total_Amount");
             entity.Property(e => e.UserId).HasColumnName("User_id");
 
+            entity.HasOne(d => d.Address).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.AddressId)
+                .HasConstraintName("FK_order_Address_Id");
+
             entity.HasOne(d => d.SubscriptionType).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.SubscriptionTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_SubscriptionId_Subscription");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK_order_Supplier_Id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -238,6 +266,7 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.ProductPrice)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("Product_Price");
+            entity.Property(e => e.SizeOfProduct).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.StartDate)
                 .HasColumnType("date")
                 .HasColumnName("Start_Date");
@@ -358,6 +387,7 @@ public partial class EcommercedemoContext : DbContext
             entity.Property(e => e.ReviewId).HasColumnName("ReviewID");
             entity.Property(e => e.Comment).HasColumnType("text");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.Rating).HasColumnType("decimal(10, 1)");
             entity.Property(e => e.ReviewDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("date");
@@ -416,6 +446,113 @@ public partial class EcommercedemoContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("Subscription_Type");
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.HasKey(e => e.SupplierId).HasName("PK__Supplier__83918DB82C2E3103");
+
+            entity.ToTable("Supplier");
+
+            entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
+            entity.Property(e => e.Email)
+                .HasMaxLength(80)
+                .IsUnicode(false);
+            entity.Property(e => e.ExpiryDate)
+                .HasColumnType("datetime")
+                .HasColumnName("Expiry_Date");
+            entity.Property(e => e.JoinDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Licenceno)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.Mobile)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.PanCard)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.RegistrationAmountPaid).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.StatusOfRegistration)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<SupplierBrand>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3213E83F68E30398");
+
+            entity.ToTable("SupplierBrand");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
+
+            entity.HasOne(d => d.BrandIdOfSupplyNavigation).WithMany(p => p.SupplierBrands)
+                .HasForeignKey(d => d.BrandIdOfSupply)
+                .HasConstraintName("FK__SupplierB__Brand__1EA48E88");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierBrands)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK__SupplierB__Suppl__1DB06A4F");
+        });
+
+        modelBuilder.Entity<SupplierOrderTable>(entity =>
+        {
+            entity.HasKey(e => e.SupplierOrderId).HasName("PK__Supplier__BB5F7DD685713220");
+
+            entity.ToTable("Supplier_order_Table");
+
+            entity.Property(e => e.SupplierOrderId).HasColumnName("Supplier_order_ID");
+            entity.Property(e => e.AmountPerOrder)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("Amount_per_Order");
+            entity.Property(e => e.OrderEnddate)
+                .HasColumnType("date")
+                .HasColumnName("Order_enddate");
+            entity.Property(e => e.OrderId).HasColumnName("Order_Id");
+            entity.Property(e => e.OrderPaymentStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Order_Payment_status");
+            entity.Property(e => e.OrderStartdate)
+                .HasColumnType("date")
+                .HasColumnName("Order_startdate");
+            entity.Property(e => e.OrderStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Order_status");
+            entity.Property(e => e.OrderType)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Order_type");
+            entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.SupplierOrderTables)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK__Supplier___Order__22751F6C");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierOrderTables)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK__Supplier___Suppl__2180FB33");
+        });
+
+        modelBuilder.Entity<SupplierPinCode>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3213E83FBA78273E");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.PinCodeOfSupply)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierPinCodes)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK__SupplierP__Suppl__1AD3FDA4");
         });
 
         modelBuilder.Entity<User>(entity =>
