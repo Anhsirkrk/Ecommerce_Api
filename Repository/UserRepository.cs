@@ -109,31 +109,35 @@ namespace Ecommerce_Api.Repository
         //Get UserSubscibedProducts Besed on userid
         public async Task<List<UserSubscriptionProductsViewModel>> GetUserSubsriptionProductsBasedonUserId(int userId)
         {
-
-
-
             var userSubscriptionViewModels =
       from us in context.UserSubscriptions
       join o in context.Orders on us.OrderId equals o.OrderId
       join oi in context.OrderItems on o.OrderId equals oi.OrderId
       join p in context.Products on oi.ProductId equals p.ProductId
+      join b in context.Brands on p.BrandId equals b.BrandId
       join q in context.ProductItemDetails on p.ProductId equals q.ProductId
-      join a in context.Addresses on o.UserId equals a.UserId
+      join a in context.Addresses on o.AddressId equals a.AddressId
+      join pay in context.Payments on o.OrderId equals pay.OrderId
+      join subs in context.SubscriptionTypes on o.SubscriptionTypeId equals subs.SubscriptionId
       where us.UserId == userId
-      group new { us, o, oi, p, q, a } by p.ProductId into g
+      group new { us, o, oi, p, q, a ,b,subs, pay } by us.UserSubscriptionId into g
       select new UserSubscriptionProductsViewModel
       {
-          ProductId = g.Key,
+          ItemId = g.Key,   
+          OrderId = g.First().o.OrderId,
+          ProductId = g.First().p.ProductId,
           ProductName = g.First().p.ProductName,
+          BrandName = g.First().b.BrandName,
+          productindividualprice = g.First().oi.ProductPrice,
+          SubscriptionType = g.First().subs.SubscriptionType1,
           image = g.First().p.ImageUrl,
-          SizeOfEachUnit = g.First().q.SizeOfEachUnit ?? 0m,
-          ProductPrice = g.First().oi.ProductPrice,
           Quantity = g.First().oi.Quantity ?? 0,
           OrderDate = g.First().o.OrderDate ?? DateTime.MinValue,
           StartDate = g.First().o.StartDate,
           EndDate = g.First().o.EndDate,
           TotalAmount = g.First().o.TotalAmount,
           AddressId = g.First().a.AddressId,
+          paymentrefno = g.First().pay.TransactionId,
           Country = g.First().a.Country,
           State = g.First().a.State,
           City = g.First().a.City,
