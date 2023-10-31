@@ -40,5 +40,23 @@ namespace Ecommerce_Api.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("PaymentStatusEmail")]
+        public async Task<string> PaymentStatusEmail(int userid, string status, string amount)
+        {
+            try
+            {
+                if (context != null)
+                {
+                    return await ipr.PaymentStatusEmail(userid, status, amount);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
