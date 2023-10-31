@@ -134,6 +134,51 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetSupplierOrderDetailsBySupplierId")]
+        public async Task<IActionResult> GetSupplierOrderDetailsBySupplierId(int supplierId)
+        {
+            try
+            {
+                var items = await isr.GetSupplierOrderDetailsBySupplierId(supplierId);
+
+                if (items == null)
+                {
+                    return null;
+                }
+              var supplierOrderViewModel = items.Select(item => MapSupplierOrderDetailsToViewModel(item)).ToList();
+
+                return Ok(supplierOrderViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        [NonAction]
+        public SupplierOrderDetailsViewModel MapSupplierOrderDetailsToViewModel(SupplierOrderDetailsViewModel supplierorderdetailsViewModel)
+        {
+            // Map properties from SupplierOrderDetailsViewModel to SupplierViewModel
+            var supplierOrderDetails = new SupplierOrderDetailsViewModel
+            {
+                OrderID = supplierorderdetailsViewModel.OrderID,
+                ProductName = supplierorderdetailsViewModel.ProductName,
+                DeliveryAddress= supplierorderdetailsViewModel.DeliveryAddress,
+                Name = supplierorderdetailsViewModel.Name,
+                ContactNo = supplierorderdetailsViewModel.ContactNo,
+                SubscriptionTypes = supplierorderdetailsViewModel.SubscriptionTypes,
+                Amount = supplierorderdetailsViewModel.Amount,
+                StartDate=supplierorderdetailsViewModel.StartDate,
+                EndDate=supplierorderdetailsViewModel.EndDate,
+                PaymentStatus = supplierorderdetailsViewModel.PaymentStatus
+
+            };
+
+            return supplierOrderDetails;
+        }
+
 
     }
 }

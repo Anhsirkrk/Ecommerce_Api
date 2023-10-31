@@ -2,6 +2,7 @@
 using Ecommerce_Api.ViewModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace Ecommerce_Api.Repository
@@ -9,9 +10,12 @@ namespace Ecommerce_Api.Repository
     public class SupplierRepository : ISupplierRepository
     {
         private readonly EcommerceDailyPickContext context;
-        public SupplierRepository(EcommerceDailyPickContext _context)
+        private readonly IConfiguration configuration;
+
+        public SupplierRepository(EcommerceDailyPickContext _context, IConfiguration _configuration)
         {
             context = _context;
+            configuration = _configuration;
         }
 
         public async Task<SupplierViewModel> AddSupplier(SupplierViewModel supplierViewModel)
@@ -111,6 +115,49 @@ namespace Ecommerce_Api.Repository
             sovm.SupplierOrderID = insertedOrderId;
 
             return sovm;
+        }
+
+
+
+        public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId)
+        {
+            List<SupplierOrderDetailsViewModel> item = new List<SupplierOrderDetailsViewModel>();
+            var connectionString = configuration.GetConnectionString("Dbcon");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand("Sp_GetSupplierOrderDetails", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@SupplierID", supplierId));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            SupplierOrderDetailsViewModel supplierviewModel = new SupplierOrderDetailsViewModel
+                            {
+                                OrderID = (int)reader["OrderID"],
+                                ProductName = reader["ProductName"].ToString(),
+                                DeliveryAddress = reader["DeliveryAddress"].ToString(),
+                                Name = reader["Name"].ToString(),
+                                ContactNo = reader["ContactNo"].ToString(),
+                                SubscriptionTypes = reader["SubscriptionType"].ToString(),
+                                Amount = (decimal)reader["Amount"],
+                                StartDate = (DateTime)reader["Startdate"],
+                                EndDate = (DateTime)reader["Enddate"],
+                                PaymentStatus = reader["PaymentStatus"].ToString()
+                            };
+
+                            item.Add(supplierviewModel);
+                        }
+                    }
+                }
+            }
+
+            return item;
         }
 
     }
