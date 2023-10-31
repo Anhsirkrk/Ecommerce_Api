@@ -15,6 +15,8 @@ namespace Ecommerce_Api.ViewModels
 
         public string SubscriptionType { get; set; }
 
+        public bool IsSubscriptionActive { get; set; }  
+
         public string image { get; set; }
 
         public int Quantity { get; set; }
