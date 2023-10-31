@@ -175,6 +175,7 @@ namespace Ecommerce_Api.Repository
       join subs in context.SubscriptionTypes on o.SubscriptionTypeId equals subs.SubscriptionId
       where us.UserId == userId
       group new { us, o, oi, p, q, a ,b,subs, pay } by us.UserSubscriptionId into g
+      orderby g.Max(x=>x.o.OrderId) descending
       select new UserSubscriptionProductsViewModel
       {
           ItemId = g.Key,   
@@ -200,6 +201,7 @@ namespace Ecommerce_Api.Repository
           HouseNo = g.First().a.HouseNo,
           Longitude = g.First().a.Longitude ?? 0.0m,
           Latitude = g.First().a.Latitude ?? 0.0m,
+          IsSubscriptionActive = (bool)g.First().us.IsActive
           // Map other properties here...
       };
             var userSubscriptionList = userSubscriptionViewModels.ToList();

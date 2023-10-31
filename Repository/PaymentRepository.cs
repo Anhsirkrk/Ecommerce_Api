@@ -49,6 +49,7 @@ namespace Ecommerce_Api.Repository
             paymentView.PaymentId = insertedpaymentid;
             paymentView.UserSubscriptionId = insertedUserSubscriptionid;
             paymentView.PaymentStatus = "Success";
+            paymentView.TransactionId = tid;
             
 
             return paymentView;
