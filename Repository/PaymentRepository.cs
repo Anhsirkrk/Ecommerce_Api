@@ -7,6 +7,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ecommerce_Api.Repository
 {
@@ -55,8 +56,27 @@ namespace Ecommerce_Api.Repository
 
             return paymentView;
         }
+        public async Task<string> PaymentStatusEmail(int userid,string status,string amount)
+        {
+            try
+            {
+                var item= await context.Users.FirstOrDefaultAsync(x=>x.UserId== userid);
+                if(item!=null)
+                {
+                    SendEmail(item.Email, status,amount);
+                    return "Status";
+                }
+                return null;
 
-        private void SendEmail(string email)
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        private void SendEmail(string email, string status, string Amount)
         {
             string senderEmail = "ramakrishna.hds.15@gmail.com";
             string senderPassword = "xvdf bpib kdpx fyru";
@@ -64,7 +84,7 @@ namespace Ecommerce_Api.Repository
 
             string toEmail = email;
             string subject = "Welcome to Our DailyPick Website!";
-            string body = "Ypur Payment for the order is Successful ";
+            string body = $"Your Payment for the order is {status}. Amount: {Amount}";
 
 
             MailMessage mail = new MailMessage(senderEmail, toEmail);
