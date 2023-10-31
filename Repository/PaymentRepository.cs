@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Razorpay.Api;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Net.Mail;
+using System.Net;
 
 namespace Ecommerce_Api.Repository
 {
@@ -53,6 +55,54 @@ namespace Ecommerce_Api.Repository
 
             return paymentView;
         }
+
+        private void SendEmail(string email)
+        {
+            string senderEmail = "ramakrishna.hds.15@gmail.com";
+            string senderPassword = "xvdf bpib kdpx fyru";
+
+
+            string toEmail = email;
+            string subject = "Welcome to Our DailyPick Website!";
+            string body = "Ypur Payment for the order is Successful ";
+
+
+            MailMessage mail = new MailMessage(senderEmail, toEmail);
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                EnableSsl = true,
+            };
+
+            try
+            {
+                smtp.Send(mail);
+            }
+            catch (SmtpException ex)
+            {
+                // Handle SMTP exceptions (e.g., invalid recipient, server not reachable, authentication issues, etc.)
+                // Log the error and handle it appropriately.
+                Console.WriteLine("SMTP Exception: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                // Log the error and handle it appropriately.
+                Console.WriteLine("Exception: " + ex.Message);
+            }
+            finally
+            {
+                mail.Dispose();
+                smtp.Dispose();
+            }
+        }
+
+
 
         public async Task<PaymentViewModel> UserPayment2([FromBody] PaymentViewModel paymentView)
         {
