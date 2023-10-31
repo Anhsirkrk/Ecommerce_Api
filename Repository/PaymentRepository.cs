@@ -57,14 +57,14 @@ namespace Ecommerce_Api.Repository
 
             return paymentView;
         }
-        public async Task<string> PaymentStatusEmail(int userid,string status,string amount)
+        public async Task<string> PaymentStatusEmail(int userid,string status,string amount,string email)
         {
             try
             {
-                var item= await context.Users.FirstOrDefaultAsync(x=>x.UserId== userid);
-                if(item!=null)
+                //var item= await context.Users.FirstOrDefaultAsync(x=>x.UserId== userid);
+                if(email!=null && userid!=null && status!=null && amount!=null)
                 {
-                    SendEmail(item.Email, status,amount);
+                    SendEmail(email, status,amount);
                     return "Status";
                 }
                 return null;

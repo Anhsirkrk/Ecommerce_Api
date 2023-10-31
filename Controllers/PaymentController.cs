@@ -43,13 +43,13 @@ namespace Ecommerce_Api.Controllers
 
         [HttpPost]
         [Route("PaymentStatusEmail")]
-        public async Task<string> PaymentStatusEmail(int userid, string status, string amount)
+        public async Task<string> PaymentStatusEmail(int userid, string status, string amount , string email)
         {
             try
             {
                 if (context != null)
                 {
-                    return await ipr.PaymentStatusEmail(userid, status, amount);
+                    return await ipr.PaymentStatusEmail(userid, status, amount,email);
                 }
                 return null;
             }
