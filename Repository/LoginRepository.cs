@@ -48,7 +48,7 @@ namespace Ecommerce_Api.Repository
 
         public async Task<LoginViewModel> GetUserByEmail(LoginViewModel loginViewModel)
         {
-            var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email);
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email && x.Password==loginViewModel.Password);
             if (item == null)
             {
                 var user = new LoginViewModel
