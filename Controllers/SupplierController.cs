@@ -179,6 +179,34 @@ namespace Ecommerce_Api.Controllers
             return supplierOrderDetails;
         }
 
+        [HttpPost]
+        [Route("UpdatetheOrderStatusBySupplier")]
+        public async Task<IActionResult> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable)
+        {
 
+            if (supplierOrderTable == null)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            try
+            {
+                var result = await isr.UpdatetheOrderStatusBySupplier(supplierOrderTable);
+
+               
+                var customResponse = new
+                {
+                    Message = "Supplier Chaged Order Status Successfully",
+                    Supplier = result 
+                };
+
+                return Ok(customResponse);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an appropriate response.
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
