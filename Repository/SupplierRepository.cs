@@ -120,6 +120,8 @@ namespace Ecommerce_Api.Repository
 
 
         public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId)
+        
+        
         {
             List<SupplierOrderDetailsViewModel> item = new List<SupplierOrderDetailsViewModel>();
             var connectionString = configuration.GetConnectionString("Dbcon");
@@ -148,7 +150,9 @@ namespace Ecommerce_Api.Repository
                                 Amount = (decimal)reader["Amount"],
                                 StartDate = (DateTime)reader["Startdate"],
                                 EndDate = (DateTime)reader["Enddate"],
-                                PaymentStatus = reader["PaymentStatus"].ToString()
+                                PaymentStatus = reader["PaymentStatus"].ToString(),
+                                OrderStatus = reader["OrderStatus"].ToString()
+
                             };
 
                             item.Add(supplierviewModel);

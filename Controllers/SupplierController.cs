@@ -172,7 +172,9 @@ namespace Ecommerce_Api.Controllers
                 Amount = supplierorderdetailsViewModel.Amount,
                 StartDate=supplierorderdetailsViewModel.StartDate,
                 EndDate=supplierorderdetailsViewModel.EndDate,
-                PaymentStatus = supplierorderdetailsViewModel.PaymentStatus
+                PaymentStatus = supplierorderdetailsViewModel.PaymentStatus,
+                OrderStatus = supplierorderdetailsViewModel.OrderStatus,
+
 
             };
 

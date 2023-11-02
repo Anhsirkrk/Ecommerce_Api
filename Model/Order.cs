@@ -15,9 +15,9 @@ public partial class Order
 
     public DateTime? OrderDate { get; set; }
 
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
     public string? OrderPaymentStatus { get; set; }
 
@@ -26,6 +26,8 @@ public partial class Order
     public int? AddressId { get; set; }
 
     public int? SupplierId { get; set; }
+
+    public DateTime? Createdat { get; set; }
 
     public virtual Address? Address { get; set; }
 

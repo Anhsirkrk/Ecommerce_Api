@@ -214,17 +214,21 @@ public partial class EcommerceDailyPickContext : DbContext
 
             entity.Property(e => e.OrderId).HasColumnName("Order_Id");
             entity.Property(e => e.AddressId).HasColumnName("AddressID");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("createdat");
             entity.Property(e => e.EndDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("End_Date");
             entity.Property(e => e.OrderDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Order_Date");
             entity.Property(e => e.OrderPaymentStatus)
                 .HasMaxLength(40)
                 .IsUnicode(false);
             entity.Property(e => e.StartDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Start_Date");
             entity.Property(e => e.SubscriptionTypeId).HasColumnName("Subscription_Type_Id");
             entity.Property(e => e.TimeSlot)
@@ -510,7 +514,7 @@ public partial class EcommerceDailyPickContext : DbContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("Amount_per_Order");
             entity.Property(e => e.OrderEnddate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Order_enddate");
             entity.Property(e => e.OrderId).HasColumnName("Order_Id");
             entity.Property(e => e.OrderPaymentStatus)
@@ -518,16 +522,13 @@ public partial class EcommerceDailyPickContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Order_Payment_status");
             entity.Property(e => e.OrderStartdate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Order_startdate");
             entity.Property(e => e.OrderStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Order_status");
-            entity.Property(e => e.OrderType)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("Order_type");
+            entity.Property(e => e.OrderType).HasColumnName("Order_type");
             entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
 
             entity.HasOne(d => d.Order).WithMany(p => p.SupplierOrderTables)

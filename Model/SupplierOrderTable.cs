@@ -17,7 +17,7 @@ public partial class SupplierOrderTable
 
     public string? OrderPaymentStatus { get; set; }
 
-    public string? OrderType { get; set; }
+    public int? OrderType { get; set; }
 
     public DateTime? OrderStartdate { get; set; }
 
