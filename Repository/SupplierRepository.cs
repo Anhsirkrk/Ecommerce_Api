@@ -160,5 +160,29 @@ namespace Ecommerce_Api.Repository
             return item;
         }
 
+
+        public async Task<UpdateOrderStatusSupplierViewModel> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable)
+        {
+            try
+            {
+                var parameters = new[]
+                {
+            new SqlParameter("@SupplierId", supplierOrderTable.SupplierId),
+            new SqlParameter("@NewStatus", supplierOrderTable.OrderStatus),
+            new SqlParameter("@OrderIds", supplierOrderTable.OrderIds)
+        };
+
+                // Execute the stored procedure using Entity Framework Core
+                await context.Database.ExecuteSqlRawAsync("EXEC Sp_UpdateOrderStatusSupplierOrderTable @SupplierId, @NewStatus, @OrderIds", parameters);
+
+                return supplierOrderTable;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions or errors
+                throw;
+            }
+        }
+
     }
 }

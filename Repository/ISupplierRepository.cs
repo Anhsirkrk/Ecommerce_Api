@@ -10,6 +10,7 @@ namespace Ecommerce_Api.Repository
         List<SupplierWithPinCodesViewModel> GetSuppliersWithPinCodes();
         Task<SupplierOrderViewModel> SupplierOrderCreation(SupplierOrderViewModel sovm);
         Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId);
+        Task<UpdateOrderStatusSupplierViewModel> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable);
 
     }
 }
