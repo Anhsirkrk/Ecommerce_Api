@@ -210,5 +210,34 @@ namespace Ecommerce_Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPost]
+        [Route("SupplierLogin")]
+        public async Task<IActionResult> SupplierLogin(SupplierLoginViewModel supplierLoginViewModel)
+        {
+            if (supplierLoginViewModel == null)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            try
+            {
+                var result = await isr.SupplierLogin(supplierLoginViewModel);
+
+
+                var customResponse = new
+                {
+                    Message = "Supplier Sucesssfully Login",
+                    Supplier = result
+                };
+
+                return Ok(customResponse);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions and return an appropriate response.
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

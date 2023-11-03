@@ -12,5 +12,7 @@ namespace Ecommerce_Api.Repository
         Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId);
         Task<UpdateOrderStatusSupplierViewModel> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable);
 
+        Task<SupplierViewModel> SupplierLogin(SupplierLoginViewModel supplierLoginViewModel);
+
     }
 }
