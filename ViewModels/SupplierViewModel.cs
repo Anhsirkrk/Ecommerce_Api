@@ -12,5 +12,6 @@
         public string StatusOfRegistration { get; set; }
         public string PanCard { get; set; }
         public string Licenceno { get; set; }
+        public string Password { get; set; }
     }
 }
