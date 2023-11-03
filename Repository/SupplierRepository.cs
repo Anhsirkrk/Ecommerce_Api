@@ -174,12 +174,65 @@ namespace Ecommerce_Api.Repository
             new SqlParameter("@SupplierId", supplierOrderTable.SupplierId),
             new SqlParameter("@NewStatus", supplierOrderTable.OrderStatus),
             new SqlParameter("@OrderIds", supplierOrderTable.OrderIds)
-        };
+                 };
 
                 // Execute the stored procedure using Entity Framework Core
                 await context.Database.ExecuteSqlRawAsync("EXEC Sp_UpdateOrderStatusSupplierOrderTable @SupplierId, @NewStatus, @OrderIds", parameters);
 
                 return supplierOrderTable;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions or errors
+                throw;
+            }
+        }
+
+        public async Task<SupplierViewModel> SupplierLogin(SupplierLoginViewModel supplierLoginViewModel)
+        {
+            try
+            {
+                var email = supplierLoginViewModel.Email;
+                var password = supplierLoginViewModel.Password;
+
+                var parameters = new[]
+                {
+                  new SqlParameter("@InputEmail", email),
+                  new SqlParameter("@InputPassword", password)
+                 };
+
+                // Call the stored procedure using FromSqlRaw
+                var authenticationResult =  context.Suppliers
+                    .FromSqlRaw("EXEC Sp_Supplierlogin @InputEmail, @InputPassword", parameters)
+                    .AsNoTracking()
+                    .AsEnumerable()
+                     .FirstOrDefault();
+
+                if (authenticationResult != null)
+                {
+                    // Authentication successful
+                    var supplierLoginResult = new SupplierViewModel
+                    {
+                        SupplierId = authenticationResult.SupplierId,
+                        Name = authenticationResult.Name,
+                        Email=authenticationResult.Email,
+                        Mobile=authenticationResult.Mobile,
+                        JoinDate=authenticationResult.JoinDate ?? DateTime.MinValue,
+                        RegistrationAmountPaid =authenticationResult.RegistrationAmountPaid ?? 0m,
+                        ExpiryDate=authenticationResult.ExpiryDate ?? DateTime.MinValue,
+                        StatusOfRegistration=authenticationResult.StatusOfRegistration,
+                        PanCard=authenticationResult.PanCard,
+                        Licenceno = authenticationResult.Licenceno,
+                        // Map other properties here
+                    };
+
+                    return supplierLoginResult;
+                }
+                else
+                {
+                    // Authentication failed
+                    return null;
+                }
             }
             catch (Exception ex)
             {
