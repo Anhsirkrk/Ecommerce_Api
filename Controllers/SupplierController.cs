@@ -85,6 +85,7 @@ namespace Ecommerce_Api.Controllers
                 StatusOfRegistration = supplier.StatusOfRegistration,
                 PanCard = supplier.PanCard,
                 Licenceno = supplier.Licenceno,
+                Password= supplier.Password
                 // Map other properties here
             };
 

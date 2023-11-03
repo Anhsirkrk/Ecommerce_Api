@@ -30,10 +30,11 @@ namespace Ecommerce_Api.Repository
             new SqlParameter("@ExpiryDate", supplierViewModel.ExpiryDate),
             new SqlParameter("@StatusOfRegistration", supplierViewModel.StatusOfRegistration),
             new SqlParameter("@PanCard", supplierViewModel.PanCard),
-                new SqlParameter("@Licenceno", supplierViewModel.Licenceno)
+            new SqlParameter("@Licenceno", supplierViewModel.Licenceno),
+             new SqlParameter("@Password", supplierViewModel.Password)
             };
 
-            context.Database.ExecuteSqlRaw("EXEC InsertSupplier @Name, @Email, @Mobile, @JoinDate, @RegistrationAmountPaid, @ExpiryDate, @StatusOfRegistration, @PanCard, @Licenceno", parameters);
+            context.Database.ExecuteSqlRaw("EXEC InsertSupplier @Name, @Email, @Mobile, @JoinDate, @RegistrationAmountPaid, @ExpiryDate, @StatusOfRegistration, @PanCard, @Licenceno,@Password", parameters);
 
             return supplierViewModel;
         }
@@ -223,6 +224,7 @@ namespace Ecommerce_Api.Repository
                         StatusOfRegistration=authenticationResult.StatusOfRegistration,
                         PanCard=authenticationResult.PanCard,
                         Licenceno = authenticationResult.Licenceno,
+                        Password = authenticationResult.Password
                         // Map other properties here
                     };
 
