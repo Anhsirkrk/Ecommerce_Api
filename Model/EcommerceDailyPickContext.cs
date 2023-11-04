@@ -479,6 +479,9 @@ public partial class EcommerceDailyPickContext : DbContext
             entity.Property(e => e.PanCard)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.RegistrationAmountPaid).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.StatusOfRegistration)
                 .HasMaxLength(50)
@@ -525,8 +528,8 @@ public partial class EcommerceDailyPickContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Order_startdate");
             entity.Property(e => e.OrderStatus)
-                .HasMaxLength(50)
-                .IsUnicode(false)
+                .HasMaxLength(255)
+                .UseCollation("Latin1_General_BIN")
                 .HasColumnName("Order_status");
             entity.Property(e => e.OrderType).HasColumnName("Order_type");
             entity.Property(e => e.SupplierId).HasColumnName("Supplier_Id");
