@@ -51,7 +51,6 @@ namespace Ecommerce_Api.Repository
 
         }
 
-
         public List<SupplierWithPinCodesViewModel> GetSuppliersWithPinCodes()
         {
             var suppliersWithPinCodes = new List<SupplierWithPinCodesViewModel>();
@@ -86,8 +85,6 @@ namespace Ecommerce_Api.Repository
             return suppliersWithPinCodes;
         }
 
-
-
         public async Task<SupplierOrderViewModel> SupplierOrderCreation(SupplierOrderViewModel sovm)
         {
             var insertedSupplierOrderIdParameter = new SqlParameter("@InsertedSupplier_order_ID", SqlDbType.Int);
@@ -117,8 +114,6 @@ namespace Ecommerce_Api.Repository
 
             return sovm;
         }
-
-
 
         public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId)
         
@@ -164,7 +159,6 @@ namespace Ecommerce_Api.Repository
 
             return item;
         }
-
 
         public async Task<UpdateOrderStatusSupplierViewModel> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable)
         {
