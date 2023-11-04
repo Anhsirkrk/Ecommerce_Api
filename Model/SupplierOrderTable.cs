@@ -13,7 +13,7 @@ public partial class SupplierOrderTable
 
     public decimal? AmountPerOrder { get; set; }
 
-    public string? OrderStatus { get; set; }
+    public string OrderStatus { get; set; } = null!;
 
     public string? OrderPaymentStatus { get; set; }
 
