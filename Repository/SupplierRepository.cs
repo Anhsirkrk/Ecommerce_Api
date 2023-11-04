@@ -120,7 +120,7 @@ namespace Ecommerce_Api.Repository
 
 
 
-        public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId)
+        public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8)
         
         
         {
@@ -131,10 +131,19 @@ namespace Ecommerce_Api.Repository
             {
                 connection.Open();
 
-                using (SqlCommand command = new SqlCommand("Sp_GetSupplierOrderDetails", connection))
+                using (SqlCommand command = new SqlCommand("Sp_GetSupplierOrderDetailsByStatusFilter", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@SupplierID", supplierId));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus1", filterStatus1));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus2", filterStatus2));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus3", filterStatus3));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus4",filterStatus4));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus5", filterStatus5));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus6", filterStatus6));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus7", filterStatus7));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus8", filterStatus8));
+
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -241,6 +250,70 @@ namespace Ecommerce_Api.Repository
                 // Handle any exceptions or errors
                 throw;
             }
+        }
+
+
+        public async Task<List<SupplierOrderDetailsViewModel>> GetTodaySupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8)
+
+
+        {
+            List<SupplierOrderDetailsViewModel> item = new List<SupplierOrderDetailsViewModel>();
+            var connectionString = configuration.GetConnectionString("Dbcon");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand("Sp_GetSupplierOrderDetailsByStatusFilter", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@SupplierID", supplierId));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus1", filterStatus1));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus2", filterStatus2));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus3", filterStatus3));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus4", filterStatus4));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus5", filterStatus5));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus6", filterStatus6));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus7", filterStatus7));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus8", filterStatus8));
+
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateTime startDate = (DateTime)reader["Startdate"];
+                            DateTime endDate = (DateTime)reader["Enddate"];
+                            DateTime today = DateTime.Today;
+                            if (startDate <= today && endDate >= today)
+                            {
+                                SupplierOrderDetailsViewModel supplierviewModel = new SupplierOrderDetailsViewModel
+                                {
+                                    OrderID = (int)reader["OrderID"],
+                                    ProductName = reader["ProductName"].ToString(),
+                                    DeliveryAddress = reader["DeliveryAddress"].ToString(),
+                                    Name = reader["Name"].ToString(),
+                                    ContactNo = reader["ContactNo"].ToString(),
+                                    SubscriptionTypes = reader["SubscriptionType"].ToString(),
+                                    Amount = (decimal)reader["Amount"],
+                                    //StartDate = (DateTime)reader["Startdate"],
+                                    //EndDate = (DateTime)reader["Enddate"],
+                                    StartDate = startDate,
+                                    EndDate = endDate,
+                                    PaymentStatus = reader["PaymentStatus"].ToString(),
+                                    OrderStatus = reader["OrderStatus"].ToString()
+
+                                };
+
+                                item.Add(supplierviewModel);
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return item;
         }
 
     }

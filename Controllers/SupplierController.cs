@@ -137,11 +137,11 @@ namespace Ecommerce_Api.Controllers
 
         [HttpGet]
         [Route("GetSupplierOrderDetailsBySupplierId")]
-        public async Task<IActionResult> GetSupplierOrderDetailsBySupplierId(int supplierId)
+        public async Task<IActionResult> GetSupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1 = null, string filterStatus2 = null, string filterStatus3 = null, string filterStatus4 = null, string filterStatus5 = null, string filterStatus6 = null, string filterStatus7 = null, string filterStatus8 = null)
         {
             try
             {
-                var items = await isr.GetSupplierOrderDetailsBySupplierId(supplierId);
+                var items = await isr.GetSupplierOrderDetailsBySupplierId(supplierId,filterStatus1,filterStatus2,filterStatus3,filterStatus4,filterStatus5,filterStatus6,filterStatus7,filterStatus8);
 
                 if (items == null)
                 {
@@ -240,5 +240,31 @@ namespace Ecommerce_Api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+        [HttpGet]
+        [Route("GetTodaySupplierOrderDetailsBySupplierId")]
+        public async Task<IActionResult> GetTodaySupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1 = null, string filterStatus2 = null, string filterStatus3 = null, string filterStatus4 = null, string filterStatus5 = null, string filterStatus6 = null, string filterStatus7 = null, string filterStatus8 = null)
+        {
+            try
+            {
+                var items = await isr.GetTodaySupplierOrderDetailsBySupplierId(supplierId, filterStatus1, filterStatus2, filterStatus3, filterStatus4, filterStatus5, filterStatus6, filterStatus7, filterStatus8);
+
+                if (items == null)
+                {
+                    return null;
+                }
+                var supplierOrderViewModel = items.Select(item => MapSupplierOrderDetailsToViewModel(item)).ToList();
+
+                return Ok(supplierOrderViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+
     }
 }
