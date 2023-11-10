@@ -47,7 +47,10 @@ namespace Ecommerce_Api.Repository
                         if (creatinngcart.IsCartCreated == true)
                         {
                             userviewmodel.ResultMessage = " Created Succesfully ";
-                            SendEmail(userviewmodel.Email);
+                            if (userviewmodel.Email!=null)
+                            {
+                                SendEmail(userviewmodel.Email);
+                            }
                             return userviewmodel;
                         }
 
