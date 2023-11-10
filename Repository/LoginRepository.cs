@@ -8,9 +8,11 @@ namespace Ecommerce_Api.Repository
     public class LoginRepository : IloginRepository
     {
         private readonly EcommerceDailyPickContext _context;
-        public LoginRepository(EcommerceDailyPickContext context)
+        private readonly IUserRepository _userRepository;
+        public LoginRepository(EcommerceDailyPickContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel)
@@ -18,11 +20,21 @@ namespace Ecommerce_Api.Repository
             var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
             if (item == null)
             {
+                var item2 = new UserViewModel
+                {
+                    Mobile = loginViewModel.Mobile,
+                };
+
+               var creatingnewuser = await _userRepository.CreateUser(item2);
+
                 var user = new LoginViewModel
                 {
                     UserFound = false,
+                    UserId= creatingnewuser.UserId,
                     ResultMessage = "User not found"
+                     
                 };
+
                 return user;
 
             }

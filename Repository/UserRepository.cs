@@ -42,6 +42,7 @@ namespace Ecommerce_Api.Repository
                         userviewmodel.isusercreated = true;
                         CartViewModel cvm = new CartViewModel();
                         cvm.UserId = user.UserId;
+                        userviewmodel.UserId = user.UserId;
                         var creatinngcart = await CreateCart(cvm);
                         if (creatinngcart.IsCartCreated == true)
                         {
