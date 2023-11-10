@@ -580,7 +580,7 @@ public partial class EcommerceDailyPickContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(100)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UserTypeId).HasColumnName("user_type_id");
             entity.Property(e => e.Username)

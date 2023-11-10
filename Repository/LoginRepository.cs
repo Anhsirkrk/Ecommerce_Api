@@ -22,6 +22,8 @@ namespace Ecommerce_Api.Repository
             {
                 var item2 = new UserViewModel
                 {
+                    UserTypeId = loginViewModel.UserTypeId,
+                    
                     Mobile = loginViewModel.Mobile,
                 };
 
@@ -29,8 +31,13 @@ namespace Ecommerce_Api.Repository
 
                 var user = new LoginViewModel
                 {
+
                     UserFound = false,
                     UserId= creatingnewuser.UserId,
+                    Firstname=creatingnewuser.Mobile,
+                    Lastname=creatingnewuser.Mobile,
+                    Mobile= creatingnewuser.Mobile,
+                    Username=creatingnewuser.Mobile,
                     ResultMessage = "User not found"
                      
                 };

@@ -58,8 +58,19 @@ namespace Ecommerce_Api.Repository
                 }
                 return null;
             }
-            catch (Exception ex)
-            { throw ex; }
+            catch (DbUpdateException ex)
+            {  // Log the details of the exception, including inner exceptions
+                Console.WriteLine($"DbUpdateException: {ex.Message}");
+
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {innerException.Message}");
+                    innerException = innerException.InnerException;
+                    
+                }
+                throw ex;
+            }
         }
 
 
