@@ -23,7 +23,7 @@ namespace Ecommerce_Api.Repository
                 var item2 = new UserViewModel
                 {
                     UserTypeId = loginViewModel.UserTypeId,
-                    
+                    IsActive=loginViewModel.IsActive,
                     Mobile = loginViewModel.Mobile,
                 };
 
