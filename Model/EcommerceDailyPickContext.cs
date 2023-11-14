@@ -562,10 +562,6 @@ public partial class EcommerceDailyPickContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__206D91701A565368");
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E401826BAD").IsUnique();
-
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053407E15804").IsUnique();
-
             entity.Property(e => e.UserId).HasColumnName("User_Id");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
