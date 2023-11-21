@@ -253,14 +253,14 @@ namespace Ecommerce_Api.Repository
             }
 
 
-            //existingUser.UserTypeId = user.UserTypeId;
+            existingUser.UserTypeId = user.UserTypeId;
             existingUser.Username = user.Username;
             existingUser.Password = user.Password;
             existingUser.Firstname = user.Firstname;
             existingUser.Lastname = user.Lastname;
             existingUser.Mobile = user.Mobile;
             existingUser.Email = user.Email;
-            //existingUser.IsActive = user.IsActive;
+            existingUser.IsActive = user.IsActive;
 
             // Save changes to the repository
             context.Users.Update(existingUser);

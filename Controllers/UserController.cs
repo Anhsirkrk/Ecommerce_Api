@@ -97,7 +97,7 @@ namespace Ecommerce_Api.Controllers
         public async Task<ActionResult<User>> GetUserDetailsByUserId(int userid)
         {
             try
-            {
+           {
 
                 if (userid != 0)
                 {
