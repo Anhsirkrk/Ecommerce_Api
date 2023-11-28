@@ -13,7 +13,7 @@ namespace Ecommerce_Api.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class AdminController : ControllerBase
+    public class AdminController : ControllerBase 
     {
         private readonly IAdminRepository _iar;
         private readonly EcommerceDailyPickContext _context;

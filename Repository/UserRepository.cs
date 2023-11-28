@@ -16,6 +16,11 @@ namespace Ecommerce_Api.Repository
         {
             context = _context;
         }
+
+        public UserRepository()
+        {
+        }
+
         public async Task<UserViewModel> CreateUser(UserViewModel userviewmodel)
         {
             try
@@ -118,9 +123,6 @@ namespace Ecommerce_Api.Repository
                 smtp.Dispose();
             }
         }
-
-
-
 
         public async Task<CartViewModel> CreateCart(CartViewModel cvm)
         {
