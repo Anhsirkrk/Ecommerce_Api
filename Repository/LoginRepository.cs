@@ -19,7 +19,7 @@ namespace Ecommerce_Api.Repository
         
         {
             var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
-            if (item == null)
+            if (item == null && loginViewModel.CreateNewUserIfUserdoesntexist == true)
             {
                 var item2 = new UserViewModel
                 {
@@ -39,10 +39,21 @@ namespace Ecommerce_Api.Repository
                     Lastname=creatingnewuser.Mobile,
                     Mobile= creatingnewuser.Mobile,
                     Username=creatingnewuser.Mobile,
-                    ResultMessage = "User not found"
+                    ResultMessage = "User not found",
+                    IsNewUserCreated = true,
                      
                 };
 
+                return user;
+
+            }
+            else if(item == null)
+            {
+                var user = new LoginViewModel
+                {
+                    UserFound = false,
+                    ResultMessage = "user not found"
+                };
                 return user;
 
             }

@@ -14,5 +14,9 @@
         public bool UserFound { get; set; }
         public string ResultMessage { get; set; }
 
+        public bool CreateNewUserIfUserdoesntexist { get; set; }    
+
+        public bool IsNewUserCreated { get; set; }
+
     }
 }
