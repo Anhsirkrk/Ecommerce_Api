@@ -13,8 +13,9 @@ namespace Ecommerce_Api.Controllers
     
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
-    public class AdminController : ControllerBase
+
+    public class AdminController : ControllerBase 
+
     {
         private readonly IAdminRepository _iar;
         private readonly EcommerceDailyPickContext _context;
@@ -305,13 +306,44 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
-                return await _iar.GetAllProductswithImage();
+                if (_context != null)
+                {
+                    var productIds = await _context.Products.Select(x => x.ProductId).ToListAsync();
+                    var productlist = new List<ProductViewModel>();
+
+                    foreach (var id in productIds)
+                    {
+                        var productData = await GetProductDataAsync(id);
+                        if (productData != null)
+                        {
+                            productlist.Add(productData);
+                        }
+                    }
+
+                    return productlist;
+                }
+
+                return null;
             }
             catch (Exception ex)
             {
-                throw ex;
+                // Log the exception
+                throw;
             }
         }
+
+
+        //public async Task<List<ProductViewModel>> GetAllProductswithImage()
+        //{
+        //    try
+        //    {
+        //        return await _iar.GetAllProductswithImage();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         [HttpPost]
         [Route("GetProductById")]
         public async Task<List<Product>> GetProductById(List<int> product_ids)
@@ -343,6 +375,83 @@ namespace Ecommerce_Api.Controllers
         }
 
 
+
+
+
+
+
+        private async Task<ProductViewModel> GetProductDataAsync(int productId)
+        {
+            try
+            {
+                if (_context != null)
+                {
+                    var product = await _context.Products
+                        .Include(p => p.ProductItemDetails)
+                        .Include(p => p.Category)
+                        .Include(p => p.Brand)
+                        .FirstOrDefaultAsync(x => x.ProductId == productId);
+
+                    if (product != null)
+                    {
+                        // Convert image to base64
+                        string base64Image = ConvertImageToBase64(product.ImageUrl);
+
+                        var productViewModel = new ProductViewModel
+                        {
+                            ProductId = product.ProductId,
+                            ProductName = product.ProductName,
+                            CategoryId = product.CategoryId,
+                            CategoryName = product.Category.CategoryName,
+                            BrandId = product.BrandId,
+                            BrandName = product.Brand.BrandName,
+                            Base64Image = base64Image,
+                            Unit = product.ProductItemDetails.FirstOrDefault()?.Unit,
+                            SizeOfEachUnits = product.ProductItemDetails.Select(item => (decimal)item.SizeOfEachUnit).ToList(),
+                            WeightOfEachUnits = product.ProductItemDetails.Select(item => (decimal)item.WeightOfEachUnit).ToList(),
+                            StockOfEachUnits = product.ProductItemDetails.Select(item => (decimal)item.StockOfEachUnit).ToList(),
+                            PriceOfEachUnits = product.ProductItemDetails.Select(item => (decimal)item.Price).ToList(),
+                            MFG_OfEachUnits = product.ProductItemDetails.Select(item => (DateTime)item.ManufactureDate).ToList(),
+                            EXP_OfEachUnits = product.ProductItemDetails.Select(item => (DateTime)item.ExpiryDate).ToList(),
+                            IsAvailable_OfEachUnit = product.ProductItemDetails.Select(item => (bool)item.IsAvailable).ToList(),
+                            Avaialble_Quantity_ofEachUnit = product.ProductItemDetails.Select(item => (decimal)item.AvailableQuantity).ToList(),
+                            Description_OfEachUnits = product.ProductItemDetails.Select(item => item.Description).ToList(),
+                            DiscountId_OfEachUnit = product.ProductItemDetails.Select(item => (int)item.DiscountId).ToList()
+                        };
+
+                        return productViewModel;
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                throw;
+            }
+        }
+
+        private string ConvertImageToBase64(string imageUrl)
+        {
+            try
+            {
+                using (var image = System.Drawing.Image.FromFile(imageUrl))
+                {
+                    ImageFormat format = image.RawFormat;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        image.Save(memoryStream, format);
+                        return Convert.ToBase64String(memoryStream.ToArray());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return null;
+            }
+        }
     }
 
 }

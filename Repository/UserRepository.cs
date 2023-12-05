@@ -16,9 +16,11 @@ namespace Ecommerce_Api.Repository
         {
             context = _context;
         }
+
+    
+
         public async Task<UserViewModel> CreateUser(UserViewModel userviewmodel)
         {
-
             try
             {
 
@@ -42,11 +44,15 @@ namespace Ecommerce_Api.Repository
                         userviewmodel.isusercreated = true;
                         CartViewModel cvm = new CartViewModel();
                         cvm.UserId = user.UserId;
+                        userviewmodel.UserId = user.UserId;
                         var creatinngcart = await CreateCart(cvm);
                         if (creatinngcart.IsCartCreated == true)
                         {
                             userviewmodel.ResultMessage = " Created Succesfully ";
-                            SendEmail(userviewmodel.Email);
+                            if (userviewmodel.Email!=null)
+                            {
+                                SendEmail(userviewmodel.Email);
+                            }
                             return userviewmodel;
                         }
 
@@ -54,8 +60,19 @@ namespace Ecommerce_Api.Repository
                 }
                 return null;
             }
-            catch (Exception ex)
-            { throw ex; }
+            catch (DbUpdateException ex)
+            {  // Log the details of the exception, including inner exceptions
+                Console.WriteLine($"DbUpdateException: {ex.Message}");
+
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {innerException.Message}");
+                    innerException = innerException.InnerException;
+                    
+                }
+                throw ex;
+            }
         }
 
 
@@ -104,9 +121,6 @@ namespace Ecommerce_Api.Repository
                 smtp.Dispose();
             }
         }
-
-
-
 
         public async Task<CartViewModel> CreateCart(CartViewModel cvm)
         {
@@ -239,14 +253,14 @@ namespace Ecommerce_Api.Repository
             }
 
 
-            //existingUser.UserTypeId = user.UserTypeId;
+            existingUser.UserTypeId = user.UserTypeId;
             existingUser.Username = user.Username;
             existingUser.Password = user.Password;
             existingUser.Firstname = user.Firstname;
             existingUser.Lastname = user.Lastname;
             existingUser.Mobile = user.Mobile;
             existingUser.Email = user.Email;
-            //existingUser.IsActive = user.IsActive;
+            existingUser.IsActive = user.IsActive;
 
             // Save changes to the repository
             context.Users.Update(existingUser);

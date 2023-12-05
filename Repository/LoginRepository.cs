@@ -8,20 +8,51 @@ namespace Ecommerce_Api.Repository
     public class LoginRepository : IloginRepository
     {
         private readonly EcommerceDailyPickContext _context;
-        public LoginRepository(EcommerceDailyPickContext context)
+        private readonly IUserRepository _userRepository;
+        public LoginRepository(EcommerceDailyPickContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<LoginViewModel> GetUserByMobileNumber(LoginViewModel loginViewModel)
+        
         {
             var item = await _context.Users.FirstOrDefaultAsync(x => x.Mobile == loginViewModel.Mobile);
-            if (item == null)
+            if (item == null && loginViewModel.CreateNewUserIfUserdoesntexist == true)
+            {
+                var item2 = new UserViewModel
+                {
+                    UserTypeId = loginViewModel.UserTypeId,
+                    IsActive=loginViewModel.IsActive,
+                    Mobile = loginViewModel.Mobile,
+                };
+
+               var creatingnewuser = await _userRepository.CreateUser(item2);
+
+                var user = new LoginViewModel
+                {
+
+                    UserFound = false,
+                    UserId= creatingnewuser.UserId,
+                    Firstname=creatingnewuser.Mobile,
+                    Lastname=creatingnewuser.Mobile,
+                    Mobile= creatingnewuser.Mobile,
+                    Username=creatingnewuser.Mobile,
+                    ResultMessage = "User not found",
+                    IsNewUserCreated = true,
+                     
+                };
+
+                return user;
+
+            }
+            else if(item == null)
             {
                 var user = new LoginViewModel
                 {
                     UserFound = false,
-                    ResultMessage = "User not found"
+                    ResultMessage = "user not found"
                 };
                 return user;
 
@@ -48,7 +79,7 @@ namespace Ecommerce_Api.Repository
 
         public async Task<LoginViewModel> GetUserByEmail(LoginViewModel loginViewModel)
         {
-            var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email && x.Password==loginViewModel.Password);
+            var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email );
             if (item == null)
             {
                 var user = new LoginViewModel

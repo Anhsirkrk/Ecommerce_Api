@@ -120,9 +120,6 @@ namespace Ecommerce_Api.Repository
 
 
         public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8)
-
-        
-        
         {
             List<SupplierOrderDetailsViewModel> item = new List<SupplierOrderDetailsViewModel>();
             var connectionString = configuration.GetConnectionString("Dbcon");
