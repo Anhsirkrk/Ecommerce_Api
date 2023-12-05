@@ -166,6 +166,7 @@ namespace Ecommerce_Api.Controllers
             {
                 OrderID = supplierorderdetailsViewModel.OrderID,
                 ProductName = supplierorderdetailsViewModel.ProductName,
+                ImageUrl=supplierorderdetailsViewModel.ImageUrl,
                 DeliveryAddress= supplierorderdetailsViewModel.DeliveryAddress,
                 Name = supplierorderdetailsViewModel.Name,
                 ContactNo = supplierorderdetailsViewModel.ContactNo,
