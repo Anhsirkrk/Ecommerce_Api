@@ -3,6 +3,7 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Identity.Client;
 
 namespace Ecommerce_Api.Controllers
@@ -163,9 +164,11 @@ namespace Ecommerce_Api.Controllers
         {
             // Map properties from SupplierOrderDetailsViewModel to SupplierViewModel
             var supplierOrderDetails = new SupplierOrderDetailsViewModel
-            {
+            {   
                 OrderID = supplierorderdetailsViewModel.OrderID,
                 ProductName = supplierorderdetailsViewModel.ProductName,
+
+                ImageUrl = supplierorderdetailsViewModel.ImageUrl,
                 DeliveryAddress= supplierorderdetailsViewModel.DeliveryAddress,
                 Name = supplierorderdetailsViewModel.Name,
                 ContactNo = supplierorderdetailsViewModel.ContactNo,
@@ -265,6 +268,24 @@ namespace Ecommerce_Api.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetSupplierApprovalRejectlist")]
+        public async Task<List<SupplierApprovalRejectViewModal>> GetSupplierApprovalRejectlist(int supplierId)
+        {
+            try
+            {
+                if (supplierId != null)
+                {
+                    return await isr.GetSupplierApprovalRejectList(supplierId);
+                }
+                return null;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

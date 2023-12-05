@@ -115,9 +115,6 @@ namespace Ecommerce_Api.Repository
             return sovm;
         }
 
-
-
-
         public async  Task<List<SupplierOrderDetailsViewModel>> GetSupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8)
         {
             List<SupplierOrderDetailsViewModel> item = new List<SupplierOrderDetailsViewModel>();
@@ -134,7 +131,7 @@ namespace Ecommerce_Api.Repository
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus1", filterStatus1));
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus2", filterStatus2));
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus3", filterStatus3));
-                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus4",filterStatus4));
+                    command.Parameters.Add(new SqlParameter("@FilterOrderStatus4", filterStatus4));
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus5", filterStatus5));
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus6", filterStatus6));
                     command.Parameters.Add(new SqlParameter("@FilterOrderStatus7", filterStatus7));
@@ -247,7 +244,6 @@ namespace Ecommerce_Api.Repository
             }
         }
 
-
         public async Task<List<SupplierOrderDetailsViewModel>> GetTodaySupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8)
 
 
@@ -309,6 +305,23 @@ namespace Ecommerce_Api.Repository
             }
 
             return item;
+        }
+
+        public async Task<List<SupplierApprovalRejectViewModal>> GetSupplierApprovalRejectList(int supplierId)
+        {
+            try
+            {
+                if (context != null)
+                {
+                     var listitem= await from so in context.SupplierOrderTables 
+                                         join o in context.Orders 
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
