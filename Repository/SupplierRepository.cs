@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Drawing.Imaging;
 
 namespace Ecommerce_Api.Repository
 {
@@ -152,6 +153,7 @@ namespace Ecommerce_Api.Repository
                             {
                                 OrderID = (int)reader["OrderID"],
                                 ProductName = reader["ProductName"].ToString(),
+                                ImageUrl = reader["ImageURL"].ToString(),
                                 DeliveryAddress = reader["DeliveryAddress"].ToString(),
                                 Name = reader["Name"].ToString(),
                                 ContactNo = reader["ContactNo"].ToString(),
@@ -163,6 +165,17 @@ namespace Ecommerce_Api.Repository
                                 OrderStatus = reader["OrderStatus"].ToString()
 
                             };
+                            if (!string.IsNullOrEmpty(supplierviewModel.ImageUrl))
+                            {
+                                using (var image = System.Drawing.Image.FromFile(supplierviewModel.ImageUrl))
+                                {
+                                    ImageFormat format = image.RawFormat;
+                                    var memorystream = new MemoryStream();
+                                    image.Save(memorystream, format);
+
+                                    supplierviewModel.ImageUrl = Convert.ToBase64String(memorystream.ToArray());
+                                }
+                            }
 
                             item.Add(supplierviewModel);
                         }
@@ -289,6 +302,7 @@ namespace Ecommerce_Api.Repository
                                 {
                                     OrderID = (int)reader["OrderID"],
                                     ProductName = reader["ProductName"].ToString(),
+                                    ImageUrl = reader["ImageURL"].ToString(),
                                     DeliveryAddress = reader["DeliveryAddress"].ToString(),
                                     Name = reader["Name"].ToString(),
                                     ContactNo = reader["ContactNo"].ToString(),
@@ -302,6 +316,19 @@ namespace Ecommerce_Api.Repository
                                     OrderStatus = reader["OrderStatus"].ToString()
 
                                 };
+                                if (!string.IsNullOrEmpty(supplierviewModel.ImageUrl))
+                                {
+                                    using (var image = System.Drawing.Image.FromFile(supplierviewModel.ImageUrl))
+                                    {
+                                        ImageFormat format = image.RawFormat;
+                                        var memorystream = new MemoryStream();
+                                        image.Save(memorystream, format);
+
+                                        supplierviewModel.ImageUrl = Convert.ToBase64String(memorystream.ToArray());
+                                    }
+                                }
+
+                               
 
                                 item.Add(supplierviewModel);
                             }

@@ -4,6 +4,7 @@
     {
         public int OrderID { get; set; }
         public string ProductName { get; set; }
+        public string ImageUrl { get; set; }
         public string DeliveryAddress { get; set; }
         public string Name { get; set; }
         public string ContactNo { get; set; }

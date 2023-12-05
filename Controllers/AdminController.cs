@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.IO;
 using System.Drawing.Imaging;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
-
+    
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly IAdminRepository _iar;
