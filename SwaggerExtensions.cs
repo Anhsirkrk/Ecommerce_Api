@@ -6,5 +6,9 @@
         {
             return builder.UseMiddleware<SwaggerBasicAuthMiddleware>();
         }
+        //public static IApplicationBuilder UseSwaggerAuthorized(this IApplicationBuilder builder)
+        //{
+        //    return builder.UseMiddleware<SwaggerBasicAuthMiddleware>();
+        //}
     }
 }
