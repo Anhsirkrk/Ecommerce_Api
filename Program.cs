@@ -3,17 +3,30 @@ using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Microsoft.EntityFrameworkCore;
 using Razorpay.Api;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//serilog
+
+string Logpath = builder.Configuration.GetSection("Logging:Logpath").Value;
+var _logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("microsoft", Serilog.Events.LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.File(Logpath)
+    .CreateLogger();
+builder.Services.AddSerilog(_logger);
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EcommerceDailyPickContext>(options =>
-
 {
     var connectionString = builder.Configuration.GetConnectionString("Dbcon");
 
@@ -49,6 +62,8 @@ builder.Services.AddSwaggerGen(c =>
     // ... (other configurations)
     c.OperationFilter<AddFileParamTypesOperationFilter>();
 });
+
+
 
 
 

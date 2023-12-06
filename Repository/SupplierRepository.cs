@@ -157,7 +157,8 @@ namespace Ecommerce_Api.Repository
                                 StartDate = (DateTime)reader["Startdate"],
                                 EndDate = (DateTime)reader["Enddate"],
                                 PaymentStatus = reader["PaymentStatus"].ToString(),
-                                OrderStatus = reader["OrderStatus"].ToString()
+                                OrderStatus = reader["OrderStatus"].ToString(),
+                                
 
                             };
 
