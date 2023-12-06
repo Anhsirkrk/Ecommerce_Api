@@ -268,24 +268,6 @@ namespace Ecommerce_Api.Controllers
 
         }
 
-        [HttpGet]
-        [Route("GetSupplierApprovalRejectlist")]
-        public async Task<List<SupplierApprovalRejectViewModal>> GetSupplierApprovalRejectlist(int supplierId)
-        {
-            try
-            {
-                if (supplierId != null)
-                {
-                    return await isr.GetSupplierApprovalRejectList(supplierId);
-                }
-                return null;
-
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
 
     }
 }

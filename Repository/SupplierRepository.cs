@@ -335,22 +335,7 @@ namespace Ecommerce_Api.Repository
             return item;
         }
 
-        public async Task<List<SupplierApprovalRejectViewModal>> GetSupplierApprovalRejectList(int supplierId)
-        {
-            try
-            {
-                if (context != null)
-                {
-                     var listitem= await from so in context.SupplierOrderTables 
-                                         join o in context.Orders 
-                }
-                return null;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
 
     }
 }
