@@ -12,9 +12,11 @@ namespace Ecommerce_Api.Repository
     public class UserRepository : IUserRepository
     {
         private readonly EcommerceDailyPickContext context;
-        public UserRepository(EcommerceDailyPickContext _context)
+        private DatabaseLogger _databaseLogger;
+        public UserRepository(EcommerceDailyPickContext _context,DatabaseLogger databaselogger)
         {
             context = _context;
+            _databaseLogger = databaselogger;
         }
 
     
@@ -49,7 +51,7 @@ namespace Ecommerce_Api.Repository
                         if (creatinngcart.IsCartCreated == true)
                         {
                             userviewmodel.ResultMessage = " Created Succesfully ";
-                            if (userviewmodel.Email!=null)
+                            if (userviewmodel.Email != null)
                             {
                                 SendEmail(userviewmodel.Email);
                             }
@@ -61,18 +63,14 @@ namespace Ecommerce_Api.Repository
                 return null;
             }
             catch (DbUpdateException ex)
-            {  // Log the details of the exception, including inner exceptions
-                Console.WriteLine($"DbUpdateException: {ex.Message}");
-
-                Exception innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    Console.WriteLine($"Inner Exception: {innerException.Message}");
-                    innerException = innerException.InnerException;
-                    
-                }
+            {
+                _databaseLogger?.SetUserId(userviewmodel.Mobile.ToString());
+                _databaseLogger.LogError(ex.ToString(), "An Error Occured IN GetUserByEmail");
+                userviewmodel.ResultMessage = "An unexpectde error occcured";
+                return userviewmodel;
                 throw ex;
             }
+            
         }
 
 

@@ -32,5 +32,7 @@
                 _exceptionLoggerService.LogException(exception,_userId);
             }
         }
+
+        
     }
 }
