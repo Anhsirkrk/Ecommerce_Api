@@ -21,7 +21,7 @@ namespace Ecommerce_Api
                     // Get the credentials from request header
                     var header = AuthenticationHeaderValue.Parse(authHeader);
                     var inBytes = Convert.FromBase64String(header.Parameter);
-                    var credentials = Encoding.UTF8.GetString(inBytes).Split(':');
+                    string[] credentials = Encoding.UTF8.GetString(inBytes).Split(':');
                     var username = credentials[0];
                     var password = credentials[1];
                     // validate credentials
@@ -35,11 +35,37 @@ namespace Ecommerce_Api
                 context.Response.Headers["WWW-Authenticate"] = "Basic";
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
+            else if (context.Request.Path.StartsWithSegments("/api"))
+            {
+                string authHeader = context.Request.Headers["Authorization"];
+                if (authHeader != null && authHeader.StartsWith("Basic "))
+                {
+                    // Get the credentials from request header
+                    var header = AuthenticationHeaderValue.Parse(authHeader);
+                    var inBytes = Convert.FromBase64String(header.Parameter);
+                    string[] credentials = Encoding.UTF8.GetString(inBytes).Split(':');
+                    var username = credentials[0];
+                    var password = credentials[1];
+                    // validate credentials
+                    if (username.Equals("Shiva")
+                      && password.Equals("Shiva@123"))
+                    {
+                        await next.Invoke(context).ConfigureAwait(false);
+                        return;
+                    }
+                }
+                else
+                {
+                    context.Response.Headers["WWW-Authenticate"] = "Basic";
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    return;
+                }
+            }
             else
             {
                 await next.Invoke(context).ConfigureAwait(false);
             }
         }
-        //hh
+        
     }
 }
