@@ -17,6 +17,5 @@ namespace Ecommerce_Api.Repository
 
         Task<List<SupplierOrderDetailsViewModel>> GetTodaySupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1, string filterStatus2, string filterStatus3, string filterStatus4, string filterStatus5, string filterStatus6, string filterStatus7, string filterStatus8);
 
-        Task<List<SupplierApprovalRejectViewModal>> GetSupplierApprovalRejectList(int supplierId);
     }
 }
