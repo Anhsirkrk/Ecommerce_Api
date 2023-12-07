@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Razorpay.Api;
 using Serilog;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,10 @@ builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
 builder.Services.AddScoped<ISupplierRepository,SupplierRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<Microsoft.Extensions.Logging.ILogger, DatabaseLogger>();
+builder.Services.AddScoped<ExceptionLoggerService>();
+builder.Services.AddScoped<DatabaseLogger>();
+
 builder.Services.AddSingleton<RazorpayClient>(sp =>
 {
     var apiKey = "rzp_test_1P09DzG08tmJ4d";

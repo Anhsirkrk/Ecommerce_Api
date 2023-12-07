@@ -13,10 +13,14 @@ namespace Ecommerce_Api.Controllers
     {
         private readonly EcommerceDailyPickContext context;
         private readonly IPaymentRepository ipr;
-        public PaymentController(IPaymentRepository _ipr, EcommerceDailyPickContext _context)
+        private readonly ILogger logger;
+        private readonly DatabaseLogger databaseLogger;
+        public PaymentController(IPaymentRepository _ipr, EcommerceDailyPickContext _context,ILogger _logger,DatabaseLogger _databaselogger)
         {
             context = _context;
             ipr = _ipr;
+            logger = _logger;
+            databaseLogger = _databaselogger;
             context.Database.SetCommandTimeout(120);
         }
 
@@ -55,8 +59,12 @@ namespace Ecommerce_Api.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                //var databaseLogger = (DatabaseLogger)logger; // Cast to DatabaseLogger
+                databaseLogger.SetUserId(userid.ToString()); // Set the userId in the DatabaseLogger
+                logger.LogError(ex, "An error occurred");
+                return "an error occured";
             }
+           
         }
     }
 }
