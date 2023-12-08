@@ -286,6 +286,17 @@ namespace Ecommerce_Api.Controllers
         //        smtp.Dispose();
         //    }
         //}
+        [HttpGet]
+        [Route("GenerateRandomKey")]
+        public string GenerateRandomKey(int length)
+        {
+            const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var result = new string(Enumerable.Repeat(validChars, length)
+                                        .Select(s => s[random.Next(s.Length)])
+                                        .ToArray());
+            return result;
+        }
     }
 
 

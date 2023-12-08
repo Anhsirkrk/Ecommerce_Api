@@ -27,6 +27,7 @@ namespace Ecommerce_Api.Controllers
         }
 
         //Category
+        [Authorize]
         [HttpPost]
         [Route("CreateCategory")]
         public async Task<CategoryViewModel> CreateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel ACVM)
@@ -47,7 +48,7 @@ namespace Ecommerce_Api.Controllers
             }
             return null;
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetCategoryById")]
         public async Task<CategoryDetailsWithImage_> GetCategoryById(int category_id)
@@ -61,7 +62,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-
+        [Authorize]
         [HttpPost]
         [Route("GetDetailsAndImagesOfCategories")]
         public async Task<IActionResult> GetDetailsAndImagesOfCategories()
@@ -91,6 +92,7 @@ namespace Ecommerce_Api.Controllers
             }
             return BadRequest();
         }
+        [Authorize]
         [HttpPut]
         [Route("UpdateCategory")]
         public async Task<CategoryViewModel> UpdateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel UCVM)
@@ -109,7 +111,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpDelete]
         [Route("DeleteCategory")]
         public async Task<string> DeleteCategory(int category_id)
@@ -148,7 +150,7 @@ namespace Ecommerce_Api.Controllers
 
         //brand
 
-
+     
         [HttpPost]
         [Route("CreateBrand")]
         public async Task<IActionResult> CreateBrand([FromForm] IFormFile Image, [FromForm] BrandViewModel bvm)
@@ -174,7 +176,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost]
         [Route("GetDetailsAndImagesOfBrands")]
         public async Task<IActionResult> GetDetailsAndImagesOfBrands()
@@ -204,6 +206,7 @@ namespace Ecommerce_Api.Controllers
             }
             return BadRequest();
         }
+        [Authorize]
         [HttpDelete]
         [Route("Deletebrand")]
         public async Task<string> Deletebrand(int brand_id)
@@ -217,6 +220,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+        [Authorize]
         [HttpPut]
         [Route("UpdateBrand")]
         public async Task<BrandViewModel> UpdateBrand([FromForm] IFormFile image, [FromForm] BrandViewModel bvm)
@@ -234,7 +238,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-
+        [Authorize]
         [HttpGet]
         [Route("GetBrandById")]
         public async Task<BrandViewModel> GetBrandById(int brand_id)
@@ -250,6 +254,7 @@ namespace Ecommerce_Api.Controllers
         }
 
         //product
+        [Authorize]
         [HttpPost]
         [Route("CreateProduct")]
         public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image, [FromForm] ProductViewModel APVM)
@@ -268,7 +273,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpDelete]
         [Route("DeleteProduct")]
         public async Task<string> DeleteProduct(int product_id)
@@ -282,6 +287,8 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+        [Authorize]
         [HttpPut]
         [Route("UpdateProduct")]
         public async Task<IActionResult> UpdateProduct([FromForm] IFormFile image, [FromForm] ProductViewModel UPVM)
@@ -300,6 +307,8 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+        [Authorize]
         [HttpGet]
         [Route("GetAllProducts")]
         public async Task<List<ProductViewModel>> GetAllProductswithImage()
@@ -344,6 +353,8 @@ namespace Ecommerce_Api.Controllers
         //        throw ex;
         //    }
         //}
+
+        [Authorize]
         [HttpPost]
         [Route("GetProductById")]
         public async Task<List<Product>> GetProductById(List<int> product_ids)
@@ -357,6 +368,8 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
+        [Authorize]
         [HttpGet]
         [Route("GetSubscriptionTypes")]
         public async Task<IActionResult> GetSubscriptiontypes()

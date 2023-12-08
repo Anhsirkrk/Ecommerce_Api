@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Razorpay.Api;
 using Serilog;
-using Microsoft.Extensions.Logging;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer; // Add this using statement
+using Microsoft.IdentityModel.Tokens; // And this one too, for TokenValidationParameters
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +60,20 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<Microsoft.Extensions.Logging.ILogger, DatabaseLogger>();
 builder.Services.AddScoped<ExceptionLoggerService>();
 builder.Services.AddScoped<DatabaseLogger>();
+
+var key = Encoding.ASCII.GetBytes("your_secret_key_here");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+        };
+    });
 
 builder.Services.AddSingleton<RazorpayClient>(sp =>
 {
