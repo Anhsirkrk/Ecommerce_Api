@@ -6,6 +6,7 @@ using Ecommerce_Api.ViewModels;
 using Ecommerce_Api.Model;
 using System.Reflection;
 using Ecommerce_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -24,6 +25,7 @@ namespace Ecommerce_Api.Controllers
 
         //[HttpGet("{mobileNumber}")]
         //[Route("GetUserByMobileNumber")]
+        
         [HttpPost]
         [Route("GetUserByMobileNumber")]
         public async Task<IActionResult> GetUserByMobileNumber([FromBody] LoginViewModel loginViewModel)
@@ -37,7 +39,9 @@ namespace Ecommerce_Api.Controllers
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
                         if (user != null && user.UserFound == true)
                         {
-                            return Ok(user);
+                            string token = JwtToken.GenerateToken(user);
+                            return Ok(new { Token = token, User = user });
+
 
                         }
                         else
