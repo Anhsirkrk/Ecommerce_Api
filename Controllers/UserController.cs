@@ -61,7 +61,7 @@ namespace Ecommerce_Api.Controllers
                 //var message = MessageResource.Create(messageOptions);
 
                 return Ok(item);
-               
+
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace Ecommerce_Api.Controllers
         public async Task<ActionResult<User>> GetUserDetailsByUserId(int userid)
         {
             try
-           {
+            {
 
                 if (userid != 0)
                 {
@@ -159,7 +159,7 @@ namespace Ecommerce_Api.Controllers
         [HttpGet]
         [Route("GetTheUserAdressDetails")]
         public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userid)
-        
+
         {
             try
             {
@@ -286,17 +286,6 @@ namespace Ecommerce_Api.Controllers
         //        smtp.Dispose();
         //    }
         //}
-        [HttpGet]
-        [Route("GenerateRandomKey")]
-        public string GenerateRandomKey(int length)
-        {
-            const string validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var random = new Random();
-            var result = new string(Enumerable.Repeat(validChars, length)
-                                        .Select(s => s[random.Next(s.Length)])
-                                        .ToArray());
-            return result;
-        }
     }
 
 
