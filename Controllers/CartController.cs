@@ -1,9 +1,11 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.EntityFrameworkCore;
+using Twilio.Jwt.Taskrouter;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -21,6 +23,7 @@ namespace Ecommerce_Api.Controllers
             context.Database.SetCommandTimeout(120);
         }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         [Route("AddItemToCart")]
         public async Task<CartViewModel> AddItemToCart(CartViewModel cvm)

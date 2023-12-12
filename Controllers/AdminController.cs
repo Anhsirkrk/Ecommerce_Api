@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.IO;
 using System.Drawing.Imaging;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -19,18 +20,37 @@ namespace Ecommerce_Api.Controllers
     {
         private readonly IAdminRepository _iar;
         private readonly EcommerceDailyPickContext _context;
+        private readonly ILogger _logger;
 
-        public AdminController(IAdminRepository iar, EcommerceDailyPickContext context)
+        private readonly DatabaseLogger _databaseLogger;
+
+
+        public AdminController(IAdminRepository iar, EcommerceDailyPickContext context, ILogger logger, DatabaseLogger databaselogger)
         {
             _context = context;
             _iar = iar;
+            _logger = _logger;
+            _databaseLogger = databaselogger;
+            context.Database.SetCommandTimeout(120);
+
+        }
+        [HttpGet]
+        [Route("GenerateRandomKey")]
+        public string GenerateRandomKey(int lengthInBytes)
+        {
+            byte[] keyBytes = new byte[lengthInBytes];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(keyBytes);
+            }
+            return Convert.ToBase64String(keyBytes);
         }
 
         //Category
         [Authorize]
         [HttpPost]
         [Route("CreateCategory")]
-        public async Task<CategoryViewModel> CreateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel ACVM)
+        public async Task<IActionResult> CreateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel ACVM)
 
         {
             try
@@ -38,16 +58,27 @@ namespace Ecommerce_Api.Controllers
                 if (_context != null)
                 {
                     var CreatingCategory = await _iar.CreateCategory(image, ACVM);
-                    return CreatingCategory;
+                    if(CreatingCategory != null)
+                    {
+                        return Ok(CreatingCategory);
+                    }
+                    else
+                    {
+                        BadRequest(CreatingCategory);
+                    }
+                    
                 }
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                _databaseLogger.SetUserId(ACVM.CategoryName); // Set the userId in the DatabaseLogger
+                _logger.LogError(ex, "An error occurred while creating category");
+                return BadRequest("an error occured while logging in ");
             }
             return null;
         }
+
         [Authorize]
         [HttpGet]
         [Route("GetCategoryById")]
@@ -62,8 +93,9 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
+
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("GetDetailsAndImagesOfCategories")]
         public async Task<IActionResult> GetDetailsAndImagesOfCategories()
         {
@@ -92,7 +124,7 @@ namespace Ecommerce_Api.Controllers
             }
             return BadRequest();
         }
-        [Authorize]
+        [Authorize(policy: "AdminOnly")]
         [HttpPut]
         [Route("UpdateCategory")]
         public async Task<CategoryViewModel> UpdateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel UCVM)
