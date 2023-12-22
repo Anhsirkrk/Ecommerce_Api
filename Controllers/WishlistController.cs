@@ -4,6 +4,8 @@ using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -20,7 +22,9 @@ namespace Ecommerce_Api.Controllers
             iwr = _iwr;
             context.Database.SetCommandTimeout(120);
         }
-        
+
+
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("CreateWishlist")]
         public async Task<IActionResult> CreateWishlist(WishlistViewModel wishlistViewModel)
@@ -40,6 +44,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "2")]
         [HttpGet]
         [Route("GetUserWishlistProducts")]
         public async Task<ActionResult<List<UserWishlistViewModel>>> GetUserWishlistProducts(int userid)

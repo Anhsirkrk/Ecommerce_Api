@@ -4,6 +4,8 @@ using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Ecommerce_Api.Controllers
 {
@@ -21,6 +23,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("AddReviewOfProduct")]
         public async Task<ActionResult<ReviewViewModel>> AddReviewOfProduct(ReviewViewModel reviewViewModel)
@@ -43,6 +46,8 @@ namespace Ecommerce_Api.Controllers
         }
 
         //getting product review details based on productid
+
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetProductReviewsBasedOnProductId")]
         public async Task<ActionResult<List<ProductReviewsViewModel>>> GetProductReviewsBasedOnProductId(int productId)
@@ -64,6 +69,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetAverageRatingForProduct")]
         public async Task<ActionResult<double>> GetAverageRatingForProduct(int productId)

@@ -4,6 +4,9 @@ using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -24,6 +27,8 @@ namespace Ecommerce_Api.Controllers
             context.Database.SetCommandTimeout(120);
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("UserPayment")]
         public async Task<ActionResult<PaymentViewModel>> UserPayment(PaymentViewModel paymentView)
@@ -45,6 +50,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("PaymentStatusEmail")]
         public async Task<string> PaymentStatusEmail(int userid, string status, string amount , string email)

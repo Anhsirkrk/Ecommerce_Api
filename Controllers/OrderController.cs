@@ -3,11 +3,13 @@ using Ecommerce_Api.Repository;
 using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
 
 namespace Ecommerce_Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepository ior;
@@ -19,6 +21,8 @@ namespace Ecommerce_Api.Controllers
             ior = _ior;
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("CreateOrder")]
         public async Task<IActionResult> CreateOrder(OrderViewModel model)

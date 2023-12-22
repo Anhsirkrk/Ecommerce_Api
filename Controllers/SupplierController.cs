@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Identity.Client;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -21,6 +23,8 @@ namespace Ecommerce_Api.Controllers
             isr = _isr;
         }
 
+
+        [Authorize(Roles = "1")]
         [HttpPost]
         [Route("CreateSupplier")]
         public async Task<IActionResult> CreateSupplier(SupplierViewModel model)
@@ -50,6 +54,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,2,3")]
         [HttpGet]
         [Route("GetSupplier")]
         public async Task<IActionResult> GetSupplier(int id)
@@ -93,6 +99,8 @@ namespace Ecommerce_Api.Controllers
             return supplierViewModel;
         }
 
+
+        [Authorize(Roles = "1,2,3")]
         [HttpGet]
         [Route("GetAllSuppliers")]
         public IActionResult GetAllSuppliers()
@@ -109,6 +117,9 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("SupplierOrderCreation")]
         public async Task<IActionResult> SupplierOrderCreation(SupplierOrderViewModel sovm)
@@ -136,6 +147,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,3")]
         [HttpGet]
         [Route("GetSupplierOrderDetailsBySupplierId")]
         public async Task<IActionResult> GetSupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1 = null, string filterStatus2 = null, string filterStatus3 = null, string filterStatus4 = null, string filterStatus5 = null, string filterStatus6 = null, string filterStatus7 = null, string filterStatus8 = null)
@@ -185,6 +198,9 @@ namespace Ecommerce_Api.Controllers
             return supplierOrderDetails;
         }
 
+
+
+        [Authorize(Roles = "1,2,3")]
         [HttpPost]
         [Route("UpdatetheOrderStatusBySupplier")]
         public async Task<IActionResult> UpdatetheOrderStatusBySupplier(UpdateOrderStatusSupplierViewModel supplierOrderTable)
@@ -215,6 +231,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+       
         [HttpPost]
         [Route("SupplierLogin")]
         public async Task<IActionResult> SupplierLogin(SupplierLoginViewModel supplierLoginViewModel)
@@ -245,6 +263,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
+        [Authorize(Roles = "1,3")]
         [HttpGet]
         [Route("GetTodaySupplierOrderDetailsBySupplierId")]
         public async Task<IActionResult> GetTodaySupplierOrderDetailsBySupplierId(int supplierId, string filterStatus1 = null, string filterStatus2 = null, string filterStatus3 = null, string filterStatus4 = null, string filterStatus5 = null, string filterStatus6 = null, string filterStatus7 = null, string filterStatus8 = null)
