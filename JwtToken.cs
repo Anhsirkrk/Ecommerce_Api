@@ -10,7 +10,7 @@ namespace Ecommerce_Api
     public static class JwtToken
     {
         private static string SecretKey => Environment.GetEnvironmentVariable("JwtTokenKeyForDailyPick");
-        public static string GenerateToken(string id,string role)
+        public static string GenerateToken(LoginViewModel user)
         {
             try
             {
@@ -28,11 +28,12 @@ namespace Ecommerce_Api
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                new Claim(ClaimTypes.Name,id),
-                new Claim(ClaimTypes.Role, role),
+                        new Claim(JwtRegisteredClaimNames.Sub,user.UserId.ToString()),
+                new Claim(ClaimTypes.Name,user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, user.UserTypeId.ToString()),
                         // Add other claims/roles as needed
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(20), // Token expiration time
+                    Expires = DateTime.UtcNow.AddMinutes(60), // Token expiration time
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -47,7 +47,7 @@ namespace Ecommerce_Api.Controllers
         }
 
         //Category
-        [Authorize]
+        [Authorize(Roles ="1")]
         [HttpPost]
         [Route("CreateCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel ACVM)
@@ -79,7 +79,7 @@ namespace Ecommerce_Api.Controllers
             return null;
         }
 
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetCategoryById")]
         public async Task<CategoryDetailsWithImage_> GetCategoryById(int category_id)
@@ -94,7 +94,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles ="1,2")]
         [HttpGet]
         [Route("GetDetailsAndImagesOfCategories")]
         public async Task<IActionResult> GetDetailsAndImagesOfCategories()
@@ -124,7 +124,8 @@ namespace Ecommerce_Api.Controllers
             }
             return BadRequest();
         }
-        [Authorize(policy: "AdminOnly")]
+
+        [Authorize(Roles ="1")]
         [HttpPut]
         [Route("UpdateCategory")]
         public async Task<CategoryViewModel> UpdateCategory([FromForm] IFormFile image, [FromForm] CategoryViewModel UCVM)
@@ -143,7 +144,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpDelete]
         [Route("DeleteCategory")]
         public async Task<string> DeleteCategory(int category_id)
@@ -182,7 +183,7 @@ namespace Ecommerce_Api.Controllers
 
         //brand
 
-     
+        [Authorize(Roles = "1")]
         [HttpPost]
         [Route("CreateBrand")]
         public async Task<IActionResult> CreateBrand([FromForm] IFormFile Image, [FromForm] BrandViewModel bvm)
@@ -208,8 +209,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPost]
+        [Authorize(Roles = "1,2")]
+        [HttpGet]
         [Route("GetDetailsAndImagesOfBrands")]
         public async Task<IActionResult> GetDetailsAndImagesOfBrands()
         {
@@ -238,7 +239,7 @@ namespace Ecommerce_Api.Controllers
             }
             return BadRequest();
         }
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpDelete]
         [Route("Deletebrand")]
         public async Task<string> Deletebrand(int brand_id)
@@ -252,7 +253,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpPut]
         [Route("UpdateBrand")]
         public async Task<BrandViewModel> UpdateBrand([FromForm] IFormFile image, [FromForm] BrandViewModel bvm)
@@ -270,7 +271,7 @@ namespace Ecommerce_Api.Controllers
                 throw ex;
             }
         }
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetBrandById")]
         public async Task<BrandViewModel> GetBrandById(int brand_id)
@@ -286,7 +287,7 @@ namespace Ecommerce_Api.Controllers
         }
 
         //product
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpPost]
         [Route("CreateProduct")]
         public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image, [FromForm] ProductViewModel APVM)
@@ -305,7 +306,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpDelete]
         [Route("DeleteProduct")]
         public async Task<string> DeleteProduct(int product_id)
@@ -320,7 +321,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "1")]
         [HttpPut]
         [Route("UpdateProduct")]
         public async Task<IActionResult> UpdateProduct([FromForm] IFormFile image, [FromForm] ProductViewModel UPVM)
@@ -340,7 +341,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetAllProducts")]
         public async Task<List<ProductViewModel>> GetAllProductswithImage()
@@ -386,7 +387,7 @@ namespace Ecommerce_Api.Controllers
         //    }
         //}
 
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("GetProductById")]
         public async Task<List<Product>> GetProductById(List<int> product_ids)
@@ -401,7 +402,7 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetSubscriptionTypes")]
         public async Task<IActionResult> GetSubscriptiontypes()

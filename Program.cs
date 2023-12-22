@@ -111,13 +111,13 @@ builder.Services.AddAuthentication(options=>
             ClockSkew= TimeSpan.Zero
         };
     });
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy =>
-        policy.RequireRole("1"));
-    options.AddPolicy("Useronly", policy =>
-        policy.RequireRole("2"));
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("AdminOnly", policy =>
+//        policy.RequireRole("1"));
+//    options.AddPolicy("Useronly", policy =>
+//        policy.RequireRole("2"));
+//});
 
 builder.Services.AddSingleton<RazorpayClient>(sp =>
 {

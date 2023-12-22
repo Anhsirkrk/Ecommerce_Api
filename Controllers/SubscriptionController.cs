@@ -4,6 +4,8 @@ using Ecommerce_Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -21,6 +23,8 @@ namespace Ecommerce_Api.Controllers
             context.Database.SetCommandTimeout(120);
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetSubscriptionTypes")]
         public async Task<ActionResult<List<SubscriptionType>>> GetSubscriptionTypes()

@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using WhatsAppApi;
 using System.Net.Mail;
 using System.Net;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -32,6 +34,8 @@ namespace Ecommerce_Api.Controllers
             context.Database.SetCommandTimeout(120);
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("CreateUser")]
         public async Task<IActionResult> CreateUser(UserViewModel userviewmodel)
@@ -71,6 +75,7 @@ namespace Ecommerce_Api.Controllers
 
 
 
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetUserSubscribedProducts")]
         public async Task<ActionResult<List<UserSubscriptionProductsViewModel>>> GetUserSubsriptionProductsBasedonUserId(int userId)
@@ -92,6 +97,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetUserDetailsByUserId")]
         public async Task<ActionResult<User>> GetUserDetailsByUserId(int userid)
@@ -113,6 +120,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("UpdateUserDetails")]
         public async Task<ActionResult<UserViewModel>> UpdateUserDetails(UserViewModel user)
@@ -135,6 +144,8 @@ namespace Ecommerce_Api.Controllers
         }
 
 
+
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("AddingAdressDetails")]
         public async Task<ActionResult<UserAdressViewModel>> AddingAdressDetails(UserAdressViewModel address)
@@ -156,6 +167,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "2")]
         [HttpGet]
         [Route("GetTheUserAdressDetails")]
         public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userid)
@@ -176,6 +189,8 @@ namespace Ecommerce_Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("UpdateAdressDetails")]
         public async Task<ActionResult<UserAdressViewModel>> UpdateAdressDetails(UserAdressViewModel userAdressViewModel)

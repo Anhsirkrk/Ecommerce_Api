@@ -49,9 +49,9 @@ namespace Ecommerce_Api.Controllers
                         var user = await _ipr.GetUserByMobileNumber(loginViewModel);
                         if (user != null && user.UserFound == true)
                         {
-                            string token = JwtToken.GenerateToken(user.UserId.ToString(),user.UserTypeId.ToString());
-                            var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-                            _logger.LogInformation($"Roles: {string.Join(", ", roles)}");
+                            string token = JwtToken.GenerateToken(user);
+                            //var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+                            //_logger.LogInformation($"Roles: {string.Join(", ", roles)}");
 
                             return Ok(new { Token = token, User = user });
 
@@ -92,7 +92,7 @@ namespace Ecommerce_Api.Controllers
                         var user = await _ipr.GetUserByEmail(loginViewModel);
                         if (user != null && user.UserFound == true)
                         {
-                            string token = JwtToken.GenerateToken(user.UserId.ToString(), user.UserTypeId.ToString());
+                            string token = JwtToken.GenerateToken(user);
                             return Ok(new { Token = token, User = user });
                           
 

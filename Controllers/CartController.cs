@@ -23,7 +23,7 @@ namespace Ecommerce_Api.Controllers
             context.Database.SetCommandTimeout(120);
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("AddItemToCart")]
         public async Task<CartViewModel> AddItemToCart(CartViewModel cvm)
@@ -51,6 +51,7 @@ namespace Ecommerce_Api.Controllers
             return cvm;
         }
 
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("ChangingQuantityOfItem")]
         public async Task<CartViewModel> ChangingQuantityOfItem(CartViewModel cvm)
@@ -79,6 +80,8 @@ namespace Ecommerce_Api.Controllers
 
         }
 
+
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("DeletecartItem")]
         public async Task<CartViewModel> DeletecartItem(CartViewModel cvm)
@@ -107,7 +110,7 @@ namespace Ecommerce_Api.Controllers
 
         }
 
-
+        [Authorize(Roles = "2")]
         [HttpPost]
         [Route("CreateCartForUserMultipleProductsAtOnce")]
         public async Task<CartViewModel> CreateCartForUserMultipleProductsAtOnce(CartViewModel cvm)
@@ -133,7 +136,7 @@ namespace Ecommerce_Api.Controllers
             return cvm;
         }
 
-
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetCartItemsBasedOnUserId")]
         public async Task<ActionResult<List<CartUserViewModel>>> GetCartItemsBasedOnUserId(int userId)
