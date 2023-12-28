@@ -8,6 +8,9 @@ using Serilog;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer; // Add this using statement
 using Microsoft.IdentityModel.Tokens; // And this one too, for TokenValidationParameters
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Builder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 
 #region  serilog
 
@@ -25,6 +29,9 @@ var _logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.File(Logpath)
     .CreateLogger();
+
+
+
 builder.Services.AddSerilog(_logger);
 #endregion
 
@@ -51,7 +58,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Daily_Pick", Version = "v1" });
 
-    // Secure the Swagger JSON endpoint
+    /// Secure the Swagger JSON endpoint
     //c.OperationFilter<AuthorizeCheckOperationFilter>();
 });
 builder.Services.AddDbContext<EcommerceDailyPickContext>(options =>
@@ -127,7 +134,6 @@ builder.Services.AddSingleton<RazorpayClient>(sp =>
 });
 
 
-
 // Example, replace CartRepository with your actual implementation
 builder.Services.AddSwaggerGen(c =>
 {
@@ -136,27 +142,34 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-
-
-
 var app = builder.Build();
 
 //mm
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  //app.UseSwaggerAuthorized();
+  app.UseSwaggerAuthorized();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Daily_Pick v1"));
 }
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
+
+
+app.UseHsts();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 // Inside Configure method
 app.UseCors("AllowAll");
-
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

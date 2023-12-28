@@ -8,6 +8,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography;
+using System.Security.Claims;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -33,7 +34,7 @@ namespace Ecommerce_Api.Controllers
             _databaseLogger = databaselogger;
             context.Database.SetCommandTimeout(120);
 
-        }
+        }   
         [HttpGet]
         [Route("GenerateRandomKey")]
         public string GenerateRandomKey(int lengthInBytes)
@@ -218,6 +219,7 @@ namespace Ecommerce_Api.Controllers
             {
                 if (_context != null)
                 {
+                    var username = User.Claims.FirstOrDefault(c=>c.Type == ClaimTypes.Name)?.Value;
                     var branddetails = await _iar.GetDetailsAndImagesOfBrands();
                     if (branddetails != null)
                     {
