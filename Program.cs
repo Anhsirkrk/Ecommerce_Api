@@ -95,13 +95,15 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<Microsoft.Extensions.Logging.ILogger, DatabaseLogger>();
 builder.Services.AddScoped<ExceptionLoggerService>();
 builder.Services.AddScoped<DatabaseLogger>();
+builder.Services.AddMemoryCache();
 //builder.Services.AddScoped<JwtToken>();
 
-var key = Encoding.ASCII.GetBytes("fU4wp8OYb1id/FZe6RkbPiyzaSBOnJwfaoXqTDGw");
+var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JwtTokenKeyForDailyPick"));
+
+//var key = Encoding.ASCII.GetBytes("fU4wp8OYb1id/FZe6RkbPiyzaSBOnJwfaoXqTDGw");
 
 builder.Services.AddAuthentication(options=> 
 {
-
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
@@ -148,7 +150,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwaggerAuthorized();
+  //app.UseSwaggerAuthorized();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Daily_Pick v1"));
 }

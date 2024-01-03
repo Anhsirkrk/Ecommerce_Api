@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography;
 using System.Security.Claims;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecommerce_Api.Controllers
 {
@@ -25,14 +26,15 @@ namespace Ecommerce_Api.Controllers
 
         private readonly DatabaseLogger _databaseLogger;
 
-
-        public AdminController(IAdminRepository iar, EcommerceDailyPickContext context, ILogger logger, DatabaseLogger databaselogger)
+        private readonly IMemoryCache _cache;
+        public AdminController(IAdminRepository iar, EcommerceDailyPickContext context, ILogger logger, DatabaseLogger databaselogger,IMemoryCache cache)
         {
             _context = context;
             _iar = iar;
             _logger = _logger;
             _databaseLogger = databaselogger;
             context.Database.SetCommandTimeout(120);
+            _cache = cache;
 
         }   
         [HttpGet]
@@ -102,22 +104,34 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
-                if (_context != null)
-                {
-                    var categorieddetails = await _iar.GetDetailsAndImagesOfCategories();
-                    if (categorieddetails != null)
+
+                string cachekey = "detailsofactegories";
+                if (!_cache.TryGetValue(cachekey, out List<CategoryDetailsWithImage_> cacheddata))
                     {
-                        return Ok(categorieddetails);
+
+                    if (_context != null)
+                    {
+                        var categorieddetails = await _iar.GetDetailsAndImagesOfCategories();
+                        if (categorieddetails != null)
+                        {
+                            _cache.Set(cachekey, categorieddetails, TimeSpan.FromMinutes(10));
+                            return Ok(categorieddetails);
+                        }
+                        else
+                        {
+                            return BadRequest("details not found");
+                        }
                     }
                     else
                     {
-                        return BadRequest("details not found");
+                        return NotFound();
                     }
                 }
                 else
                 {
-                    return NotFound();
+                    return Ok(cacheddata);
                 }
+            
             }
             catch (Exception ex)
             {
@@ -133,6 +147,7 @@ namespace Ecommerce_Api.Controllers
         {
             try
             {
+
                 if (UCVM != null)
                 {
                     return await _iar.UpdateCategory(image, UCVM);
