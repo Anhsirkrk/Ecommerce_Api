@@ -1,5 +1,21 @@
-﻿namespace Ecommerce_Api.ViewModels
+﻿
+using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+
+namespace Ecommerce_Api.ViewModels
 {
+    public enum CategoryEnum
+    {
+        [Display(Name = "Hyd")]
+        Hyd = 1,
+        [Display(Name = "Hyd")]
+        Vizag = 2,
+        [Display(Name = "Hyd")]
+        Sec = 3
+    }
     public class ProductViewModel
     {
         public int ProductId { get; set; }
@@ -19,6 +35,8 @@
         public string Base64Image { get; set; }
 
         public string Unit { get; set; }
+        [EnumDataType(typeof(CategoryEnum))]
+        public CategoryEnum CategoryId2 { get; set; }
 
         public List<decimal> SizeOfEachUnits { get; set; }
 
