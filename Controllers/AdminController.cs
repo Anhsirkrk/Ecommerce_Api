@@ -197,7 +197,7 @@ namespace Ecommerce_Api.Controllers
         //brand
 
 
-        //brand
+        ////brand
 
         [Authorize(Roles = "1")]
         [HttpPost]

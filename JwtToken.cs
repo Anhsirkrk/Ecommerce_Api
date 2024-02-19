@@ -75,14 +75,14 @@ namespace Ecommerce_Api
 
 
                 #region C# API Authentication using JWT | .NET Core Authenticationscalable
-                //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
-                //var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
-                //var header = new JwtHeader(credentials);
+                ////var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+                ////var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
+                ////var header = new JwtHeader(credentials);
 
-                //var payload = new JwtPayload(user.UserId.ToString(), null, null, null, DateTime.Today.AddDays(1)); // 1 day
-                //var securityToken = new JwtSecurityToken(header, payload);
+                ////var payload = new JwtPayload(user.UserId.ToString(), null, null, null, DateTime.Today.AddDays(1)); // 1 day
+                ////var securityToken = new JwtSecurityToken(header, payload);
 
-                //return new JwtSecurityTokenHandler().WriteToken(securityToken);
+                ////return new JwtSecurityTokenHandler().WriteToken(securityToken);
 
 
                 #endregion
