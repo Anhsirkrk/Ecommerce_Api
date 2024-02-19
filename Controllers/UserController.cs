@@ -145,7 +145,7 @@ namespace Ecommerce_Api.Controllers
 
 
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("AddingAdressDetails")]
         public async Task<ActionResult<UserAdressViewModel>> AddingAdressDetails(UserAdressViewModel address)
@@ -168,17 +168,17 @@ namespace Ecommerce_Api.Controllers
         }
 
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetTheUserAdressDetails")]
-        public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userid)
+        public async Task<ActionResult<List<UserAdressViewModel>>> GetTheUserAdressDetails(int userd)
 
         {
             try
             {
-                if (userid != 0)
+                if (userd != 0)
                 {
-                    var item = await iur.GetTheUserAdressDetails(userid);
+                    var item = await iur.GetTheUserAdressDetails(userd);
                     return Ok(item);
                 }
                 return null;
