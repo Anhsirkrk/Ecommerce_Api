@@ -93,13 +93,15 @@ namespace Ecommerce_Api.Repository
             {
                 if (context != null && cvm != null)
                 {
-                    var item = new ShoppingCartItem
-                    {
-                        CartId = cvm.CartId,
-                        ProductId = cvm.ProductId,
-                        ItemId = cvm.ItemId,
-                    };
-                    var deleteitem =  context.ShoppingCartItems.Remove(item);
+                    //var item = new ShoppingCartItem
+                    //{
+                    //    CartId = cvm.CartId,
+                    //    ProductId = cvm.ProductId,
+                    //    //ItemId = cvm.ItemId,
+                    //};
+                    var existingItem = await context.ShoppingCartItems.FirstOrDefaultAsync(x => x.CartId == cvm.CartId && x.ProductId == cvm.ProductId);
+
+                    var deleteitem =  context.ShoppingCartItems.Remove(existingItem);
                     await context.SaveChangesAsync();
                     cvm.Resultmessage = "Item Deleted Successfully";
                     cvm.IsItemDeleted = true;
@@ -214,39 +216,39 @@ namespace Ecommerce_Api.Repository
                                                 CartId = g.First().sc.CartId,
                                                 ItemId = g.First().sci.ItemId,
                                                 ProductId = (int)g.First().sci.ProductId,
-                                                image = g.First().p.ImageUrl,
-                                                CategoryName = g.First().c.CategoryName,
-                                                BrandName = g.First().b.BrandName,
-                                                ProductName = g.First().p.ProductName,
-                                                Unit = g.First().pid.Unit,
-                                                SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
-                                                WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
-                                                PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
-                                                MFG_OfEachUnits = g.Select(item => item.pid.ManufactureDate ?? DateTime.MinValue).ToList(),
-                                                EXP_OfEachUnits = g.Select(item => item.pid.ExpiryDate ?? DateTime.MinValue).ToList(),
-                                                IsAvailable_OfEachUnit = g.Select(item => item.pid.IsAvailable ?? false).ToList(),
-                                                Avaialble_Quantity_ofEachUnit = g.Select(item => item.pid.AvailableQuantity ?? 0m).ToList(),
-                                                Description_OfEachUnits = g.Select(item => item.pid.Description).ToList(),
-                                                DiscountId_OfEachUnit = g.Select(item => item.pid.DiscountId ?? 0).ToList(),
-                                                IsAvailable = g.First().pid.IsAvailable ?? false,
-                                                SelectedSizeOfItem = g.First().sci.SizeOfItem ?? 0m,
-                                                SelectedQuantityofItem = g.First().sci.Quantity,
+                                               // image = g.First().p.ImageUrl,
+                                               // CategoryName = g.First().c.CategoryName,
+                                               // BrandName = g.First().b.BrandName,
+                                               // ProductName = g.First().p.ProductName,
+                                               // Unit = g.First().pid.Unit,
+                                              //  SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
+                                              //  WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
+                                             //   PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
+                                             //   MFG_OfEachUnits = g.Select(item => item.pid.ManufactureDate ?? DateTime.MinValue).ToList(),
+                                               // EXP_OfEachUnits = g.Select(item => item.pid.ExpiryDate ?? DateTime.MinValue).ToList(),
+                                                //IsAvailable_OfEachUnit = g.Select(item => item.pid.IsAvailable ?? false).ToList(),
+                                                //Avaialble_Quantity_ofEachUnit = g.Select(item => item.pid.AvailableQuantity ?? 0m).ToList(),
+                                                //Description_OfEachUnits = g.Select(item => item.pid.Description).ToList(),
+                                                //DiscountId_OfEachUnit = g.Select(item => item.pid.DiscountId ?? 0).ToList(),
+                                                //IsAvailable = g.First().pid.IsAvailable ?? false,
+                                                //SelectedSizeOfItem = g.First().sci.SizeOfItem ?? 0m,
+                                                //SelectedQuantityofItem = g.First().sci.Quantity,
                                                }).ToList();
        
         var cartUserViewModelslist = cartUserViewModels.ToList();
-            foreach (var viewModel in cartUserViewModelslist)
-            {
-                string imageurl = viewModel.image; // Replace 'ImageUrl' with the actual property name
-                using (var image = System.Drawing.Image.FromFile(imageurl))
-                {
-                    ImageFormat format = image.RawFormat;
-                    var memorystream = new MemoryStream();
-                    image.Save(memorystream, format);
-                    // Convert the image to base64 string
-                    string base64Image = Convert.ToBase64String(memorystream.ToArray());
-                    viewModel.image = base64Image; // Replace 'ImageUrl' with the actual property name
-                }
-            }
+            //foreach (var viewModel in cartUserViewModelslist)
+            //{
+            //    string imageurl = viewModel.image; // Replace 'ImageUrl' with the actual property name
+            //    using (var image = System.Drawing.Image.FromFile(imageurl))
+            //    {
+            //        ImageFormat format = image.RawFormat;
+            //        var memorystream = new MemoryStream();
+            //        image.Save(memorystream, format);
+            //        // Convert the image to base64 string
+            //        string base64Image = Convert.ToBase64String(memorystream.ToArray());
+            //        viewModel.image = base64Image; // Replace 'ImageUrl' with the actual property name
+            //    }
+            //}
             return cartUserViewModelslist;
         }
        

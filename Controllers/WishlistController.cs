@@ -24,10 +24,11 @@ namespace Ecommerce_Api.Controllers
         }
 
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("CreateWishlist")]
         public async Task<IActionResult> CreateWishlist(WishlistViewModel wishlistViewModel)
+        
         {
             try
             {
@@ -45,7 +46,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1,2")]
         [HttpGet]
         [Route("GetUserWishlistProducts")]
         public async Task<ActionResult<List<UserWishlistViewModel>>> GetUserWishlistProducts(int userid)

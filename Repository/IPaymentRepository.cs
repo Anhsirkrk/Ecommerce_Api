@@ -12,6 +12,6 @@ namespace Ecommerce_Api.Repository
 
         Task<PaymentViewModel> UserPayment3(PaymentViewModel paymentView);
 
-        Task<string> PaymentStatusEmail(int userid, string status, string amount,string email);
+        Task<string> PaymentStatusEmail(PaymentViewModel pvm);
     }
 }

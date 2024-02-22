@@ -17,13 +17,13 @@ namespace Ecommerce_Api.ViewModels
          
         public decimal Price { get; set; }
 
-        public List<int> ProductsList { get; set; }
-        public List<int> Quantitiesofeachproduct { get; set; }
-        public List<decimal> EachitemSizeOfProducts { get; set; }
+        public List<int>? ProductsList { get; set; }
+        public List<int>? Quantitiesofeachproduct { get; set; }
+        public List<decimal>? EachitemSizeOfProducts { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public string Resultmessage { get; set; }
+        public string? Resultmessage { get; set; }
 
         public bool IsItemAdded { get; set; }
         public bool IsCartCreated { get; set; }

@@ -57,14 +57,14 @@ namespace Ecommerce_Api.Repository
 
             return paymentView;
         }
-        public async Task<string> PaymentStatusEmail(int userid,string status,string amount,string email)
+        public async Task<string> PaymentStatusEmail(PaymentViewModel pvm)
         {
             try
             {
                 //var item= await context.Users.FirstOrDefaultAsync(x=>x.UserId== userid);
-                if(email!=null && userid!=null && status!=null && amount!=null)
+                if(pvm.email!=null && pvm.userid!=null && pvm.PaymentStatus!=null && pvm.Amount!=null)
                 {
-                    SendEmail(email, status,amount);
+                    SendEmail(pvm);
                     return "Status";
                 }
                 return null;
@@ -77,15 +77,15 @@ namespace Ecommerce_Api.Repository
         }
 
 
-        private void SendEmail(string email, string status, string Amount)
+        private void SendEmail(PaymentViewModel pvm)
         {
             string senderEmail = "ramakrishna.hds.15@gmail.com";
             string senderPassword = "xvdf bpib kdpx fyru";
 
 
-            string toEmail = email;
+            string toEmail = pvm.email;
             string subject = "Welcome to Our DailyPick Website!";
-            string body = $"Your Payment for the order is {status}. Amount: {Amount}";
+            string body = $"Your Payment for the order is {pvm.PaymentStatus}. Amount: {pvm.Amount}";
 
 
             MailMessage mail = new MailMessage(senderEmail, toEmail);

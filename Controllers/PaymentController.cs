@@ -54,20 +54,20 @@ namespace Ecommerce_Api.Controllers
         [Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("PaymentStatusEmail")]
-        public async Task<string> PaymentStatusEmail(int userid, string status, string amount , string email)
+        public async Task<string> PaymentStatusEmail(PaymentViewModel pvm)
         {
             try
             {
                 if (context != null)
                 {
-                    return await ipr.PaymentStatusEmail(userid, status, amount,email);
+                    return await ipr.PaymentStatusEmail(pvm);
                 }
                 return null;
             }
             catch (Exception ex)
             {
                 //var databaseLogger = (DatabaseLogger)logger; // Cast to DatabaseLogger
-                databaseLogger.SetUserId(userid.ToString()); // Set the userId in the DatabaseLogger
+                databaseLogger.SetUserId(pvm.userid.ToString()); // Set the userId in the DatabaseLogger
                 logger.LogError(ex, "An error occurred");
                 return "an error occured";
             }

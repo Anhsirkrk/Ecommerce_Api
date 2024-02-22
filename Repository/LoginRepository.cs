@@ -33,6 +33,7 @@ namespace Ecommerce_Api.Repository
                     };
 
                     var creatingnewuser = await _userRepository.CreateUser(item2);
+                    var cartdeatils = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == creatingnewuser.UserId);
 
                     var user = new LoginViewModel
                     {
@@ -45,6 +46,7 @@ namespace Ecommerce_Api.Repository
                         Username = creatingnewuser.Mobile,
                         ResultMessage = creatingnewuser.ResultMessage,
                         IsNewUserCreated = true,
+                        CartId= cartdeatils.CartId
 
                     };
 
@@ -63,6 +65,7 @@ namespace Ecommerce_Api.Repository
                 }
                 else
                 {
+                    var cartdeatils = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == item.UserId);
                     var user = new LoginViewModel
                     {
                         UserFound = true,
@@ -74,8 +77,10 @@ namespace Ecommerce_Api.Repository
                         Lastname = item.Lastname,
                         Mobile = item.Mobile,
                         UserTypeId = item.UserTypeId,
+                        CartId= cartdeatils.CartId
 
                     };
+                   
                     return user;
 
                 }
@@ -98,6 +103,7 @@ namespace Ecommerce_Api.Repository
             try
             {
                 var item = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email);
+                
                 if (item == null)
                 {
                     var user = new LoginViewModel
@@ -110,6 +116,7 @@ namespace Ecommerce_Api.Repository
                 }
                 else
                 {
+                    var cartdeatils = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == item.UserId);
                     var user = new LoginViewModel
                     {
                         UserFound = true,
@@ -121,6 +128,7 @@ namespace Ecommerce_Api.Repository
                         Lastname = item.Lastname,
                         Mobile = item.Mobile,
                         UserTypeId = item.UserTypeId,
+                        CartId= cartdeatils.CartId
 
                     };
                     return user;
