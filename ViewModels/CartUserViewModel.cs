@@ -21,7 +21,7 @@
         public string ProductName { get; set; } = null!;
 
 
-        public string image { get; set; }
+        public string Base64Image { get; set; }
 
         public string Unit { get; set; }
 

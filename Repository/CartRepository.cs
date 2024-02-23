@@ -198,6 +198,7 @@ namespace Ecommerce_Api.Repository
         //get user cartitems based on userid
        
         public async Task<List<CartUserViewModel>> GetCartItemsBasedOnUserId(int userid)
+        
         {
             
             var cartUserViewModels =  (from sc in context.ShoppingCarts
@@ -216,39 +217,39 @@ namespace Ecommerce_Api.Repository
                                                 CartId = g.First().sc.CartId,
                                                 ItemId = g.First().sci.ItemId,
                                                 ProductId = (int)g.First().sci.ProductId,
-                                               // image = g.First().p.ImageUrl,
-                                               // CategoryName = g.First().c.CategoryName,
-                                               // BrandName = g.First().b.BrandName,
-                                               // ProductName = g.First().p.ProductName,
-                                               // Unit = g.First().pid.Unit,
-                                              //  SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
-                                              //  WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
-                                             //   PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
-                                             //   MFG_OfEachUnits = g.Select(item => item.pid.ManufactureDate ?? DateTime.MinValue).ToList(),
-                                               // EXP_OfEachUnits = g.Select(item => item.pid.ExpiryDate ?? DateTime.MinValue).ToList(),
-                                                //IsAvailable_OfEachUnit = g.Select(item => item.pid.IsAvailable ?? false).ToList(),
-                                                //Avaialble_Quantity_ofEachUnit = g.Select(item => item.pid.AvailableQuantity ?? 0m).ToList(),
-                                                //Description_OfEachUnits = g.Select(item => item.pid.Description).ToList(),
-                                                //DiscountId_OfEachUnit = g.Select(item => item.pid.DiscountId ?? 0).ToList(),
-                                                //IsAvailable = g.First().pid.IsAvailable ?? false,
-                                                //SelectedSizeOfItem = g.First().sci.SizeOfItem ?? 0m,
-                                                //SelectedQuantityofItem = g.First().sci.Quantity,
+                                               Base64Image = g.First().p.ImageUrl,
+                                                CategoryName = g.First().c.CategoryName,
+                                                BrandName = g.First().b.BrandName,
+                                                ProductName = g.First().p.ProductName,
+                                                Unit = g.First().pid.Unit,
+                                                SizeOfEachUnits = g.Select(item => item.pid.SizeOfEachUnit ?? 0m).ToList(),
+                                                WeightOfEachUnits = g.Select(item => item.pid.WeightOfEachUnit ?? 0m).ToList(),
+                                                PriceOfEachUnits = g.Select(item => item.pid.Price ?? 0m).ToList(),
+                                                MFG_OfEachUnits = g.Select(item => item.pid.ManufactureDate ?? DateTime.MinValue).ToList(),
+                                                EXP_OfEachUnits = g.Select(item => item.pid.ExpiryDate ?? DateTime.MinValue).ToList(),
+                                                IsAvailable_OfEachUnit = g.Select(item => item.pid.IsAvailable ?? false).ToList(),
+                                                Avaialble_Quantity_ofEachUnit = g.Select(item => item.pid.AvailableQuantity ?? 0m).ToList(),
+                                                Description_OfEachUnits = g.Select(item => item.pid.Description).ToList(),
+                                                DiscountId_OfEachUnit = g.Select(item => item.pid.DiscountId ?? 0).ToList(),
+                                                IsAvailable = g.First().pid.IsAvailable ?? false,
+                                                SelectedSizeOfItem = g.First().sci.SizeOfItem ?? 0m,
+                                                SelectedQuantityofItem = g.First().sci.Quantity,
                                                }).ToList();
        
         var cartUserViewModelslist = cartUserViewModels.ToList();
-            //foreach (var viewModel in cartUserViewModelslist)
-            //{
-            //    string imageurl = viewModel.image; // Replace 'ImageUrl' with the actual property name
-            //    using (var image = System.Drawing.Image.FromFile(imageurl))
-            //    {
-            //        ImageFormat format = image.RawFormat;
-            //        var memorystream = new MemoryStream();
-            //        image.Save(memorystream, format);
-            //        // Convert the image to base64 string
-            //        string base64Image = Convert.ToBase64String(memorystream.ToArray());
-            //        viewModel.image = base64Image; // Replace 'ImageUrl' with the actual property name
-            //    }
-            //}
+            foreach (var viewmodel in cartUserViewModelslist)
+            {
+                string imageurl = viewmodel.Base64Image; // replace 'imageurl' with the actual property name
+                using (var image = System.Drawing.Image.FromFile(imageurl))
+                {
+                    ImageFormat format = image.RawFormat;
+                    var memorystream = new MemoryStream();
+                    image.Save(memorystream, format);
+                    // convert the image to base64 string
+                    string base64image = Convert.ToBase64String(memorystream.ToArray());
+                    viewmodel.Base64Image = base64image; // replace 'imageurl' with the actual property name
+                }
+            }
             return cartUserViewModelslist;
         }
        
