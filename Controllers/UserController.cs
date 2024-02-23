@@ -85,7 +85,6 @@ namespace Ecommerce_Api.Controllers
 
                 if (userId != 0)
                 {
-
                     var item = await iur.GetUserSubsriptionProductsBasedonUserId(userId);
                     return Ok(item);
                 }
