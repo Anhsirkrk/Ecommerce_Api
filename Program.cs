@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens; // And this one too, for TokenValidationPa
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Builder;
+using Ecommerce_Api.ViewModels;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,8 @@ var _logger = new LoggerConfiguration()
     .WriteTo.File(Logpath)
     .CreateLogger();
 
+// Add additional logging enrichers to include mobile number
+//_logger = _logger.ForContext("MobileNumber", loginViewModel.Mobile);
 
 
 builder.Services.AddSerilog(_logger);
@@ -82,6 +85,8 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IloginRepository, LoginRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -95,7 +100,7 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<Microsoft.Extensions.Logging.ILogger, DatabaseLogger>();
 builder.Services.AddScoped<ExceptionLoggerService>();
 builder.Services.AddScoped<DatabaseLogger>();
-builder.Services.AddMemoryCache();
+builder.Services.AddMemoryCache();  
 //builder.Services.AddScoped<JwtToken>();
 
 var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JwtTokenKeyForDailyPick"));
@@ -175,6 +180,19 @@ app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
+#region MappingOfRoute
+
+// this was written only for the sample registration of route in program.cs file
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{Controller}/{action}/{id?}",
+    defaults: new { controller = "Login", action = "GetUserByMobileNumber" }
+    );
+
+#endregion
+
 
 app.MapControllers();
 
