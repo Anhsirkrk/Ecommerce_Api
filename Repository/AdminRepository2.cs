@@ -1,32 +1,25 @@
 ﻿using Ecommerce_Api.Model;
 using Ecommerce_Api.ViewModels;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client.Extensions.Msal;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Ecommerce_Api.Repository
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminRepository2 : IAdminRepository
     {
         private readonly EcommerceDailyPickContext _context;
-        public AdminRepository(EcommerceDailyPickContext context)
+        public AdminRepository2(EcommerceDailyPickContext context)
         {
             _context = context;
         }
-
 
         //Product
         public async Task<ProductViewModel> CreateProduct([FromForm] IFormFile Image, [FromForm] ProductViewModel APVM)
         {
             try
             {
-                if (_context != null && APVM != null)       
+                if (_context != null && APVM != null)
                 {
                     APVM.IsProductAdded = false;
                     var product = new Product()
@@ -884,70 +877,6 @@ namespace Ecommerce_Api.Repository
             }
             return null;
         }
-
-
-
-
-
-
-        //hidden
-
-        //image upload static code
-        //private async Task<string> ConvertImageToString(IFormFile imageFile)
-        //{
-        //    if (imageFile == null || imageFile.Length == 0)
-        //    {
-        //        return null; // No image provided
-        //    }
-
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        await imageFile.CopyToAsync(memoryStream);
-        //        byte[] bytes = memoryStream.ToArray();
-        //        return Convert.ToBase64String(bytes); // Convert image to base64 string
-        //    }
-        //}
-
-        //public async Task<Product> UploadProductImage(int product_id, IFormFile imagefile)
-        //{
-        //    try
-        //    {
-        //        if (_context != null)
-        //        {
-        //            var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == product_id);
-        //            product.ImageUrl = await SaveProductImageAsync(imagefile);
-        //            _context.SaveChanges();
-        //            return product;
-        //        }
-        //        return null;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-
-        public void dummy()
-        {
-            List<int> totalnumber = new List<int> { 1, 2, 3, 5, 6, 8, 12, 14, 16, 17, 18, 19, 20, };
-
-            List<int> filterednumbers = new List<int>();
-
-            IEnumerable<int> nums = from n in totalnumber where n>5 select n ;
-
-            filterednumbers.AddRange(nums);
-
-            //foreach (int n in nums)
-            //{
-            //    filterednumbers.Add(n);
-
-            //}
-
-            var NUMBERS = totalnumber.Where(N => N > 5).ToList();
-        }
-
-
 
     }
 }

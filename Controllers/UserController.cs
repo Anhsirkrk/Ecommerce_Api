@@ -35,7 +35,7 @@ namespace Ecommerce_Api.Controllers
         }
 
 
-        [Authorize(Roles = "1,2")]
+        //[Authorize(Roles = "1,2")]
         [HttpPost]
         [Route("CreateUser")]
         public async Task<IActionResult> CreateUser(UserViewModel userviewmodel)
